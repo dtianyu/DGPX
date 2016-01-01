@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="formEdit">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />          
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="examcategory" icon="ui-icon-arrowreturn-1-w"/> 
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnPersist" value="保存" action="#{examCategoryManagedBean.update()}" icon="ui-icon-disk"  
+                                     process="@this,plgEdit" update="plgEdit"/>
+                </f:facet>
+            </p:toolbar>  
+            <p:panel id="panelEdit" header="考试科目－修改">
+                <p:panelGrid id="plgEdit"  styleClass="plgEdit Wid100">
+                    <p:row>
+                        <p:column styleClass="Wid20"><p:outputLabel value="科目代码" for="formid" /></p:column>
+                        <p:column styleClass="Wid30">
+                            <p:inputText id="formid" value="#{examCategoryManagedBean.currentEntity.formid}" title="Formid" 
+                                         required="true" requiredMessage="科目代码不能空白."/>
+                        </p:column>
+                        <p:column styleClass="Wid20"><p:outputLabel value="科目名称" for="name" /></p:column>
+                        <p:column>
+                            <p:inputText id="name" value="#{examCategoryManagedBean.currentEntity.name}" title="Name" 
+                                         required="true" requiredMessage="科目名称不能空白."/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="Wid20"><p:outputLabel value="题目数量" for="examcount" /></p:column>
+                        <p:column styleClass="Wid30">
+                            <p:inputText id="examcount" value="#{examCategoryManagedBean.currentEntity.examcount}" title="examcount" 
+                                         required="true" requiredMessage="题目数量不能空白."/>
+                        </p:column>
+                        <p:column></p:column>
+                        <p:column>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><p:outputLabel value="备注" for="remark" /></p:column>
+                        <p:column colspan="3">
+                            <p:inputText id="remark" value="#{examCategoryManagedBean.currentEntity.remark}" title="Remark" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

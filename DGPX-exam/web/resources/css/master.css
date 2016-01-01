@@ -1,0 +1,129 @@
+*{
+    padding: 0px;  
+}
+
+li{
+    list-style: none;    
+}
+
+.right{
+    float: right;
+}
+
+.left{
+    float: left;
+}
+
+/*.Wid30 input,.Wid30 span,
+.Wid40 input,.Wid40 span,
+.Wid50 input,.Wid50 span,
+.Wid60 input,.Wid60 span,
+.Wid70 input,.Wid70 span,
+.Wid80 input,.Wid80 span,
+.Wid90 input,.Wid90 span,
+.Wid100 input,.Wid100 span{
+    width:95%; 
+}*/
+
+.Wid30 input,
+.Wid40 input,
+.Wid50 input,
+.Wid60 input,
+.Wid70 input,
+.Wid80 input,
+.Wid90 input,
+.Wid100 input{
+    width:95%; 
+}
+
+.Wid20 span.ui-button-icon-left,.Wid30 span.ui-button-icon-left,
+.Wid40 span.ui-button-icon-left,.Wid50 span.ui-button-icon-left,
+.Wid60 span.ui-button-icon-left,.Wid70 span.ui-button-icon-left{
+    width: 16px;
+}
+.Wid20 span.ui-button-text,.Wid30 span.ui-button-text,
+.Wid40 span.ui-button-text,.Wid50 span.ui-button-text,
+.Wid60 span.ui-button-text,.Wid70 span.ui-button-text{
+    width: 32px;
+}
+
+.Wid30 input.inputWithButton,.Wid40 input.inputWithButton,
+.Wid50 input.inputWithButton,.Wid60 input.inputWithButton,
+.Wid70 input.inputWithButton,.Wid80 input.inputWithButton,
+.Wid90 input.inputWithButton,.Wid100 input.inputWithButton{
+    width: 80%;
+}
+
+#top{
+    margin-bottom: 10px;
+}
+
+#topInfo{
+
+}
+
+#topNav{
+}
+
+#container{
+    min-height: 760px;
+    padding-bottom: 70px;
+}
+
+#leftSlide{
+    margin-right: 10px;
+}
+
+#rightContent{
+
+}
+
+#bottom{
+    margin: auto;
+    height: 55px; 
+    background-color: #f5f5f5;   
+    border-top:  #1995dc solid 5px;
+    text-align: center;
+}
+
+.topToolbar{
+    margin-bottom: 10px;
+}
+
+.detailToolbar{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.plgQuery{
+    margin-bottom: 10px;
+}
+
+.fileUpload{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/*-------------------------------MainFrameStyle*/
+
+.ui-datatable .ui-paginator .ui-paginator-current,
+.ui-datatable .ui-paginator .ui-paginator-first,
+.ui-datatable .ui-paginator .ui-paginator-prev,
+.ui-datatable .ui-paginator .ui-paginator-pages .ui-paginator-page,
+.ui-datatable .ui-paginator .ui-paginator-next,
+.ui-datatable .ui-paginator .ui-paginator-last, 
+.ui-datatable .ui-paginator .ui-paginator-rpp-options{
+    padding: 1px 2px;
+}
+
+.tableList td,.plgNew td,.plgEdit td,.plgView td{
+    height: 32px;
+}
+
+.tableList .ui-selectonemenu-label{
+    height: 12px;
+}
+
+.ktstate .ui-button span.ui-button-text{
+    padding: 5px 12px !important;
+}

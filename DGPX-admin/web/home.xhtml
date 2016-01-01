@@ -1,0 +1,51 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #546E7A;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="subheader">
+        Dashboard
+    </ui:define>
+
+    <ui:define name="content">
+
+        <!-- left content -->
+        <div class="Container70 Responsive100 NoIndent">
+            <div class="Container100">
+                <p:schedule value="#{scheduleManagedBean.eventModel}" timeZone="GMT+8"/>
+            </div>
+        </div>  
+
+        <!-- right content -->
+        <div class="Container30 Responsive100 NoIndent">
+            <div class="Container100">
+                <div class="Card PinkBorder">
+                    <div class="EmptyBox10"></div>
+                    <div class="DispBlock Pink Fs20 FontVoltSemiBold">任务列表 <i class="icon-printer2 Fright Fs40"></i> </div>
+                    <div class="Separator"></div>
+                    <div class="EmptyBox10"></div>
+                    <div class="Container100">
+                        <span class="Leaden Fs14 FontVoltSemiBold DispBlock OvHidden">1. 元旦放假通知,1月1-3号放假</span>
+                        <span class="Leaden Fs14 FontVoltSemiBold DispBlock OvHidden">2. 公告二</span>
+                        <span class="Leaden Fs14 FontVoltSemiBold DispBlock OvHidden">3. 公告三</span>
+                        <span class="Leaden Fs14 FontVoltSemiBold DispBlock OvHidden">4. 任务一</span>
+                        <span class="Leaden Fs14 FontVoltSemiBold DispBlock OvHidden">5. 任务二</span>
+                        <div class="EmptyBox30"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>

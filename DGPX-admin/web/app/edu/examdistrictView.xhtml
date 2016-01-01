@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form id="formView">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />          
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="examdistrict" icon="ui-icon-arrowreturn-1-w"/> 
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnVerify" value="审核" action="#{examDistrictManagedBean.verify()}" icon="ui-icon-locked"
+                                     rendered="#{examDistrictManagedBean.doCfm}" process="@this" update="formView"/>
+                    <p:commandButton id="btnPrint" value="打印" actionListener="#{examDistrictManagedBean.print()}" icon="ui-icon-print"
+                                     rendered="#{examDistrictManagedBean.doPrt}"/>
+                </f:facet>
+            </p:toolbar>  
+            <p:panel id="panelView" header="考区设置－查看">
+                <p:panelGrid id="plgView" styleClass="plgView Wid100">
+                    <p:row>
+                        <p:column styleClass="Wid20"><h:outputText value="考区编号"/></p:column>
+                        <p:column styleClass="Wid30">
+                            <h:outputText value="#{examDistrictManagedBean.currentEntity.formid}" title="Formid"/>
+                        </p:column>
+                        <p:column styleClass="Wid20"><h:outputText value="考区名称"/></p:column>
+                        <p:column styleClass="Wid30">
+                            <h:outputText value="#{examDistrictManagedBean.currentEntity.name}" title="Name"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="Wid20"><h:outputText value="地址"/></p:column>
+                        <p:column colspan="3">
+                            <h:outputText value="#{examDistrictManagedBean.currentEntity.address}" title="Address"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><h:outputText value="电话"/></p:column>
+                        <p:column>
+                            <h:outputText value="#{examDistrictManagedBean.currentEntity.tel}" title="Tel"/>
+                        </p:column>
+                        <p:column><h:outputText value="传真"/></p:column>
+                        <p:column>
+                            <h:outputText value="#{examDistrictManagedBean.currentEntity.fax}" title="Fax"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><h:outputText value="联系人"/></p:column>
+                        <p:column>
+                            <h:outputText value="#{examDistrictManagedBean.currentEntity.contacter}" title="Contacter"/>
+                        </p:column>
+                        <p:column><h:outputText value="联系电话"/></p:column>
+                        <p:column>
+                            <h:outputText value="#{examDistrictManagedBean.currentEntity.phone}" title="Phone"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column><h:outputText value="邮编"/></p:column>
+                        <p:column>
+                            <h:outputText value="#{examDistrictManagedBean.currentEntity.zipcode}" title="Zipcode"/>
+                        </p:column>
+                        <p:column></p:column>
+                        <p:column></p:column>
+                    </p:row>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

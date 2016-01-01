@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+
+        <h:form id="formEdit">
+            <p:growl id="growl"  showSummary="false" showDetail="true" autoUpdate="true" />          
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:button id="btnReturn" value="返回" outcome="sysprg" icon="ui-icon-arrowreturn-1-w"/> 
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnSave" value="保存" action="#{sysprgManagedBean.update('sysprg')}" icon="ui-icon-disk"  update="plgEdit"/>
+                </f:facet>
+            </p:toolbar>  
+            <p:panel id="panelEdit" header="系统功能－修改">
+                <p:panelGrid id="plgEdit" columns="4" columnClasses="Widw20,Wid30,Wid20,Wid30" styleClass="plgEdit Wid100">
+                    <p:outputLabel value="功能" for="name" />
+                    <p:inputText id="name" value="#{sysprgManagedBean.currentEntity.name}" title="Name" 
+                                 required="true" requiredMessage="功能名称不可空白"/>
+                    <p:outputLabel value="新增" for="doadd" />
+                    <p:inputSwitch id="doadd" value="#{sysprgManagedBean.currentEntity.doadd}" required="true"/>
+                    <p:outputLabel value="路径" for="api" />
+                    <p:inputText id="api" value="#{sysprgManagedBean.currentEntity.api}" title="Api" 
+                                 required="true" requiredMessage="访问路径不可空白"/>
+                    <p:outputLabel value="修改" for="doedit" />
+                    <p:inputSwitch id="doedit" value="#{sysprgManagedBean.currentEntity.doedit}" required="true" />
+                    <p:outputLabel value="模块" for="moduleid" />
+                    <p:selectOneMenu id="moduleid" value="#{sysprgManagedBean.currentEntity.sysmodule}" title="Moduleid" 
+                                     required="true" requiredMessage="所属模块不可空白" converter="sysmoduleConverter">
+                        <!-- TODO: update below reference to list of available items-->
+                        <f:selectItem itemLabel="Select One" itemValue="" />  
+                        <f:selectItems value="#{sysprgManagedBean.sysmoduleList}" var="m" itemLabel="#{m.name}" itemValue="#{m}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="删除" for="dodel" />
+                    <p:inputSwitch id="dodel" value="#{sysprgManagedBean.currentEntity.dodel}" required="true"/>
+                    <p:outputLabel value="排序" for="sortid" />
+                    <p:inputText id="sortid" value="#{sysprgManagedBean.currentEntity.sortid}" title="Sortid" />
+                    <p:outputLabel value="审核" for="docfm" />
+                    <p:inputSwitch id="docfm" value="#{sysprgManagedBean.currentEntity.docfm}" required="true"/>
+                    <p:outputLabel value="备注" for="descript" />
+                    <p:inputText id="descript" value="#{sysprgManagedBean.currentEntity.descript}" title="Descript" />  
+                    <p:outputLabel value="取消审核" for="douncfm" />
+                    <p:inputSwitch id="douncfm" value="#{sysprgManagedBean.currentEntity.douncfm}" required="true"/>
+                    <p:outputLabel value="编号前缀" for="nolead" rendered="#{sysprgManagedBean.currentEntity.noauto}" />
+                    <p:inputText id="nolead" value="#{sysprgManagedBean.currentEntity.nolead}" title="nolead" 
+                                 rendered="#{sysprgManagedBean.currentEntity.noauto}" required="true" requiredMessage="编号前缀不可空白" validatorMessage="编号前缀最少一位最多四位">
+                        <f:validateLength minimum="1" maximum="4"/>
+                    </p:inputText>  
+                    <p:outputLabel value="自动编号" for="noauto" />
+                    <p:inputSwitch id="noauto" value="#{sysprgManagedBean.currentEntity.noauto}" 
+                                   required="true">
+                        <p:ajax process="@this" update="plgEdit"/>
+                    </p:inputSwitch>
+                    <p:outputLabel value="编号格式" for="noformat" rendered="#{sysprgManagedBean.currentEntity.noauto}" />
+                    <p:inputText id="noformat" value="#{sysprgManagedBean.currentEntity.noformat}" 
+                                 rendered="#{sysprgManagedBean.currentEntity.noauto}" required="true" requiredMessage="编号格式不可空白"/>
+                    <p:outputLabel value="打印" for="doprt" />
+                    <p:inputSwitch id="doprt" value="#{sysprgManagedBean.currentEntity.doprt}" required="true"/>
+                    <p:outputLabel value="流号长度" for="noseqlen" rendered="#{sysprgManagedBean.currentEntity.noauto}" />
+                    <p:spinner id="noseqlen" value="#{sysprgManagedBean.currentEntity.noseqlen}" 
+                               rendered="#{sysprgManagedBean.currentEntity.noauto}" required="true" requiredMessage="流号长度不可空白"/>
+                </p:panelGrid>
+            </p:panel>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>

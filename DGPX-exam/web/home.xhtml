@@ -1,0 +1,96 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #546E7A;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="subheader">
+        Dashboard
+    </ui:define>
+
+    <ui:define name="content">
+
+        <!-- left content -->
+        <div class="Container20 Responsive100 NoIndent">
+            <div class="Container100">
+                <div class="EmptyBox100">
+
+                </div>
+            </div>
+        </div>  
+
+        <div class="Container60 Responsive100 NoIndent">
+
+            <div class="Container100">
+                <div class="Card">
+                    <div class="EmptyBox10"></div>
+                    <div class="CardTopic Opac90 OvHidden">信息确认<i class="icon-tags Fright Fs24"></i></div>
+                    <div class="Separator"></div>
+                    <div class="EmptyBox5"></div>
+                    <div class="Container100">
+                        <div class="Container40 Fs24">
+                            姓名:<h:outputText value="#{userManagedBean.currentUser.name}" />
+                        </div>
+                        <div class="Container60 Fs24">
+                            性别:<h:outputText value="#{userManagedBean.currentUser.gender}" />
+                        </div>
+                    </div>                  
+                    <div class="EmptyBox5"></div>
+                    <div class="Container100">
+                        <div class="Container100 Fs24">
+                            身份证:<h:outputText value="#{userManagedBean.currentUser.idcard}" />
+                        </div>
+                    </div>
+                    <div class="EmptyBox5"></div>
+                    <div class="Container100">
+                        <div class="Container50 Fs24">
+                            准考证:<h:outputText value="#{userManagedBean.currentUser.formid}" />
+                        </div>
+                        <div class="Container50 Fs24">
+                            科目:<h:outputText value="#{userManagedBean.currentUser.examnumber.examcategory.name}" />
+                        </div>
+                    </div>
+                    <div class="EmptyBox5"></div>
+                    <div class="Container100">
+                        <div class="Container50 Fs24">
+                            考试日期:<h:outputText value="#{userManagedBean.currentUser.examnumber.formdate}">
+                                <f:convertDateTime pattern="yyyy/MM/dd" />
+                            </h:outputText>
+                        </div>
+                        <div class="Container50 Fs24">
+                            时间:<h:outputText value="#{userManagedBean.currentUser.examnumber.formtime}">
+                                <f:convertDateTime pattern="HH:ss" />
+                            </h:outputText>
+                        </div>
+                    </div>
+                    <div class="EmptyBox20"></div>
+                    <div class="Container100 TexAlRight">
+                        <p:button value="开始答题" styleClass="GreenButton" outcome="exam"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- right content -->
+        <div class="Container20 Responsive100 NoIndent">
+            <div class="Container100">
+                <div class="EmptyBox100">
+
+                </div>
+            </div>
+        </div>  
+
+
+    </ui:define>
+
+</ui:composition>

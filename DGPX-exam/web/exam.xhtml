@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="head">
+        <style type="text/css">
+            .jqplot-target, .jqplot-axis {
+                color: #546E7A;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="subheader">
+        Dashboard
+    </ui:define>
+
+    <ui:define name="content">
+
+        <!-- left content -->
+        <div class="Container30 Responsive100 NoIndent">
+
+            <div class="Container100">
+                <div class="Card PinkBorder">
+                    <div class="Container50">
+                        <div class="DispBlock Pink Fs20 FontVoltSemiBold">未完成题目</div>
+                        <div class="DispBlock Leaden Fs20 FontVoltRegular" style="margin-top:-5px;">50</div>
+                    </div>
+                    <div class="Container50">
+                        <div class="DispBlock Pink Fs20 FontVoltSemiBold">剩余时间</div>
+                        <div class="DispBlock Leaden Fs20 FontVoltRegular" style="margin-top:-5px;">26</div>
+                    </div>
+                    <div class="Separator"></div>
+                    <div class="Wid100">
+                        <h:form id="form">
+                            <p:dataGrid var="item" value="#{demoManagedBean.list}" columns="6" layout="grid"
+                                        id="items" styleClass="ktstate">
+                                
+                                <p:commandButton value="#{item.id}" styleClass="Wid100 #{item.name}"/>
+                                
+                            </p:dataGrid>
+                        </h:form>
+                        <div class="EmptyBox30"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>  
+
+        <!-- right content -->
+        <div class="Container70 Responsive100 NoIndent">
+
+            <div class="Container100">
+                <div class="Card">
+                    <div class="EmptyBox10"></div>
+                    <div class="CardTopic Opac90 OvHidden">单选题<i class="icon-tags Fright Fs30"></i></div>
+                    <div class="Separator"></div>
+                    <div class="EmptyBox5"></div>
+
+                    <div class="Container100 Responsive100">
+                        <p:inputTextarea rows="8" placeholder="Notes To Dealer" style="width:95%;"
+                                         value="这是一道单选题,1只+1只=1双,3天+4天=1周,请问4( )+9( )=1( )？" readonly="true"/>
+                        <p:selectOneRadio id="console" value="">
+                            <f:selectItem itemLabel="选择A答案" itemValue="A" />
+                            <f:selectItem itemLabel="选择B答案" itemValue="B" />
+                            <f:selectItem itemLabel="选择C答案" itemValue="C" />
+                            <f:selectItem itemLabel="选择D答案" itemValue="D" />
+                        </p:selectOneRadio>
+                    </div>
+                    <div class="EmptyBox20"></div>
+
+                    <div class="Container100 TexAlRight">
+                        <p:button value="上一题" styleClass="RedButton MarRight10"/>
+                        <p:button value="下一题" styleClass="GreenButton"/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui"
+                template=".././WEB-INF/template.xhtml">
+
+    <ui:define name="content">
+
+        <h:form id="formList">
+            <p:growl id="growl" showSummary="false" showDetail="true" autoUpdate="true"/>
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:commandButton id="btnLoad" value="刷新" actionListener="#{systemUserManagedBean.init()}"  icon="ui-icon-search"  update=":formList"/> 
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnEdit" action="#{systemUserManagedBean.edit('systemuserEdit')}" icon="ui-icon-pencil" value="编辑" 
+                                     rendered="#{systemUserManagedBean.currentEntity.status!='V'}" /> 
+                    <p:commandButton id="btnDelete" actionListener="#{systemUserManagedBean.delete()}" icon="ui-icon-trash" value="删除" 
+                                     rendered="#{systemUserManagedBean.currentEntity.status!='V' }" update=":formList">
+                        <p:confirm header="系统提示" message="删除吗?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:commandButton id="btnVerify" actionListener="#{systemUserManagedBean.verify()}" icon="ui-icon-locked" value="审核" 
+                                     rendered="#{systemUserManagedBean.currentEntity.status!='V'}"   update=":formList"/>
+                    <p:commandButton id="btnUnverify" actionListener="#{systemUserManagedBean.unverify()}" icon="ui-icon-unlocked" value="取消" 
+                                     rendered="#{systemUserManagedBean.currentEntity.status=='V'}"  update=":formList"/>
+                    <p:commandButton id="btnCreate" action="#{systemUserManagedBean.create('systemuserNew')}" icon="ui-icon-plus" value="新增"
+                                     /> 
+                </f:facet>
+            </p:toolbar>
+            <p:dataTable value="#{systemUserManagedBean.model}" var="item"  tableStyleClass="tableList" paginator="true" paginatorPosition="bottom" rows="15"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="15,30,45"  lazy="true" 
+                         selectionMode="single" selection="#{systemUserManagedBean.currentEntity}" rowKey="#{item.id}" >
+                <f:facet name="header">
+                    账户维护
+                </f:facet>
+                <p:ajax event="rowSelect"  update=":formList:toolbar" />
+                <p:ajax event="rowUnselect" update=":formList:toolbar" /> 
+                <p:column styleClass="Wid20">
+                    <f:facet name="header">
+                        <h:outputText value="Id"/>
+                    </f:facet>
+                    <h:outputText value="#{item.userid}"/>
+                </p:column>  
+                <p:column styleClass="Wid20 Responsive">
+                    <f:facet name="header">
+                        <h:outputText value="姓名"/>
+                    </f:facet>
+                    <h:outputText value="#{item.username}"/>
+                </p:column>                   
+                <p:column styleClass="Wid30">
+                    <f:facet name="header">
+                        <h:outputText value="邮箱"/>
+                    </f:facet>
+                    <h:outputText value="#{item.email}"/>
+                </p:column>  
+                <p:column styleClass="Wid20">
+                    <f:facet name="header">
+                        <h:outputText value="最新登录"/>
+                    </f:facet>
+                    <h:outputText value="#{item.lastlogin}">
+                        <f:convertDateTime pattern="yyyy/MM/dd hh:mm"/>
+                    </h:outputText>
+                </p:column> 
+                <p:column styleClass="Wid10">
+                    <f:facet name="header">
+                        <h:outputText value="状态"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status}"/>
+                </p:column>
+                <f:facet name="footer">
+
+                </f:facet>
+            </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>                 
+
+    </ui:define>
+
+</ui:composition>
+
+

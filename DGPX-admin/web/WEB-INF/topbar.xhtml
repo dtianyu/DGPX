@@ -1,0 +1,49 @@
+<ui:composition 
+
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+
+    <!-- TOPBAR START -->    
+    <div id="layout-topbar">
+        <div id="layout-topbar-indent">
+            <a id="menu-button"><i class="icon-th-menu"></i></a>
+            <a href="/DGPX-admin/home.xhtml"><h:graphicImage name="logo.png" id="logo" library="images" style="height: 36px;"/></a>
+            <span class="DispInlBlock Fright" style="margin:10px 10px 0px 0px;">
+                <h:form id="topmenuform" styleClass="DispInline">
+                    <p:splitButton value="Menu" icon="ui-icon-check fa fa-cog" styleClass="White Fs14" appendTo="@this">
+                        <p:menuitem value="注销" action="#{userManagedBean.logout()}" icon="fa fa-power-off" />
+                    </p:splitButton>
+                </h:form>
+            </span>
+        </div>
+    </div>
+    <!-- TOPBAR END -->
+
+    <!-- TOPMENU START -->
+    <ul id="top-menu">
+        <li style="float:left; border:none;">
+            <a href="#"><i class="icon-vcard Opac80"></i>
+                <span>
+                    <h:form id="topbarform">
+                        <span class="Fs16">#{userManagedBean.currentUser.username}, Welcome</span><br/>
+                        <span class="Opac50 Fs12 left">Your last login -</span>
+                        <h:outputText value="#{userManagedBean.currentUser.lastlogin}" styleClass="Opac50 Fs12">
+                            <f:convertDateTime pattern="yyyy/MM/dd hh:mm"/>
+                        </h:outputText> 
+                    </h:form>
+                </span>
+            </a>
+        </li>
+        <li>
+            <a href="#"><i class="icon-paperclip Opac80"></i><span><span class="Fs16">Notes</span> <br/> <span class="Opac50 Fs12">消息提醒</span></span></a>
+        </li>
+        <li>
+            <a href="#"><i class="icon-stopwatch Opac80"></i><span><span class="Fs16">Tasks</span> <br/> <span class="Opac50 Fs12">任务提醒</span></span></a>
+        </li>
+    </ul>
+    <!-- TOPMENU END -->
+
+</ui:composition>

@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./../WEB-INF/template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form id="formList">
+            <p:growl id="growl" showSummary="false" showDetail="true" autoUpdate="true"/>
+            <p:toolbar id="toolbar" styleClass="topToolbar">
+                <f:facet name="left">
+                    <p:commandButton id="btnLoad" value="刷新" actionListener="#{sysgrantModuleManagedBean.init()}"  icon="ui-icon-search"  update=":formList"/>
+                    <p:commandButton id="btnView" value="查看" action="#{sysgrantModuleManagedBean.view('sysgrantmoduleView')}"  icon="ui-icon-document"/>
+                </f:facet>
+                <f:facet name="right">
+                    <p:commandButton id="btnEdit" icon="ui-icon-pencil" value="编辑" rendered="#{sysgrantModuleManagedBean.currentEntity.status!='V'}" 
+                                     action="#{sysgrantModuleManagedBean.edit('sysgrantmoduleEdit')}"/>                                                     
+                    <p:commandButton id="btnDelete" actionListener="#{sysgrantModuleManagedBean.delete()}" icon="ui-icon-trash" value="删除" 
+                                     rendered="#{sysgrantModuleManagedBean.currentEntity.status!='V' }" update=":formList">
+                        <p:confirm header="系统提示" message="删除吗?" icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:commandButton id="btnVerify" actionListener="#{sysgrantModuleManagedBean.verify()}" icon="ui-icon-locked" value="审核" 
+                                     rendered="#{sysgrantModuleManagedBean.currentEntity.status!='V'}"   update=":formList"/>
+                    <p:commandButton id="btnUnverify" actionListener="#{sysgrantModuleManagedBean.unverify()}" icon="ui-icon-unlocked" value="取消" 
+                                     rendered="#{sysgrantModuleManagedBean.currentEntity.status=='V'}"  update=":formList"/>                   
+                    <p:commandButton id="btnCreate" icon="ui-icon-plus" value="新增"
+                                     action="#{sysgrantModuleManagedBean.create('sysgrantmoduleNew')}" /> 
+                </f:facet>
+            </p:toolbar>  
+            <p:dataTable value="#{sysgrantModuleManagedBean.model}" var="item"  tableStyleClass="tableList" paginator="true" paginatorPosition="bottom" rows="15"  
+                         paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                         rowsPerPageTemplate="15,30,45"  lazy="true" 
+                         selectionMode="single" selection="#{sysgrantModuleManagedBean.currentEntity}" rowKey="#{item.id}" >
+                <f:facet name="header">
+                    模块授权
+                </f:facet>
+                <p:ajax event="rowSelect"  update=":formList:toolbar" />
+                <p:ajax event="rowUnselect" update=":formList:toolbar" />
+                <p:column styleClass="Wid20">
+                    <f:facet name="header">
+                        <h:outputText value="账号"/>
+                    </f:facet>
+                    <h:outputText value="#{item.systemuser.userid}"/>
+                </p:column>
+                <p:column styleClass="Wid20">
+                    <f:facet name="header">
+                        <h:outputText value="名称"/>
+                    </f:facet>
+                    <h:outputText value="#{item.systemuser.username}"/>
+                </p:column>
+                <p:column styleClass="Wid50">
+                    <f:facet name="header">
+                        <h:outputText value="模块"/>
+                    </f:facet>
+                    <h:outputText value="#{item.sysmodule.name}"/>
+                </p:column>
+                <p:column styleClass="Wid10">
+                    <f:facet name="header">
+                        <h:outputText value="状态"/>
+                    </f:facet>
+                    <h:outputText value="#{item.status}"/>
+                </p:column>
+            </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
