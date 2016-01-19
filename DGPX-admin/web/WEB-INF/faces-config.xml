@@ -88,6 +88,16 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>examcardstate</from-outcome>
+            <to-view-id>/app/edu/examcardstate.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>   
+        <navigation-case>
+            <from-outcome>examcardstateView</from-outcome>
+            <to-view-id>/app/edu/examcardstateView.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>examcheckin</from-outcome>
             <to-view-id>/app/edu/examcheckin.xhtml</to-view-id>
             <redirect/>
@@ -156,7 +166,17 @@
             <from-outcome>examhallView</from-outcome>
             <to-view-id>/app/edu/examhallView.xhtml</to-view-id>
             <redirect/>
-        </navigation-case>       
+        </navigation-case>  
+        <navigation-case>
+            <from-outcome>exammark</from-outcome>
+            <to-view-id>/app/edu/exammark.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>exammarkView</from-outcome>
+            <to-view-id>/app/edu/exammarkView.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>     
         <navigation-case>
             <from-outcome>examnumber</from-outcome>
             <to-view-id>/app/edu/examnumber.xhtml</to-view-id>
@@ -176,7 +196,42 @@
             <from-outcome>examnumberView</from-outcome>
             <to-view-id>/app/edu/examnumberView.xhtml</to-view-id>
             <redirect/>
-        </navigation-case>              
+        </navigation-case>         
+        <navigation-case>
+            <from-outcome>exampaper</from-outcome>
+            <to-view-id>/app/edu/exampaper.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>exampaperView</from-outcome>
+            <to-view-id>/app/edu/exampaperView.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>      
+        <navigation-case>
+            <from-outcome>examseat</from-outcome>
+            <to-view-id>/app/edu/examseat.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>examseatNew</from-outcome>
+            <to-view-id>/app/edu/examseatNew.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>examseatEdit</from-outcome>
+            <to-view-id>/app/edu/examseatEdit.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>examseatView</from-outcome>
+            <to-view-id>/app/edu/examseatView.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>    
+        <navigation-case>
+            <from-outcome>examseatstate</from-outcome>
+            <to-view-id>/app/edu/examseatstate.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>        
         <navigation-case>
             <from-outcome>itemcategory</from-outcome>
             <to-view-id>/app/base/itemcategory.xhtml</to-view-id>

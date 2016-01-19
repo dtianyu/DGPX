@@ -26,7 +26,13 @@
     <!-- TOPMENU START -->
     <ul id="top-menu">
         <li style="float:left; border:none;">
-            <a href="#"><i class="icon-vcard Opac80"></i><span><span class="Fs16">#{userManagedBean.currentUser.name},Welcome</span> <br/> <span class="Opac50 Fs12">Your last login - 18.08.2015 | 3:55 PM</span></span></a>
+            <a href="#"><i class="icon-vcard Opac80"></i><span><span class="Fs16">#{userManagedBean.currentUser.name},Welcome</span><br/>
+                    <span class="Opac50 Fs12 left">Your last login -</span>
+                    <h:outputText value="#{userManagedBean.currentUser.lastlogin}" styleClass="Opac50 Fs12">
+                        <f:convertDateTime pattern="yyyy/MM/dd hh:mm"/>
+                    </h:outputText> 
+                </span>
+            </a>
         </li>
         <li>
             <a href="#"><i class="icon-stopwatch Opac80"></i><span><span class="Fs16">Notes</span><br/>

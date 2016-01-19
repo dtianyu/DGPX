@@ -14,12 +14,17 @@ import com.dgpx.entity.ExamDistrict;
 import com.dgpx.entity.ExamHall;
 import com.dgpx.entity.ExamNumber;
 import com.dgpx.lazy.ExamCardModel;
+import com.dgpx.rpt.ExamPaperReport;
 import com.dgpx.web.SuperSingleBean;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 
 /**
  *
@@ -49,6 +54,13 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
     }
 
     @Override
+    public void create() {
+        super.create();
+        newEntity.setFormdate(this.getDate());
+        newEntity.setMark(BigDecimal.ZERO);
+    }
+
+    @Override
     protected boolean doBeforePersist() throws Exception {
         if (this.newEntity != null && this.currentSysprg != null) {
             String formid = "";
@@ -68,10 +80,36 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
         setExamDistrictList(examDistrictBean.findByStatus("V"));
         setExamHallList(examHallBean.findByStatus("V"));
         HashMap<String, Object> f = new HashMap<>();
-        f.put("status", "V");
+        f.put("status", "N");
         f.put("formdateBegin", this.getDate());
         setExamNumberList(examNumberBean.findAll(f));
         super.init();
+    }
+
+    @Override
+    public void print() throws Exception {
+        if (currentEntity == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可打印数据!"));
+            return;
+        }
+        //设置报表参数
+        HashMap<String, Object> params = new HashMap<>();
+        params.put("id", currentEntity.getId());
+        params.put("JNDIName", this.currentSysprg.getRptjndi());
+        //设置报表名称
+        String reportName = reportPath + this.currentSysprg.getRptdesign();
+        String outputName = reportOutputPath + currentEntity.getFormid() + "." + reportOutputFormat;
+        this.reportViewPath = reportViewContext + currentEntity.getFormid() + "." + reportOutputFormat;
+        try {
+            //初始配置
+            this.reportInitAndConfig();
+            //生成报表
+            this.reportRunAndOutput(reportName, params, outputName, reportOutputFormat, null);
+            //预览报表
+            this.preview();
+        } catch (Exception ex) {
+            throw ex;
+        }
     }
 
     @Override
@@ -91,6 +129,12 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
                 this.model.getFilterFields().put("status", this.queryState);
             }
         }
+    }
+
+    @Override
+    protected void reportInitAndConfig() {
+        super.reportInitAndConfig();
+        reportEngineConfig.getAppContext().put(EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ExamPaperReport.class.getClassLoader());
     }
 
     /**

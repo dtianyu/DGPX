@@ -14,6 +14,10 @@ li{
     float: left;
 }
 
+.nodisplay{
+    display: none;
+}
+
 /*.Wid30 input,.Wid30 span,
 .Wid40 input,.Wid40 span,
 .Wid50 input,.Wid50 span,

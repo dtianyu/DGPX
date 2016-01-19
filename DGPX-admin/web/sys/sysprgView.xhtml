@@ -16,7 +16,7 @@
                 </f:facet>
             </p:toolbar>  
             <p:panel id="panelView" header="系统功能－查看">
-                <h:panelGrid id="plgView" columns="2" columnClasses="Wid20,Wid80" styleClass="plgView Wid60 Responsive">
+                <h:panelGrid id="plgView" columns="2" columnClasses="Wid20,Wid80" styleClass="plgView Wid100">
                     <h:outputText value="功能"/>
                     <h:outputText value="#{sysprgManagedBean.currentEntity.name}" title="Name"/>
                     <h:outputText value="路径"/>
@@ -35,6 +35,12 @@
                     <h:outputText value="#{sysprgManagedBean.currentEntity.docfm}" title="Docfm"/>
                     <h:outputText value="取消"/>
                     <h:outputText value="#{sysprgManagedBean.currentEntity.douncfm}" title="Douncfm"/>
+                    <h:outputText value="打印"/>
+                    <h:outputText value="#{sysprgManagedBean.currentEntity.doprt}" title="Douncfm"/>
+                    <h:outputText value="报表文件" />
+                    <h:outputText id="rptdesign" value="#{sysprgManagedBean.currentEntity.rptdesign}" title="rptdesign"/> 
+                    <h:outputText value="报表JNDI" />
+                    <h:outputText id="rptjndi" value="#{sysprgManagedBean.currentEntity.rptjndi}" title="rptjndi"/>
                     <h:outputText value="备注"/>
                     <h:outputText value="#{sysprgManagedBean.currentEntity.descript}" title="Descript"/>
                     <h:outputText value="状态"/>

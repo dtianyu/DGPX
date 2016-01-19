@@ -65,6 +65,10 @@
                     <p:outputLabel value="流号长度" for="noseqlen" rendered="#{sysprgManagedBean.currentEntity.noauto}" />
                     <p:spinner id="noseqlen" value="#{sysprgManagedBean.currentEntity.noseqlen}" 
                                rendered="#{sysprgManagedBean.currentEntity.noauto}" required="true" requiredMessage="流号长度不可空白"/>
+                    <p:outputLabel value="报表文件" for="rptdesign" />
+                    <p:inputText id="rptdesign" value="#{sysprgManagedBean.currentEntity.rptdesign}" title="rptdesign"/> 
+                    <p:outputLabel value="报表JNDI" for="rptjndi" />
+                    <p:inputText id="rptjndi" value="#{sysprgManagedBean.currentEntity.rptjndi}" title="rptjndi"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>

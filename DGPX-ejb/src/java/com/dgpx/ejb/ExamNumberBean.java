@@ -5,6 +5,7 @@
  */
 package com.dgpx.ejb;
 
+import com.dgpx.entity.ExamCard;
 import com.dgpx.entity.ExamNumber;
 import com.dgpx.entity.ExamPaperPool;
 import com.dgpx.entity.ExamSetting;
@@ -13,6 +14,7 @@ import com.dgpx.entity.Knowledge;
 import com.lightshell.comm.SuperEJB;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -23,6 +25,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -42,6 +45,10 @@ public class ExamNumberBean extends SuperEJB<ExamNumber> {
     private ExamPaperPoolBean examPaperPoolBean;
     @EJB
     private ItemPoolBean itemPoolBean;
+    @EJB
+    private ExamCardBean examCardBean;
+
+    protected List<ExamCard> detailList;
 
     public ExamNumberBean() {
         super(ExamNumber.class);
@@ -50,6 +57,24 @@ public class ExamNumberBean extends SuperEJB<ExamNumber> {
     @Override
     public EntityManager getEntityManager() {
         return em;
+    }
+
+    public long getRowCountHasExam(ExamNumber entity) {
+        Query query = em.createQuery("SELECT COUNT(e) FROM ExamCard e WHERE e.examnumber.id = :pid AND e.status<>'N' AND e.status<>'V' ");
+        query.setParameter("pid", entity.getId());
+        try {
+            return (long) query.getSingleResult();
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    @Override
+    public void setDetail(Object value) {
+        setDetailList(examCardBean.findByPId(value));
+        if (getDetailList() == null) {
+            setDetailList(new ArrayList<>());
+        }
     }
 
     @Override
@@ -86,10 +111,11 @@ public class ExamNumberBean extends SuperEJB<ExamNumber> {
         Random r = new Random();
         try {
             ExamNumber e = getEntityManager().merge(entity);
+            //生成考卷
             List<ExamSetting> examSettingList = examSettingBean.findByPId(entity.getId());
             if (examSettingList == null || examSettingList.isEmpty()) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(null, "试卷题型设定错误!"));
-                throw new RuntimeException("试卷题型设定错误");
+                throw new RuntimeException("题型设定错误");
             }
             List<Knowledge> knowledgeList = knowledgeBean.findAll();
             if (knowledgeList == null || knowledgeList.isEmpty()) {
@@ -145,6 +171,7 @@ public class ExamNumberBean extends SuperEJB<ExamNumber> {
                                 paperItem.setChoice7(item.getChoice7());
                                 paperItem.setChoice8(item.getChoice8());
                                 paperItem.setAnswer(item.getAnswer());
+                                paperItem.setScore(s.getScore());
                                 paperItem.setKey1(item.getKey1());
                                 paperItem.setKey2(item.getKey2());
                                 paperItem.setKey3(item.getKey3());
@@ -162,11 +189,33 @@ public class ExamNumberBean extends SuperEJB<ExamNumber> {
                     } while (ctgyCount < s.getQty());//如果某个题型的题目不足就再循环提取
                 }
             }
+            //更新准考证编号
+            List<ExamCard> examCardList = examCardBean.findByPId(e.getId());
+            int cardCount = 1;
+            for (ExamCard card : examCardList) {
+                card.setFormid(e.getFormid() + String.format("%04d", cardCount));
+                examCardBean.update(card);
+                cardCount++;
+            }
             return e;
         } catch (RuntimeException e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(null, "系统异常!"));
             throw e;
         }
+    }
+
+    /**
+     * @return the detailList
+     */
+    public List<ExamCard> getDetailList() {
+        return detailList;
+    }
+
+    /**
+     * @param detailList the detailList to set
+     */
+    public void setDetailList(List<ExamCard> detailList) {
+        this.detailList = detailList;
     }
 
 }

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.dgpx.lazy.exam;
+package com.dgpx.lazy;
 
-import com.dgpx.entity.ExamCard;
+import com.dgpx.entity.ExamSeat;
 import com.lightshell.comm.BaseLazyModel;
 import com.lightshell.comm.SuperEJB;
 import java.util.List;
@@ -16,17 +16,16 @@ import org.primefaces.model.SortOrder;
  *
  * @author kevindong
  */
-public class ExamCardModel extends BaseLazyModel<ExamCard> {
+public class ExamSeatModel extends BaseLazyModel<ExamSeat> {
 
-    public ExamCardModel(SuperEJB superEJB) {
+    public ExamSeatModel(SuperEJB superEJB) {
         this.superEJB = superEJB;
     }
 
     @Override
-    public List<ExamCard> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
+    public List<ExamSeat> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         this.sortFields.put("status", "ASC");
         this.sortFields.put("id", "DESC");
-        this.filterFields.put("status", "V");
         return super.load(first, pageSize, sortField, sortOrder, filters);
     }
 

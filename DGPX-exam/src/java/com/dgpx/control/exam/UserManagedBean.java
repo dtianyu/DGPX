@@ -48,7 +48,9 @@ public class UserManagedBean implements Serializable {
                 updateLoginTime();
             } else {
                 u = examCardBean.findByFormId(getUserid());
-                if (u != null) {
+                if (u != null && "Z".equals(u.getStatus())) {
+                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "您的考试已结束"));
+                } else if (u != null && !"Z".equals(u.getStatus())) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "未签到,请先签到"));
                 } else {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "准考证不存在"));

@@ -9,19 +9,28 @@ import com.dgpx.ejb.ExamCategoryBean;
 import com.dgpx.ejb.ExamNumberBean;
 import com.dgpx.ejb.ExamSettingBean;
 import com.dgpx.ejb.ItemCategoryBean;
+import com.dgpx.entity.ExamCard;
 import com.dgpx.entity.ExamCategory;
 import com.dgpx.entity.ExamNumber;
 import com.dgpx.entity.ExamSetting;
 import com.dgpx.entity.ItemCategory;
 import com.dgpx.lazy.ExamNumberModel;
+import com.dgpx.rpt.ExamPaperReport;
 import com.dgpx.web.SuperMultiBean;
+import com.lowagie.text.pdf.PdfCopyFields;
+import com.lowagie.text.pdf.PdfReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 
 /**
  *
@@ -71,7 +80,12 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
         if (entity == null) {
             return false;
         }
-        //需要加入对是否存在报考纪录的逻辑检查    
+        //存在报考记录不能删除
+        examNumberBean.setDetail(entity.getId());
+        if (!examNumberBean.getDetailList().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "已有报名资料,不能删除!"));
+            return false;
+        }
         setDetailList(examSettingBean.findByPId(currentEntity.getId()));
         return super.doBeforeDelete(entity);
     }
@@ -120,6 +134,19 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     }
 
     @Override
+    protected boolean doBeforeUnverify() throws Exception {
+        if (currentEntity == null) {
+            return false;
+        }
+        //存在考试记录不能取消
+        if (examNumberBean.getRowCountHasExam(currentEntity) != 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "已有考试资料,不能取消!"));
+            return false;
+        }
+        return super.doBeforeUnverify();
+    }
+
+    @Override
     protected boolean doBeforeVerify() throws Exception {
         if (currentEntity == null) {
             return false;
@@ -151,6 +178,50 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     }
 
     @Override
+    public void print() throws Exception {
+
+        if (currentEntity == null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可打印数据"));
+            return;
+        }
+        examNumberBean.setDetail(currentEntity.getId());
+        if (examNumberBean.getDetailList().isEmpty()) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可打印数据"));
+            return;
+        }
+
+        String reportName, outputName;
+        //设置报表名称
+        reportName = reportPath + this.currentSysprg.getRptdesign();
+        //设置导出文件名称
+        outputName = reportOutputPath + currentEntity.getFormid() + ".pdf";
+        OutputStream os = new FileOutputStream(outputName);
+        PdfCopyFields pdfCopy = new PdfCopyFields(os);
+        HashMap<String, Object> params = new HashMap<>();
+        ByteArrayOutputStream baos;
+        for (ExamCard c : examNumberBean.getDetailList()) {
+            //设置报表参数
+            baos = new ByteArrayOutputStream();
+            params.put("id", c.getId());
+            params.put("JNDIName", this.currentSysprg.getRptjndi());
+            try {
+                //初始配置
+                this.reportInitAndConfig();
+                //生成报表
+                this.reportRunAndOutput(reportName, params, null, "pdf", baos);
+            } catch (Exception ex) {
+                throw ex;
+            } finally {
+                params.clear();
+            }
+            pdfCopy.addDocument(new PdfReader(baos.toByteArray()));
+        }
+        pdfCopy.close();
+        this.reportViewPath = reportViewContext + currentEntity.getFormid() + ".pdf";
+        this.preview();
+    }
+
+    @Override
     public void query() {
         if (this.model != null && this.model.getFilterFields() != null) {
             this.model.getFilterFields().clear();
@@ -160,7 +231,19 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
             if (this.queryState != null && !"ALL".equals(this.queryState)) {
                 this.model.getFilterFields().put("status", this.queryState);
             }
+            if (this.queryDateBegin != null) {
+                this.model.getFilterFields().put("formdateBegin", this.queryDateBegin);
+            }
+            if (this.queryDateEnd != null) {
+                this.model.getFilterFields().put("formdateEnd", this.queryDateEnd);
+            }
         }
+    }
+
+    @Override
+    protected void reportInitAndConfig() {
+        super.reportInitAndConfig();
+        reportEngineConfig.getAppContext().put(EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ExamPaperReport.class.getClassLoader());
     }
 
     /**

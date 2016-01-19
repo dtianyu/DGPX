@@ -11,6 +11,7 @@ import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -30,6 +31,16 @@ public class ExamCategoryBean extends SuperEJB<ExamCategory> {
     @Override
     public EntityManager getEntityManager() {
         return em;
+    }
+
+    public long getRowCountHasExamNumber(ExamCategory entity) {
+        Query query = em.createQuery("SELECT COUNT(e) FROM ExamNumber e WHERE e.examcategory.id = :examcategory ");
+        query.setParameter("examcategory", entity.getId());
+        try {
+            return (long) query.getSingleResult();
+        } catch (Exception e) {
+            return 0;
+        }
     }
 
 }

@@ -6,6 +6,7 @@
 package com.dgpx.entity;
 
 import com.lightshell.comm.BaseEntityWithOperate;
+import java.math.BigDecimal;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -34,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ExamCard.findById", query = "SELECT e FROM ExamCard e WHERE e.id = :id"),
     @NamedQuery(name = "ExamCard.findByPId", query = "SELECT e FROM ExamCard e WHERE e.examnumber.id = :pid"),
     @NamedQuery(name = "ExamCard.findByFormId", query = "SELECT e FROM ExamCard e WHERE e.formid = :formid"),
-    @NamedQuery(name = "ExamCard.findByFormIdAndCheckIn", query = "SELECT e FROM ExamCard e WHERE e.formid = :formid AND e.status='Y' "),    
+    @NamedQuery(name = "ExamCard.findByFormIdAndCheckIn", query = "SELECT e FROM ExamCard e WHERE e.formid = :formid AND (e.status='Y' or e.status='E')"),
     @NamedQuery(name = "ExamCard.findByFormdate", query = "SELECT e FROM ExamCard e WHERE e.formdate = :formdate"),
     @NamedQuery(name = "ExamCard.findByName", query = "SELECT e FROM ExamCard e WHERE e.name = :name"),
     @NamedQuery(name = "ExamCard.findByGender", query = "SELECT e FROM ExamCard e WHERE e.gender = :gender"),
@@ -46,13 +47,13 @@ public class ExamCard extends BaseEntityWithOperate {
 
     @JoinColumn(name = "pid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    protected ExamNumber examnumber;
+    private ExamNumber examnumber;
     @JoinColumn(name = "examdistrictid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    protected ExamDistrict examdistrict;
+    private ExamDistrict examdistrict;
     @JoinColumn(name = "examhallid", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    protected ExamHall examhall;
+    private ExamHall examhall;
 
     @Size(max = 20)
     @Column(name = "formid")
@@ -79,18 +80,27 @@ public class ExamCard extends BaseEntityWithOperate {
     private String idcard;
     @Size(max = 20)
     @Column(name = "phone")
-    protected String phone;
+    private String phone;
+    @Size(max = 20)
+    @Column(name = "certificate")
+    private String certificate; 
     @Column(name = "lastlogin")
     @Temporal(TemporalType.TIMESTAMP)
-    protected Date lastlogin;
+    private Date lastlogin;
     @Column(name = "newestlogin")
     @Temporal(TemporalType.TIMESTAMP)
-    protected Date newestlogin;
+    private Date newestlogin;
+    @Column(name = "countleft")
+    private Integer countleft;
     @Column(name = "timeleft")
-    protected Integer timeleft;
-    @Size(max = 10)
+    private Integer timeleft;
+    @Size(max = 20)
     @Column(name = "seat")
     private String seat;
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "mark")
+    private BigDecimal mark;
     @Size(max = 100)
     @Column(name = "remark")
     private String remark;
@@ -275,6 +285,48 @@ public class ExamCard extends BaseEntityWithOperate {
      */
     public void setTimeleft(Integer timeleft) {
         this.timeleft = timeleft;
+    }
+
+    /**
+     * @return the countleft
+     */
+    public Integer getCountleft() {
+        return countleft;
+    }
+
+    /**
+     * @param countleft the countleft to set
+     */
+    public void setCountleft(Integer countleft) {
+        this.countleft = countleft;
+    }
+
+    /**
+     * @return the mark
+     */
+    public BigDecimal getMark() {
+        return mark;
+    }
+
+    /**
+     * @param mark the mark to set
+     */
+    public void setMark(BigDecimal mark) {
+        this.mark = mark;
+    }
+
+    /**
+     * @return the certificate
+     */
+    public String getCertificate() {
+        return certificate;
+    }
+
+    /**
+     * @param certificate the certificate to set
+     */
+    public void setCertificate(String certificate) {
+        this.certificate = certificate;
     }
 
 }

@@ -25,7 +25,7 @@ public class ExamCardModel extends BaseLazyModel<ExamCard> {
     @Override
     public List<ExamCard> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         this.sortFields.put("status", "ASC");
-        this.sortFields.put("id", "DESC");
+        this.sortFields.put("id", "ASC");
         return super.load(first, pageSize, sortField, sortOrder, filters);
     }
 

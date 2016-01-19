@@ -38,6 +38,11 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>denied</from-outcome>
+            <to-view-id>/denied.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>error</from-outcome>
             <to-view-id>/error.xhtml</to-view-id>
             <redirect/>
@@ -55,6 +60,11 @@
         <navigation-case>
             <from-outcome>exam</from-outcome>
             <to-view-id>/exam.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
+            <from-outcome>over</from-outcome>
+            <to-view-id>/over.xhtml</to-view-id>
             <redirect/>
         </navigation-case> 
     </navigation-rule>

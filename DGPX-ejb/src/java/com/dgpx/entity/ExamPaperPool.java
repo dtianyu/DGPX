@@ -99,6 +99,8 @@ public class ExamPaperPool extends BaseDetailEntity {
     @Size(min = 1, max = 20)
     @Column(name = "answer")
     private String answer;
+    @Column(name = "score")
+    protected BigDecimal score;
     @Basic(optional = false)
     @NotNull
     @Column(name = "key1")
@@ -397,6 +399,20 @@ public class ExamPaperPool extends BaseDetailEntity {
     @Override
     public String toString() {
         return "com.dgpx.entity.ExamPaperPool[ id=" + id + " ]";
+    }
+
+    /**
+     * @return the score
+     */
+    public BigDecimal getScore() {
+        return score;
+    }
+
+    /**
+     * @param score the score to set
+     */
+    public void setScore(BigDecimal score) {
+        this.score = score;
     }
 
 }

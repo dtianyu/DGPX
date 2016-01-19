@@ -2,11 +2,27 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>com.dgpx.web.appdatapath</param-name>
-        <param-value>//Users//kevindong//GitHub//DGPX//DGPX-war//web//resources//data</param-value>
+        <param-value>//Users//kevindong//GitHub//DGPX//DGPX-admin//web//resources//data</param-value>
     </context-param>
     <context-param>
         <param-name>com.dgpx.web.appimgpath</param-name>
-        <param-value>//Users//kevindong//GitHub//DGPX//DGPX-war//web//resources//upload//img</param-value>
+        <param-value>//Users//kevindong//GitHub//DGPX//DGPX-admin//web//resources//upload//img</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.dgpx.web.reportpath</param-name>
+        <param-value>//Users//kevindong//GitHub//DGPX//DGPX-admin//web//rpt//</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.dgpx.web.reportoutputformat</param-name>
+        <param-value>pdf</param-value>
+    </context-param>  
+    <context-param>
+        <param-name>com.dgpx.web.reportoutputpath</param-name>
+        <param-value>//Users//kevindong//GitHub//DGPX//DGPX-admin//web//rpt//output//</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.dgpx.web.reportviewcontext</param-name>
+        <param-value>/DGPX-admin/rpt/output/</param-value>
     </context-param>
     <context-param>
         <param-name>com.dgpx.jpa.unitname</param-name>
@@ -96,7 +112,7 @@
     </servlet-mapping>
     <session-config>
         <session-timeout>
-            3000
+            240
         </session-timeout>
     </session-config>
     <welcome-file-list>

@@ -44,6 +44,10 @@
                     <h:outputText value="#{examCardManagedBean.currentEntity.idcard}" title="Idcard"/>
                     <h:outputText value="手机"/>
                     <h:outputText value="#{examCardManagedBean.currentEntity.phone}" title="Phone"/>
+                    <h:outputText value="许可证号"/>
+                    <h:outputText id="certificate" value="#{examCardManagedBean.currentEntity.certificate}" title="certificate" />
+                    <h:outputText value="成绩" rendered="#{examCardManagedBean.currentEntity.status=='Z'}"/>
+                    <h:outputText value="#{examCardManagedBean.currentEntity.mark}" title="mark" rendered="#{examCardManagedBean.currentEntity.status=='Z'}"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>

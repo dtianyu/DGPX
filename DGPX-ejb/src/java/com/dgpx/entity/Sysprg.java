@@ -37,6 +37,12 @@ public class Sysprg extends BaseEntityWithOperate {
     @JoinColumn(name = "moduleid", referencedColumnName = "id")
     @ManyToOne(optional = false)
     protected Sysmodule sysmodule;
+    @Size(max = 100)
+    @Column(name = "rptdesign")
+    protected String rptdesign;
+    @Size(max = 200)
+    @Column(name = "rptjndi")
+    protected String rptjndi;
 
     @Basic(optional = false)
     @NotNull
@@ -288,6 +294,34 @@ public class Sysprg extends BaseEntityWithOperate {
      */
     public void setSysmodule(Sysmodule sysmodule) {
         this.sysmodule = sysmodule;
+    }
+
+    /**
+     * @return the rptdesign
+     */
+    public String getRptdesign() {
+        return rptdesign;
+    }
+
+    /**
+     * @param rptdesign the rptdesign to set
+     */
+    public void setRptdesign(String rptdesign) {
+        this.rptdesign = rptdesign;
+    }
+
+    /**
+     * @return the rptjndi
+     */
+    public String getRptjndi() {
+        return rptjndi;
+    }
+
+    /**
+     * @param rptjndi the rptjndi to set
+     */
+    public void setRptjndi(String rptjndi) {
+        this.rptjndi = rptjndi;
     }
 
 }

@@ -10,6 +10,7 @@ import com.dgpx.entity.ExamPaper;
 import com.dgpx.entity.ExamPaperPool;
 import com.lightshell.comm.SuperEJB;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
@@ -37,6 +38,8 @@ public class ExamCardBean extends SuperEJB<ExamCard> {
     private ExamPaperPoolBean examPaperPoolBean;
     @EJB
     private ExamPaperBean examPaperBean;
+
+    protected List<ExamPaper> detailList;
 
     public ExamCardBean() {
         super(ExamCard.class);
@@ -68,8 +71,17 @@ public class ExamCardBean extends SuperEJB<ExamCard> {
     }
 
     @Override
+    public void setDetail(Object value) {
+        setDetailList(examPaperBean.findByPId(value));
+        if (getDetailList() == null) {
+            setDetailList(new ArrayList<>());
+        }
+    }
+
+    @Override
     public ExamCard verify(ExamCard entity) {
         if ("Y".equals(entity.getStatus())) {
+            entity.setRemark("已签到");
             //随机派发试卷
             int suit;
             Random r = new Random();
@@ -103,15 +115,16 @@ public class ExamCardBean extends SuperEJB<ExamCard> {
                     paperItem.setChoice7(item.getChoice7());
                     paperItem.setChoice8(item.getChoice8());
                     paperItem.setAnswer(item.getAnswer());
-                    paperItem.setKey1(item.getKey1());
-                    paperItem.setKey2(item.getKey2());
-                    paperItem.setKey3(item.getKey3());
-                    paperItem.setKey4(item.getKey4());
-                    paperItem.setKey5(item.getKey5());
-                    paperItem.setKey6(item.getKey6());
-                    paperItem.setKey7(item.getKey7());
-                    paperItem.setKey8(item.getKey8());
-                    paperItem.setStatus("V");
+                    paperItem.setScore(item.getScore());
+                    paperItem.setKey1(false);
+                    paperItem.setKey2(false);
+                    paperItem.setKey3(false);
+                    paperItem.setKey4(false);
+                    paperItem.setKey5(false);
+                    paperItem.setKey6(false);
+                    paperItem.setKey7(false);
+                    paperItem.setKey8(false);
+                    paperItem.setStatus("N");
                     paperItem.setUseranswer("");
                     paperItem.setMark(BigDecimal.ZERO);
                     examPaperBean.persist(paperItem);
@@ -120,7 +133,63 @@ public class ExamCardBean extends SuperEJB<ExamCard> {
                 throw e;
             }
         }
+        if ("Z".equals(entity.getStatus())) {
+            //交卷评分
+            entity.setRemark("已交卷");
+            try {
+                int len;
+                String v;
+                BigDecimal mark = BigDecimal.ZERO;
+                List<ExamPaper> examPaperList = examPaperBean.findByPId(entity.getId());
+                for (ExamPaper item : examPaperList) {
+                    switch (item.getItemcategory().getFormid()) {
+                        case "DN":
+                            if ("".equals(item.getUseranswer())) {
+                                break;
+                            }
+                            if (item.getAnswer().equalsIgnoreCase(item.getUseranswer())) {
+                                item.setMark(item.getScore());
+                                mark = mark.add(item.getMark());
+                            } else {
+                                len = item.getUseranswer().length();
+                                for (int i = 0; i < len; i++) {
+                                    v = item.getUseranswer().substring(i, 1);
+                                    if (!item.getAnswer().contains(v)) {
+                                        break;
+                                    }
+                                }
+                                item.setMark(BigDecimal.ONE);
+                                mark = mark.add(item.getMark());
+                            }
+                            break;
+                        default:
+                            if (item.getAnswer().equalsIgnoreCase(item.getUseranswer())) {
+                                item.setMark(item.getScore());
+                                mark = mark.add(item.getMark());
+                            }
+                    }
+                    examPaperBean.update(item);
+                }
+                entity.setMark(mark);
+            } catch (RuntimeException e) {
+                throw e;
+            }
+        }
         return super.verify(entity);
+    }
+
+    /**
+     * @return the detailList
+     */
+    public List<ExamPaper> getDetailList() {
+        return detailList;
+    }
+
+    /**
+     * @param detailList the detailList to set
+     */
+    public void setDetailList(List<ExamPaper> detailList) {
+        this.detailList = detailList;
     }
 
 }

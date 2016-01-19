@@ -28,7 +28,7 @@
                         <f:selectItem itemLabel="Select One" itemValue="" />  
                         <f:selectItems value="#{examCardManagedBean.examDistrictList}" var="d" itemLabel="#{d.name}" itemValue="#{d}"/>
                     </p:selectOneMenu>
-                    <p:outputLabel value="日期" for="formdate" />
+                    <p:outputLabel value="报名日期" for="formdate" />
                     <p:calendar id="formdate" value="#{examCardManagedBean.newEntity.formdate}" title="Formdate" 
                                 pattern="yyyy/MM/dd" required="true" requiredMessage="日期不可空白">
                         <f:convertDateTime pattern="yyyy/MM/dd" />
@@ -62,6 +62,9 @@
                     <p:outputLabel value="手机号" for="phone" />
                     <p:inputText id="phone" value="#{examCardManagedBean.newEntity.phone}" title="phone" 
                                  required="true" requiredMessage="手机号不可空白"/>
+                    <p:outputLabel value="许可证号" for="certificate" />
+                    <p:inputText id="certificate" value="#{examCardManagedBean.newEntity.certificate}" title="certificate" 
+                                 required="true" requiredMessage="许可证号不可空白"/>
                 </p:panelGrid>
             </p:panel>
         </h:form>

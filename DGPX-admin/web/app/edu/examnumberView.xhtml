@@ -26,6 +26,10 @@
                 <p:panelGrid id="plgView" columns="4" columnClasses="Wid20,Wid30,Wid20,Wid30" styleClass="plgView Wid100">
                     <h:outputText value="考试科目" />
                     <h:outputText id="examctgyid" value="#{examNumberManagedBean.currentEntity.examcategory.name}" title="Examctgyid" />
+                    <h:outputText value="" />
+                    <h:outputText value="" />
+                    <h:outputText value="考试编号" />
+                    <h:outputText id="formid" value="#{examNumberManagedBean.currentEntity.formid}" title="Examctgyid" />
                     <h:outputText value="考试日期" />
                     <h:outputText id="formdate" value="#{examNumberManagedBean.currentEntity.formdate}" title="Formdate" >
                         <f:convertDateTime pattern="yyyy/MM/dd" />

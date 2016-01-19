@@ -10,8 +10,10 @@ import com.dgpx.entity.ExamCategory;
 import com.dgpx.lazy.ExamCategoryModel;
 import com.dgpx.web.SuperSingleBean;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -20,27 +22,37 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class ExamCategoryManagedBean extends SuperSingleBean<ExamCategory> {
-    
+
     @EJB
     private ExamCategoryBean examCategoryBean;
-    
+
     public ExamCategoryManagedBean() {
         super(ExamCategory.class);
     }
-    
+
     @Override
     public void create() {
-        super.create();        
+        super.create();
         newEntity.setExamcount(0);
     }
-    
+
+    @Override
+    protected boolean doBeforeDelete(ExamCategory entity) throws Exception {
+        if (examCategoryBean.getRowCountHasExamNumber(entity) != 0) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "已有考试资料,不能删除!"));
+            return false;
+        }
+        return false;
+        //return super.doBeforeDelete(entity);
+    }
+
     @Override
     public void init() {
         superEJB = examCategoryBean;
         setModel(new ExamCategoryModel(examCategoryBean));
         super.init();
     }
-    
+
     @Override
     public void query() {
         if (this.model != null && this.model.getFilterFields() != null) {
@@ -53,5 +65,5 @@ public class ExamCategoryManagedBean extends SuperSingleBean<ExamCategory> {
             }
         }
     }
-    
+
 }

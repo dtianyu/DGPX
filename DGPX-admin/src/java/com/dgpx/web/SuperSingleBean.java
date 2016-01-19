@@ -55,13 +55,13 @@ public abstract class SuperSingleBean<T extends BaseEntityWithOperate> extends S
     @Override
     public void construct() {
         FacesContext fc = FacesContext.getCurrentInstance();
-        appDataPath = fc.getExternalContext().getInitParameter("com.hhsc.web.appdatapath");
-        appImgPath = fc.getExternalContext().getInitParameter("com.hhsc.web.appimgpath");
-        reportPath = fc.getExternalContext().getInitParameter("com.hhsc.web.reportpath");
-        reportOutputFormat = fc.getExternalContext().getInitParameter("com.hhsc.web.reportoutputformat");
-        reportOutputPath = fc.getExternalContext().getInitParameter("com.hhsc.web.reportoutputpath");
-        reportViewContext = fc.getExternalContext().getInitParameter("com.hhsc.web.reportviewcontext");
-        persistenceUnitName = fc.getExternalContext().getInitParameter("com.hhsc.jpa.unitname");
+        appDataPath = fc.getExternalContext().getInitParameter("com.dgpx.web.appdatapath");
+        appImgPath = fc.getExternalContext().getInitParameter("com.dgpx.web.appimgpath");
+        reportPath = fc.getExternalContext().getInitParameter("com.dgpx.web.reportpath");
+        reportOutputFormat = fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputformat");
+        reportOutputPath = fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputpath");
+        reportViewContext = fc.getExternalContext().getInitParameter("com.dgpx.web.reportviewcontext");
+        persistenceUnitName = fc.getExternalContext().getInitParameter("com.dgpx.jpa.unitname");
         int beginIndex = fc.getViewRoot().getViewId().lastIndexOf("/") + 1;
         int endIndex = fc.getViewRoot().getViewId().lastIndexOf(".");
         currentSysprg = sysprgBean.findByAPI(fc.getViewRoot().getViewId().substring(beginIndex, endIndex));

@@ -13,38 +13,41 @@
         </style>
     </ui:define>
 
-    <ui:define name="subheader">
-        Dashboard
-    </ui:define>
-
     <ui:define name="content">
+
 
         <!-- left content -->
         <div class="Container30 Responsive100 NoIndent">
 
             <div class="Container100">
-                <div class="Card PinkBorder">
-                    <div class="Container50">
-                        <div class="DispBlock Pink Fs20 FontVoltSemiBold">未完成题目</div>
-                        <div class="DispBlock Leaden Fs20 FontVoltRegular" style="margin-top:-5px;">50</div>
-                    </div>
-                    <div class="Container50">
-                        <div class="DispBlock Pink Fs20 FontVoltSemiBold">剩余时间</div>
-                        <div class="DispBlock Leaden Fs20 FontVoltRegular" style="margin-top:-5px;">26</div>
-                    </div>
-                    <div class="Separator"></div>
-                    <div class="Wid100">
-                        <h:form id="form">
-                            <p:dataGrid var="item" value="#{demoManagedBean.list}" columns="6" layout="grid"
-                                        id="items" styleClass="ktstate">
-                                
-                                <p:commandButton value="#{item.id}" styleClass="Wid100 #{item.name}"/>
-                                
+                <h:form id="formPoll">
+                    <div class="Card PinkBorder">
+                        <p:growl id="growl" showDetail="true" showSummary="false" autoUpdate="true"/>
+                        <p:poll id="poll" interval="30" listener="#{examManagedBean.running()}" autoStart="true"
+                                process="@this" update="formPoll"/>
+                        <div class="Container50">
+                            <div class="DispBlock Pink Fs20 FontVoltSemiBold">未完成题目</div>
+                            <div class="DispBlock Leaden Fs20 FontVoltRegular" style="margin-top:-5px;">
+                                <h:outputText id="countLeft" value="#{examManagedBean.currentEntity.countleft}"/>题
+                            </div>
+                        </div>
+                        <div class="Container50">
+                            <div class="DispBlock Pink Fs20 FontVoltSemiBold">剩余时间</div>
+                            <div class="DispBlock Leaden Fs20 FontVoltRegular" style="margin-top:-5px;">
+                                <h:outputText id="timeLeft" value="#{examManagedBean.currentEntity.timeleft}"/>分钟
+                            </div>
+                        </div>
+                        <div class="Separator"></div>
+                        <div class="Wid100">
+                            <p:dataGrid id="plgItems" columns="6" value="#{examManagedBean.detailList}" var="item" 
+                                        layout="grid" styleClass="ktstate">
+                                <p:commandButton value="#{item.seq}" actionListener="#{examManagedBean.setCurrentDetail(item)}"
+                                                 process="@this" update="formEdit" styleClass="Wid100 #{item.status}"/>
                             </p:dataGrid>
-                        </h:form>
-                        <div class="EmptyBox30"></div>
+                            <div class="EmptyBox30"></div>
+                        </div>
                     </div>
-                </div>
+                </h:form>
             </div>
 
         </div>  
@@ -53,29 +56,123 @@
         <div class="Container70 Responsive100 NoIndent">
 
             <div class="Container100">
-                <div class="Card">
-                    <div class="EmptyBox10"></div>
-                    <div class="CardTopic Opac90 OvHidden">单选题<i class="icon-tags Fright Fs30"></i></div>
-                    <div class="Separator"></div>
-                    <div class="EmptyBox5"></div>
+                <h:form id="formEdit">
+                    <div class="Card">
+                        <div class="EmptyBox10"></div>
+                        <div class="CardTopic Opac90 OvHidden">
+                            #{examManagedBean.currentDetail.itemcategory.name} 第 <h:outputText id="itemNow" value="#{examManagedBean.currentDetail.itemctgyseq}"/> 题<i class="icon-tags Fright Fs30"></i></div>
+                        <div class="Separator"></div>
+                        <div class="EmptyBox5"></div>
 
-                    <div class="Container100 Responsive100">
-                        <p:inputTextarea rows="8" placeholder="Notes To Dealer" style="width:95%;"
-                                         value="这是一道单选题,1只+1只=1双,3天+4天=1周,请问4( )+9( )=1( )？" readonly="true"/>
-                        <p:selectOneRadio id="console" value="">
-                            <f:selectItem itemLabel="选择A答案" itemValue="A" />
-                            <f:selectItem itemLabel="选择B答案" itemValue="B" />
-                            <f:selectItem itemLabel="选择C答案" itemValue="C" />
-                            <f:selectItem itemLabel="选择D答案" itemValue="D" />
-                        </p:selectOneRadio>
+                        <div class="Container100 Responsive100">
+                            <p:panelGrid id="plgEdit" styleClass="plgEdit Wid100 Fs18">
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <p:inputTextarea rows="6" value="#{examManagedBean.currentDetail.question}" styleClass="Wid90 Fs18"
+                                                         readonly="true"/>
+                                    </p:column> 
+                                </p:row>
+                                <p:row>
+                                    <p:column styleClass="Wid80">
+                                        <h:outputText id="choice1" value="A:#{examManagedBean.currentDetail.choice1}"/>
+                                    </p:column>
+                                    <p:column styleClass="Wid20">
+                                        <p:selectBooleanCheckbox id="key1" value="#{examManagedBean.currentDetail.key1}" valueChangeListener="#{examManagedBean.handleKey1ValueChanged}" >
+                                            <p:ajax update="plgEdit"/>
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText id="choice2" value="B:#{examManagedBean.currentDetail.choice2}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanCheckbox id="key2" value="#{examManagedBean.currentDetail.key2}" valueChangeListener="#{examManagedBean.handleKey2ValueChanged}" >
+                                            <p:ajax update="plgEdit"/>
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{examManagedBean.currentDetail.choice3!=''}">
+                                    <p:column>
+                                        <h:outputText id="choice3" value="C:#{examManagedBean.currentDetail.choice3}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanCheckbox id="key3" value="#{examManagedBean.currentDetail.key3}" valueChangeListener="#{examManagedBean.handleKey3ValueChanged}" >
+                                            <p:ajax update="plgEdit"/>
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{examManagedBean.currentDetail.choice4!=''}">
+                                    <p:column>
+                                        <h:outputText id="choice4" value="D:#{examManagedBean.currentDetail.choice4}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanCheckbox id="key4" value="#{examManagedBean.currentDetail.key4}" valueChangeListener="#{examManagedBean.handleKey4ValueChanged}" >
+                                            <p:ajax update="plgEdit"/>
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{examManagedBean.currentDetail.choice5!=''}">
+                                    <p:column>
+                                        <h:outputText id="choice5" value="E:#{examManagedBean.currentDetail.choice5}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanCheckbox id="key5" value="#{examManagedBean.currentDetail.key5}" valueChangeListener="#{examManagedBean.handleKey5ValueChanged}" >
+                                            <p:ajax update="plgEdit"/>
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{examManagedBean.currentDetail.choice6!=''}">
+                                    <p:column>
+                                        <h:outputText id="choice6" value="F:#{examManagedBean.currentDetail.choice6}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanCheckbox id="key6" value="#{examManagedBean.currentDetail.key6}" valueChangeListener="#{examManagedBean.handleKey6ValueChanged}" >
+                                            <p:ajax update="plgEdit"/>
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{examManagedBean.currentDetail.choice7!=''}">
+                                    <p:column>
+                                        <h:outputText id="choice7" value="G:#{examManagedBean.currentDetail.choice7}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanCheckbox id="key7" value="#{examManagedBean.currentDetail.key7}" valueChangeListener="#{examManagedBean.handleKey7ValueChanged}" >
+                                            <p:ajax update="plgEdit"/>
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
+                                <p:row rendered="#{examManagedBean.currentDetail.choice8!=''}">
+                                    <p:column>
+                                        <h:outputText id="choice8" value="H:#{examManagedBean.currentDetail.choice8}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectBooleanCheckbox id="key8" value="#{examManagedBean.currentDetail.key8}" valueChangeListener="#{examManagedBean.handleKey8ValueChanged}" >
+                                            <p:ajax update="plgEdit"/>
+                                        </p:selectBooleanCheckbox>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </div>
+                        <div class="EmptyBox20"></div>
+                        <div class="Container100 TexAlRight">
+                            <p:commandButton id="prev" value="上一题" actionListener="#{examManagedBean.toPrev()}" styleClass="RedButton MarRight10"
+                                             rendered="#{examManagedBean.hasPrev}" update="formEdit,:formPoll:plgItems"/>
+                            <p:commandButton id="pass" value="不确定" actionListener="#{examManagedBean.toHold()}" styleClass="MarRight10"
+                                             update="formEdit,:formPoll:plgItems"/>
+                            <p:commandButton id="next" value="下一题" actionListener="#{examManagedBean.toNext()}" styleClass="GreenButton"
+                                             rendered="#{examManagedBean.hasNext}" update="formEdit,:formPoll:plgItems,:formPoll:countLeft" />
+                            <p:commandButton id="btnVerify" value="交卷" action="#{examManagedBean.verify('over')}" styleClass="GreenButton" 
+                                             rendered="#{(examManagedBean.hasNext==false)==(examManagedBean.timeout==false)}">
+                                <p:confirm header="系统提示" message="确定提交吗?" icon="ui-icon-alert" />
+                            </p:commandButton>
+                        </div>
                     </div>
-                    <div class="EmptyBox20"></div>
-
-                    <div class="Container100 TexAlRight">
-                        <p:button value="上一题" styleClass="RedButton MarRight10"/>
-                        <p:button value="下一题" styleClass="GreenButton"/>
-                    </div>
-                </div>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog>
+                </h:form>
             </div>
 
         </div>

@@ -7,8 +7,6 @@ package com.dgpx.control;
 
 import com.dgpx.ejb.ExamPaperBean;
 import com.dgpx.entity.ExamPaper;
-import com.dgpx.lazy.ExamCardModel;
-import java.util.HashMap;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -118,6 +116,8 @@ public class ExamCheckInManagedBean extends ExamCardManagedBean {
         if (null != getCurrentEntity()) {
             try {
                 if (doBeforeVerify()) {
+                    currentEntity.setCountleft(currentEntity.getExamnumber().getExamcount());
+                    currentEntity.setTimeleft(currentEntity.getExamnumber().getExamtime());
                     currentEntity.setStatus("Y");
                     currentEntity.setCfmuser(getUserManagedBean().getCurrentUser().getUserid());
                     currentEntity.setCfmdateToNow();

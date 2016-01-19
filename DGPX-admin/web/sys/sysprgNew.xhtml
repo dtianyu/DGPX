@@ -68,6 +68,10 @@
                                    rendered="#{sysprgManagedBean.newEntity.noauto}" />
                     <p:spinner id="noseqlen" value="#{sysprgManagedBean.newEntity.noseqlen}" 
                                rendered="#{sysprgManagedBean.newEntity.noauto}" required="true" requiredMessage="流号长度不可空白"/> 
+                    <p:outputLabel value="报表文件" for="rptdesign" />
+                    <p:inputText id="rptdesign" value="#{sysprgManagedBean.newEntity.rptdesign}" title="rptdesign"/> 
+                    <p:outputLabel value="报表JNDI" for="rptjndi" />
+                    <p:inputText id="rptjndi" value="#{sysprgManagedBean.newEntity.rptjndi}" title="rptjndi"/> 
                 </p:panelGrid>
             </p:panel>
         </h:form>

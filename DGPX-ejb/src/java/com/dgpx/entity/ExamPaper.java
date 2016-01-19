@@ -28,9 +28,10 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ExamPaper.getRowCount", query = "SELECT COUNT(e) FROM ExamPaper e"),
+    @NamedQuery(name = "ExamPaper.getRowCountNotDoneByPId", query = "SELECT COUNT(e) FROM ExamPaper e WHERE (e.useranswer='' or (e.useranswer IS NULL)) AND e.pid = :pid "),
     @NamedQuery(name = "ExamPaper.findAll", query = "SELECT e FROM ExamPaper e"),
     @NamedQuery(name = "ExamPaper.findById", query = "SELECT e FROM ExamPaper e WHERE e.id = :id"),
-    @NamedQuery(name = "ExamPaper.findByPId", query = "SELECT e FROM ExamPaper e WHERE e.pid = :pid"),
+    @NamedQuery(name = "ExamPaper.findByPId", query = "SELECT e FROM ExamPaper e WHERE e.pid = :pid ORDER BY e.seq "),
     @NamedQuery(name = "ExamPaper.findByPformId", query = "SELECT e FROM ExamPaper e WHERE e.pformid = :pformid"),
     @NamedQuery(name = "ExamPaper.findByExamctgyId", query = "SELECT e FROM ExamPaper e WHERE e.examctgyid = :examctgyid"),
     @NamedQuery(name = "ExamPaper.findByItemctgyId", query = "SELECT e FROM ExamPaper e WHERE e.itemcategory.id = :itemctgyid"),
@@ -60,7 +61,6 @@ public class ExamPaper extends BaseDetailEntity {
     @NotNull
     @Column(name = "ssuit")
     private int ssuit;
-
     @Basic(optional = false)
     @NotNull
     @Column(name = "itemctgyseq")
@@ -113,6 +113,8 @@ public class ExamPaper extends BaseDetailEntity {
     @Size(min = 1, max = 20)
     @Column(name = "answer")
     private String answer;
+    @Column(name = "score")
+    protected BigDecimal score;
     @Basic(optional = false)
     @NotNull
     @Column(name = "key1")
@@ -152,7 +154,7 @@ public class ExamPaper extends BaseDetailEntity {
     private String status;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 0, max = 20)
     @Column(name = "useranswer")
     private String useranswer;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -194,14 +196,6 @@ public class ExamPaper extends BaseDetailEntity {
 
     public void setSsuit(int ssuit) {
         this.ssuit = ssuit;
-    }
-
-    public int getSeq() {
-        return seq;
-    }
-
-    public void setSeq(int seq) {
-        this.seq = seq;
     }
 
     public int getItemctgyseq() {
@@ -453,6 +447,20 @@ public class ExamPaper extends BaseDetailEntity {
      */
     public void setKnowledgeid(int knowledgeid) {
         this.knowledgeid = knowledgeid;
+    }
+
+    /**
+     * @return the score
+     */
+    public BigDecimal getScore() {
+        return score;
+    }
+
+    /**
+     * @param score the score to set
+     */
+    public void setScore(BigDecimal score) {
+        this.score = score;
     }
 
 }

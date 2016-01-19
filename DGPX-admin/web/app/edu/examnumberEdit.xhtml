@@ -28,6 +28,11 @@
                         <f:selectItem itemLabel="Select One" itemValue="" />  
                         <f:selectItems value="#{examNumberManagedBean.examCategoryList}" var="c" itemLabel="#{c.name}" itemValue="#{c}"/>
                     </p:selectOneMenu>
+                    <h:outputText value="" />
+                    <h:outputText value="" />
+                    <p:outputLabel value="考试编号" for="formid" />
+                    <p:inputText id="formid" value="#{examNumberManagedBean.currentEntity.formid}" title="formid" 
+                                 placeholder="输入考试编号" required="true" requiredMessage="考试编号不能为空"/>
                     <p:outputLabel value="考试日期" for="formdate" />
                     <p:calendar id="formdate" value="#{examNumberManagedBean.currentEntity.formdate}" title="Formdate" 
                                 pattern="yyyy/MM/dd" required="true" requiredMessage="考试日期不能空白.">
@@ -77,12 +82,12 @@
                     <p:column><p:outputLabel value="分值" for="score" /></p:column>
                     <p:column>
                         <p:spinner id="score" value="#{examNumberManagedBean.currentDetail.score}" title="score" 
-                                     placeholder="输入分值" required="true" requiredMessage="分值不能为空"/>
+                                   placeholder="输入分值" required="true" requiredMessage="分值不能为空"/>
                     </p:column>
                     <p:column><p:outputLabel value="题目数量" for="qty" /></p:column>
                     <p:column>
                         <p:spinner id="qty" value="#{examNumberManagedBean.currentDetail.qty}" title="qty" 
-                                     placeholder="输入题目数量" required="true" requiredMessage="题目数量不能为空"/>
+                                   placeholder="输入题目数量" required="true" requiredMessage="题目数量不能为空"/>
                     </p:column>                          
                 </p:panelGrid>
                 <p:dataTable id="tableList" value="#{examNumberManagedBean.detailList}" var="item" styleClass="tableList Wid100 Mtop10"
