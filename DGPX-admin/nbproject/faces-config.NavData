@@ -12,11 +12,11 @@
         <Node id="sys/sysgrantmoduleEdit.xhtml" x="400" y="300" zoom="true"/>
         <Node id="sys/sysmodule.xhtml" x="1150" y="450" zoom="true"/>
         <Node id="sys/systemuserNew.xhtml" x="650" y="600" zoom="true"/>
-        <Node id="app/base/knowledgeNew.xhtml" x="1150" y="600" zoom="true"/>
         <Node id="home.xhtml" x="650" y="750" zoom="true"/>
+        <Node id="app/base/knowledgeNew.xhtml" x="1150" y="600" zoom="true"/>
         <Node id="empty-page.xhtml" x="900" y="600" zoom="true"/>
-        <Node id="app/base/itemcategoryView.xhtml" x="1900" y="150" zoom="true"/>
         <Node id="access-denied.xhtml" x="1400" y="300" zoom="true"/>
+        <Node id="app/base/itemcategoryView.xhtml" x="1900" y="150" zoom="true"/>
         <Node id="sys/sysprgEdit.xhtml" x="1400" y="150" zoom="true"/>
         <Node id="sys/sysprgView.xhtml" x="150" y="450" zoom="true"/>
         <Node id="sys/sysgrantmodule.xhtml" x="1150" y="150" zoom="true"/>
@@ -24,11 +24,11 @@
         <Node id="app/base/itemcategoryEdit.xhtml" x="2150" y="150" zoom="true"/>
         <Node id="error.xhtml" x="900" y="150" zoom="true"/>
         <Node id="sys/sysgrantprg.xhtml" x="400" y="150" zoom="true"/>
-        <Node id="*" x="400" y="600" zoom="true"/>
         <Node id="app/base/itemcategoryNew.xhtml" x="1650" y="450" zoom="true"/>
+        <Node id="*" x="400" y="600" zoom="true"/>
         <Node id="sys/sysgrantprgNew.xhtml" x="1650" y="150" zoom="true"/>
-        <Node id="app/base/knowledge.xhtml" x="1400" y="450" zoom="true"/>
         <Node id="app/base/itemcategory.xhtml" x="1900" y="300" zoom="true"/>
+        <Node id="app/base/knowledge.xhtml" x="1400" y="450" zoom="true"/>
         <Node id="sys/sysgrantprgEdit.xhtml" x="150" y="1050" zoom="true"/>
         <Node id="sys/systemuser.xhtml" x="900" y="450" zoom="true"/>
         <Node id="resetPwd.xhtml" x="1150" y="300" zoom="true"/>

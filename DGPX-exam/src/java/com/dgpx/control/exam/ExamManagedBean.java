@@ -81,11 +81,11 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
             case "PD":
                 count = 0;
                 if (currentDetail.getKey1()) {
-                    currentDetail.setUseranswer("true");
+                    currentDetail.setUseranswer("A");
                     count++;
                 }
                 if (currentDetail.getKey2()) {
-                    currentDetail.setUseranswer("false");
+                    currentDetail.setUseranswer("B");
                     count++;
                 }
                 if (count != 1) {

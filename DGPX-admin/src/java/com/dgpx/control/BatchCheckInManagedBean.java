@@ -6,7 +6,9 @@
 package com.dgpx.control;
 
 import com.dgpx.ejb.ExamPaperBean;
+import com.dgpx.entity.ExamCard;
 import com.dgpx.entity.ExamPaper;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -18,17 +20,16 @@ import javax.faces.context.FacesContext;
  *
  * @author kevindong
  */
-@ManagedBean(name = "examCheckInManagedBean")
+@ManagedBean(name = "batchCheckInManagedBean")
 @SessionScoped
-public class ExamCheckInManagedBean extends ExamCardManagedBean {
+public class BatchCheckInManagedBean extends ExamCardManagedBean {
 
     @EJB
     private ExamPaperBean examPaperBean;
+    protected String queryNumberId;
+    protected List<String> status;
 
-    /**
-     * Creates a new instance of ExamCheckInManagedBean
-     */
-    public ExamCheckInManagedBean() {
+    public BatchCheckInManagedBean() {
     }
 
     @Override
@@ -48,45 +49,56 @@ public class ExamCheckInManagedBean extends ExamCardManagedBean {
     @Override
     public void init() {
         super.init();
-        this.model.getFilterFields().put("status", "V");
-        this.model.getSortFields().put("status","ASC");
-        this.model.getSortFields().put("cfmdate","ASC");
+        entityList = new ArrayList<>();
+        status = new ArrayList<>();
+        status.add("N");
+        status.add("V");
+        this.model.getFilterFields().put("status IN ", status);
+        this.model.getSortFields().put("status", "ASC");
+        setToolBar();
+    }
+
+    @Override
+    public void query() {
+        if (this.model != null && this.model.getFilterFields() != null) {
+            this.model.getFilterFields().clear();
+            if (this.getQueryNumberId() != null && !"".equals(this.queryNumberId)) {
+                this.model.getFilterFields().put("examnumber.formid", this.getQueryNumberId());
+            }
+            if (this.queryFormId != null && !"".equals(this.queryFormId)) {
+                this.model.getFilterFields().put("formid", this.queryFormId);
+            }
+            if (this.queryName != null && !"".equals(this.queryName)) {
+                this.model.getFilterFields().put("name", this.queryName);
+            }
+            if (this.queryIdCard != null && !"".equals(this.queryIdCard)) {
+                this.model.getFilterFields().put("idcard", this.queryIdCard);
+            }
+        }
     }
 
     @Override
     public void reset() {
         super.reset();
-        this.model.getFilterFields().put("status", "V");
+        this.model.getFilterFields().put("status IN ", status);
     }
 
     @Override
     protected void setToolBar() {
-        if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
-            switch (currentEntity.getStatus()) {
-                case "V":
-                    this.doEdit = currentSysprg.getDoedit() && true;
-                    this.doDel = currentSysprg.getDodel() && true;
-                    this.doCfm = currentSysprg.getDocfm() && true;
-                    this.doUnCfm = false;
-                    break;
-                case "Y":
-                    this.doEdit = currentSysprg.getDoedit() && false;
-                    this.doDel = currentSysprg.getDodel() && false;
-                    this.doCfm = false;
-                    this.doUnCfm = currentSysprg.getDouncfm() && true;
-                    break;
-                default:
-                    this.doEdit = false;
-                    this.doDel = false;
-                    this.doCfm = false;
-                    this.doUnCfm = false;
-            }
+        if (currentSysprg != null) {
+            this.doAdd = false;
+            this.doEdit = false;
+            this.doDel = false;
+            this.doCfm = true;
+            this.doUnCfm = false;
         } else {
+            this.doAdd = false;
             this.doEdit = false;
             this.doDel = false;
             this.doCfm = false;
             this.doUnCfm = false;
         }
+
     }
 
     @Override
@@ -115,25 +127,38 @@ public class ExamCheckInManagedBean extends ExamCardManagedBean {
 
     @Override
     public void verify() {
-        if (null != getCurrentEntity()) {
+        if (null != getEntityList()) {
             try {
-                if (doBeforeVerify()) {
-                    currentEntity.setCountleft(currentEntity.getExamnumber().getExamcount());
-                    currentEntity.setTimeleft(currentEntity.getExamnumber().getExamtime());
-                    currentEntity.setStatus("Y");
-                    currentEntity.setCfmuser(getUserManagedBean().getCurrentUser().getUserid());
-                    currentEntity.setCfmdateToNow();
-                    superEJB.verify(currentEntity);
-                    doAfterVerify();
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新成功!"));
-                } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "审核前检查失败!"));
+                for (ExamCard c : this.entityList) {
+
+                    c.setCountleft(c.getExamnumber().getExamcount());
+                    c.setTimeleft(c.getExamnumber().getExamtime());
+                    c.setStatus("Y");
+                    c.setCfmuser(getUserManagedBean().getCurrentUser().getUserid());
+                    c.setCfmdateToNow();
+                    superEJB.verify(c);
+
                 }
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新成功!"));
             } catch (Exception e) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(null, e.getMessage()));
             }
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!"));
         }
+    }
+
+    /**
+     * @return the queryNumberId
+     */
+    public String getQueryNumberId() {
+        return queryNumberId;
+    }
+
+    /**
+     * @param queryNumberId the queryNumberId to set
+     */
+    public void setQueryNumberId(String queryNumberId) {
+        this.queryNumberId = queryNumberId;
     }
 }

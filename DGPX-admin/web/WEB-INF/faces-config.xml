@@ -68,6 +68,11 @@
             <redirect/>
         </navigation-case>
         <navigation-case>
+            <from-outcome>batchcheckin</from-outcome>
+            <to-view-id>/app/edu/batchcheckin.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
+        <navigation-case>
             <from-outcome>examcard</from-outcome>
             <to-view-id>/app/edu/examcard.xhtml</to-view-id>
             <redirect/>

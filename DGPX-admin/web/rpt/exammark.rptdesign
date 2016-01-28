@@ -405,7 +405,7 @@ ejbClient = null;]]></method>
                     </cell>
                     <cell id="261">
                         <data id="262">
-                            <property name="textAlign">center</property>
+                            <property name="textAlign">right</property>
                             <property name="resultSetColumn">mark</property>
                         </data>
                     </cell>

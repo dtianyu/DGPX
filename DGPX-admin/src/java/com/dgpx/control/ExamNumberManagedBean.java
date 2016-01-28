@@ -5,6 +5,7 @@
  */
 package com.dgpx.control;
 
+import com.dgpx.ejb.ExamCardBean;
 import com.dgpx.ejb.ExamCategoryBean;
 import com.dgpx.ejb.ExamNumberBean;
 import com.dgpx.ejb.ExamSettingBean;
@@ -48,6 +49,8 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     private ExamNumberBean examNumberBean;
     @EJB
     private ExamSettingBean examSettingBean;
+    @EJB
+    private ExamCardBean examCardBean;
 
     private List<ExamCategory> examCategoryList;
     private List<ItemCategory> itemCategoryList;
@@ -188,6 +191,13 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
         if (examNumberBean.getDetailList().isEmpty()) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可打印数据"));
             return;
+        } else {
+            for (ExamCard c : examNumberBean.getDetailList()) {
+                if (!c.getStatus().equals("Z")) {
+                    c.setStatus("Z");
+                    examCardBean.update(c);
+                }
+            }
         }
 
         String reportName, outputName;

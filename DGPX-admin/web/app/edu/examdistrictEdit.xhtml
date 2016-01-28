@@ -16,7 +16,7 @@
                     <p:button id="btnReturn" value="返回" outcome="examdistrict" icon="ui-icon-arrowreturn-1-w"/> 
                 </f:facet>
                 <f:facet name="right">
-                    <p:commandButton id="btnPersist" value="保存" action="#{examDistrictManagedBean.persist()}" icon="ui-icon-disk"  
+                    <p:commandButton id="btnPersist" value="保存" action="#{examDistrictManagedBean.update()}" icon="ui-icon-disk"  
                                      process="@this,plgNew" update="plgNew"/>
                 </f:facet>
             </p:toolbar>  
