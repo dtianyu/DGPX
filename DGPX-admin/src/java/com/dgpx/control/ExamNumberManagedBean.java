@@ -68,6 +68,7 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
         newEntity.setActnum(0);
         newEntity.setPassnum(0);
         newEntity.setFailnum(0);
+        newEntity.setPapercount(4);
     }
 
     @Override

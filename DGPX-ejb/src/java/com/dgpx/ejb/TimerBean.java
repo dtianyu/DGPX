@@ -9,7 +9,6 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Set;
 import javax.annotation.Resource;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
@@ -43,7 +42,9 @@ public class TimerBean implements Serializable {
     }
 
     public void removeSession(String sessionId) {
-        timeleft.remove(sessionId);
+        if (timeleft.containsKey(sessionId)) {
+            timeleft.remove(sessionId);
+        }
     }
 
     public void setTimer(long minutes, String info) {
@@ -54,8 +55,12 @@ public class TimerBean implements Serializable {
 
     @Timeout
     public void timeout(Timer timer) {
-        timeleft.replace(timer.getInfo().toString(), (long) 0);
-        timeout.replace(timer.getInfo().toString(), Boolean.TRUE);
+        if (timeleft.containsKey(timer.getInfo().toString())) {
+            timeleft.replace(timer.getInfo().toString(), (long) 0);
+        }
+        if (timeout.containsKey(timer.getInfo().toString())) {
+            timeout.replace(timer.getInfo().toString(), Boolean.TRUE);
+        }
     }
 
     @Schedule(minute = "*/1", hour = "*", persistent = false)
@@ -70,7 +75,11 @@ public class TimerBean implements Serializable {
      * @return the timeleft
      */
     public long getTimeleft(String sessionId) {
-        return timeleft.get(sessionId);
+        if (timeleft.containsKey(sessionId)) {
+            return timeleft.get(sessionId);
+        } else {
+            return -999;
+        }
     }
 
     /**
@@ -81,7 +90,7 @@ public class TimerBean implements Serializable {
         if (timeout.containsKey(sessionId)) {
             return timeout.get(sessionId);
         } else {
-            return true;
+            return false;
         }
     }
 

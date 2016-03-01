@@ -130,14 +130,12 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
         if (null != getEntityList()) {
             try {
                 for (ExamCard c : this.entityList) {
-
                     c.setCountleft(c.getExamnumber().getExamcount());
                     c.setTimeleft(c.getExamnumber().getExamtime());
                     c.setStatus("Y");
                     c.setCfmuser(getUserManagedBean().getCurrentUser().getUserid());
                     c.setCfmdateToNow();
                     superEJB.verify(c);
-
                 }
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新成功!"));
             } catch (Exception e) {

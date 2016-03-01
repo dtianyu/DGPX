@@ -5,6 +5,22 @@
  */
 
 
+totaltime = 0;
+
 $(document).ready(function () {
     $('body').addClass('PopupMenu');
+    if ($('#examtime') !== null) {
+        totaltime = parseInt($('#examtime').text());
+        timer();
+    }
 });
+
+
+function timer() {
+    if (totaltime < 0) {
+        totaltime = 0;
+    }
+    $(document.getElementById("formPoll:timeLeft")).text(totaltime);
+    totaltime--;
+    setTimeout("timer()", 60000);
+}

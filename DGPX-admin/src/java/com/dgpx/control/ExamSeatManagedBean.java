@@ -37,11 +37,18 @@ public class ExamSeatManagedBean extends SuperSingleBean<ExamSeat> {
 
     @Override
     public void create() {
-        super.create(); 
+        super.create();
         newEntity.setStyle("GreenBack");
     }
-    
-    
+
+    @Override
+    protected boolean doBeforeVerify() throws Exception {
+        if (currentEntity != null) {
+            currentEntity.setStyle("GreenBack");
+            currentEntity.setExamcard(null);
+        }
+        return super.doBeforeVerify();
+    }
 
     @Override
     public void init() {

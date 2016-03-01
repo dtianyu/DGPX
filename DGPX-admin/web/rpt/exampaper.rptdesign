@@ -634,7 +634,7 @@ ejbClient = null;]]></method>
             </column>
             <column id="141"/>
             <column id="214">
-                <property name="width">0.6in</property>
+                <property name="width">0.7in</property>
             </column>
             <column id="218">
                 <property name="width">0.6in</property>
@@ -654,7 +654,7 @@ ejbClient = null;]]></method>
                     </cell>
                     <cell id="211">
                         <label id="219">
-                            <text-property name="text">答案</text-property>
+                            <text-property name="text">正确答案</text-property>
                         </label>
                     </cell>
                     <cell id="215">

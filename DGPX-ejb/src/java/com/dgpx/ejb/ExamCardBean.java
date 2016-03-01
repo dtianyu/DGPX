@@ -89,7 +89,7 @@ public class ExamCardBean extends SuperEJB<ExamCard> {
             try {
                 suit = r.nextInt(entity.getExamnumber().getPapercount());
                 HashMap<String, Object> filters = new HashMap<>();
-                filters.put("pformid", entity.getExamnumber().getFormid());
+                filters.put("pid", entity.getExamnumber().getId());
                 filters.put("psuit", suit);
                 List<ExamPaperPool> pool = examPaperPoolBean.findAll(filters);
                 for (ExamPaperPool item : pool) {

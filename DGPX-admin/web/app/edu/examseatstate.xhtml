@@ -9,7 +9,7 @@
     <ui:define name="content">
         <h:form id="formView">
             <p:poll id="poll" interval="120" listener="#{examSeatStatusBean.init()}" autoStart="true"
-                                process="@this" update="plgView"/>
+                    process="@this" update="plgView"/>
             <p:panel id="panelView">
                 <f:facet name="header">
                     座席状态
@@ -19,12 +19,16 @@
                             rowsPerPageTemplate="12,24,48"  lazy="true"  >
                     <p:column>
                         <div class="Card #{item.style}">
-                            <div class="CardTopic White Fs16">IP:<h:outputText value="#{item.ip}"/><i class="icon-pin-outline Fright White Opac50 Fs20"></i></div>
-                            <div class="EmptyBox10"></div>
+                            <div class="CardTopic White Fs16"><h:outputText value="#{item.name}"/><i class="icon-pin-outline Fright White Opac50 Fs20"></i></div>
+                            <div class="EmptyBox5"></div>
+                            <div class="Container100 NoIndent White Fs16">
+                                IP:<h:outputText value="#{item.ip}"/>
+                            </div>
+                            <div class="EmptyBox5"></div>
                             <div class="Container100 NoIndent">
                                 <h:outputText value="#{item.examcard.formid}"/>
                             </div>
-                            <div class="EmptyBox10"></div>
+                            <div class="EmptyBox5"></div>
                             <div class="Container100 NoIndent">
                                 <h:outputText value="#{item.examcard.name}"/>
                             </div>

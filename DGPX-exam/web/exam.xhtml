@@ -23,8 +23,8 @@
                 <h:form id="formPoll">
                     <div class="Card PinkBorder">
                         <p:growl id="growl" showDetail="true" showSummary="false" autoUpdate="true"/>
-                        <p:poll id="poll" interval="30" listener="#{examManagedBean.running()}" autoStart="true"
-                                process="@this" update="formPoll"/>
+                        <p:poll id="poll" interval="133" listener="#{examManagedBean.running()}" autoStart="true"
+                                process="@this" update="formPoll:countLeft"/>
                         <div class="Container50">
                             <div class="DispBlock Pink Fs20 FontVoltSemiBold">未完成题目</div>
                             <div class="DispBlock Leaden Fs20 FontVoltRegular" style="margin-top:-5px;">
@@ -34,7 +34,8 @@
                         <div class="Container50">
                             <div class="DispBlock Pink Fs20 FontVoltSemiBold">剩余时间</div>
                             <div class="DispBlock Leaden Fs20 FontVoltRegular" style="margin-top:-5px;">
-                                <h:outputText id="timeLeft" value="#{examManagedBean.currentEntity.timeleft}"/>分钟
+                                <h:outputText id="timeLeft" value=""/>分钟
+                                <span id="examtime" style="display:none">#{examManagedBean.currentEntity.timeleft}</span>
                             </div>
                         </div>
                         <div class="Separator"></div>
@@ -162,15 +163,17 @@
                                              update="formEdit,:formPoll:plgItems"/>
                             <p:commandButton id="next" value="下一题" actionListener="#{examManagedBean.toNext()}" styleClass="GreenButton"
                                              rendered="#{examManagedBean.hasNext}" update="formEdit,:formPoll:plgItems,:formPoll:countLeft" />
-                            <p:commandButton id="btnVerify" value="交卷" action="#{examManagedBean.verify('over')}" styleClass="GreenButton" 
-                                             rendered="#{(examManagedBean.hasNext==false)==(examManagedBean.timeout==false)}">
+                            <p:commandButton id="finish" value="完成" actionListener="#{examManagedBean.toNext()}" styleClass="GreenButton"
+                                             rendered="#{!examManagedBean.hasNext}" update="formEdit,:formPoll:plgItems,:formPoll:countLeft" />
+                            <p:commandButton id="btnVerify" value="交卷" action="#{examManagedBean.verify('over')}" styleClass="GreenButton Fleft" 
+                                             rendered="#{(examManagedBean.timeout==false)}">
                                 <p:confirm header="系统提示" message="确定提交吗?" icon="ui-icon-alert" />
                             </p:commandButton>
                         </div>
                     </div>
                     <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                        <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
                     </p:confirmDialog>
                 </h:form>
             </div>

@@ -13,6 +13,8 @@ import com.dgpx.entity.ExamCard;
 import com.dgpx.entity.ExamPaper;
 import com.dgpx.entity.ExamSeat;
 import com.dgpx.web.exam.SuperMultiBean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -177,7 +179,7 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
         }
         if (flag) {
             if (!"GreenButton".equals(currentDetail.getStatus())) {
-                currentEntity.setCountleft(examPaperBean.getRowCountNotDoneByPId(currentEntity.getId()));
+                currentEntity.setCountleft(examPaperBean.getRowCountNotDoneByPId(currentEntity.getId()) - 1);
             }
             currentDetail.setStatus("GreenButton");
         }
@@ -316,7 +318,10 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
         hasNext = true;
 
         FacesContext fc = FacesContext.getCurrentInstance();
-        timerBean.setTimer((long) currentEntity.getTimeleft(), fc.getExternalContext().getSessionId(false));
+        timerBean.setTimer((long) currentEntity.getTimeleft(), fc.getExternalContext().getSessionId(true));
+        //Timer Debug
+        String log = currentEntity.getFormid() + "-" + fc.getExternalContext().getSessionId(false) + "开始考试";
+        Logger.getLogger(ExamManagedBean.class.getName()).log(Level.INFO, log);
 
         HttpServletRequest request = (HttpServletRequest) fc.getExternalContext().getRequest();
         String ip = request.getHeader("X-FORWARDED-FOR");
@@ -350,7 +355,14 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(null, e.toString()));
             }
         } else {
-            this.currentEntity.setTimeleft((int) timerBean.getTimeleft(fc.getExternalContext().getSessionId(false)));
+            long n = timerBean.getTimeleft(fc.getExternalContext().getSessionId(false));
+            if (n != -999) {
+                this.currentEntity.setTimeleft((int) n);
+            } else {
+                //Timer Debug
+                String log = currentEntity.getFormid() + "-" + fc.getExternalContext().getSessionId(false) + "考试中断";
+                Logger.getLogger(ExamManagedBean.class.getName()).log(Level.INFO, log);
+            }
         }
     }
 
@@ -416,6 +428,10 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
                     superEJB.verify(currentEntity);
                     doAfterVerify();
                     FacesContext fc = FacesContext.getCurrentInstance();
+                    //Timer Debug
+                    String log = currentEntity.getFormid() + "-" + fc.getExternalContext().getSessionId(false) + "完成考试";
+                    Logger.getLogger(ExamManagedBean.class.getName()).log(Level.INFO, log);
+
                     fc.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新成功！"));
                     timerBean.removeSession(fc.getExternalContext().getSessionId(false));
                     fc.getApplication().getNavigationHandler().handleNavigation(fc, null, path);

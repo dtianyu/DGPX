@@ -25,7 +25,6 @@ public class ExamSeatModel extends BaseLazyModel<ExamSeat> {
     @Override
     public List<ExamSeat> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
         this.sortFields.put("status", "ASC");
-        this.sortFields.put("id", "DESC");
         return super.load(first, pageSize, sortField, sortOrder, filters);
     }
 
