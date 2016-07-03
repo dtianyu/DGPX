@@ -43,4 +43,15 @@ public class ExamCategoryBean extends SuperEJB<ExamCategory> {
         }
     }
 
+    public ExamCategory findByFormid(String value) {
+        Query query = em.createNamedQuery("ExamCategory.findByFormId");
+        query.setParameter("formid", value);
+        Object o = query.getSingleResult();
+        if (o != null) {
+            return (ExamCategory) o;
+        } else {
+            return null;
+        }
+    }
+
 }

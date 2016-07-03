@@ -402,5 +402,10 @@
             <to-view-id>/sys/systemuserView.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>examnumberSelect</from-outcome>
+            <to-view-id>/app/df/examnumberSelect.xhtml</to-view-id>
+            <redirect/>
+        </navigation-case>
     </navigation-rule>
 </faces-config>
