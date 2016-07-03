@@ -16,7 +16,7 @@
                     <p:button id="btnReturn" value="返回" outcome="examnumber" icon="ui-icon-arrowreturn-1-w"/> 
                 </f:facet>
                 <f:facet name="right">
-                    <p:commandButton id="btnPersist" value="保存" action="#{examNumberManagedBean.persist()}" icon="ui-icon-disk"  
+                    <p:commandButton id="btnPersist" value="保存" action="#{examNumberManagedBean.persist('examnumber')}" icon="ui-icon-disk"  
                                      process="@this,plgNew" update="plgNew"/>
                 </f:facet>
             </p:toolbar>  
@@ -43,52 +43,15 @@
                                required="true" requiredMessage="考试时长不能空白"/>
                     <p:outputLabel value="满分值" for="examscore" />
                     <p:inputText id="examscore" value="#{examNumberManagedBean.newEntity.score}" title="score" 
-                                 placeholder="输入满分值" required="true" requiredMessage="满分值不能为空"/>
+                                 placeholder="输入满分值" required="true" requiredMessage="满分值不能为空" disabled="true"/>
                     <p:outputLabel value="考卷数量" for="papercount" />
                     <p:spinner id="papercount" value="#{examNumberManagedBean.newEntity.papercount}" title="Papercount" 
-                               required="true" requiredMessage="考卷数量不能为空"/>
+                               required="true" requiredMessage="考卷数量不能为空" disabled="true"/>
                 </p:panelGrid>
             </p:panel>
-            <p:toolbar id="detailToolbar" styleClass="detailToolbar">
-                <f:facet name="left">
-                    <p:commandButton id="btnAddDetail" widgetVar="btnAddDetail" value="添加" actionListener="#{examNumberManagedBean.createDetail()}" icon="ui-icon-plus" 
-                                     oncomplete="PF('btnAddDetail').disable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').enable();" 
-                                     update=":formNew:plgEditDetail" process="@this" />
-                    <p:commandButton id="btnDeleteDetail" widgetVar="btnDeleteDetail" value="删除" actionListener="#{examNumberManagedBean.deleteDetail()}" icon="ui-icon-trash" 
-                                     oncomplete="PF('btnAddDetail').enable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').disable();" 
-                                     update="tableList,plgEditDetail" process="@this" />  
-                </f:facet>
-                <f:facet name="right">                        
-                    <p:commandButton id="btnSaveDetail" widgetVar="btnSaveDetail" value="确定" actionListener="#{examNumberManagedBean.doConfirmDetail()}" icon="ui-icon-disk"
-                                     onsuccess="PF('btnAddDetail').enable();PF('btnDeleteDetail').disable();PF('btnSaveDetail').disable();" 
-                                     update="tableList,plgEditDetail" process="@this,plgEditDetail"/>                                
-                </f:facet>
-            </p:toolbar>
             <p:panel id="panelDetail">
-                <p:panelGrid id="plgEditDetail" columns="4" columnClasses="Wid20,Wid30,Wid20,Wid30" styleClass="plgNew Wid100">
-                    <p:column><p:outputLabel value="题型" for="itemctgyid" /></p:column>
-                    <p:column>
-                        <p:selectOneMenu id="itemctgyid" value="#{examNumberManagedBean.currentDetail.itemcategory}" title="itemctgyid" 
-                                         required="true" requiredMessage="题型不能为空" converter="itemCategoryConverter">
-                            <f:selectItem itemLabel="Select One" itemValue="" />  
-                            <f:selectItems value="#{examNumberManagedBean.itemCategoryList}" var="i" itemLabel="#{i.name}" itemValue="#{i}"/>
-                        </p:selectOneMenu>
-                    </p:column>
-                    <p:column><p:outputLabel value="分值" for="score" /></p:column>
-                    <p:column>
-                        <p:spinner id="score" value="#{examNumberManagedBean.currentDetail.score}" title="score" 
-                                     placeholder="输入分值" required="true" requiredMessage="分值不能为空"/>
-                    </p:column>
-                    <p:column><p:outputLabel value="题目数量" for="qty" /></p:column>
-                    <p:column>
-                        <p:spinner id="qty" value="#{examNumberManagedBean.currentDetail.qty}" title="qty" 
-                                     placeholder="输入题目数量" required="true" requiredMessage="题目数量不能为空"/>
-                    </p:column>                          
-                </p:panelGrid>
                 <p:dataTable id="tableList" value="#{examNumberManagedBean.detailList}" var="item" styleClass="tableList Wid100 Mtop10"
                              selectionMode="single" selection="#{examNumberManagedBean.currentDetail}" rowKey="#{item.seq}" >
-                    <p:ajax event="rowSelect"  update=":formNew:plgEditDetail" oncomplete="PF('btnAddDetail').disable();PF('btnDeleteDetail').enable();PF('btnSaveDetail').enable();" />
-                    <p:ajax event="rowUnselect"  update=":formNew:plgEditDetail" oncomplete="" />
                     <p:column>
                         <f:facet name="header">
                             <h:outputText value="题型"/>
