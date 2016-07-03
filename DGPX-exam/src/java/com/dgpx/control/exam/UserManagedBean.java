@@ -8,6 +8,7 @@ import com.dgpx.ejb.ExamCardBean;
 import com.dgpx.entity.ExamCard;
 import com.lightshell.comm.BaseLib;
 import java.io.Serializable;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -40,15 +41,17 @@ public class UserManagedBean implements Serializable {
             return "";
         }
         try {
+            //用来判断考试是否过期,格式化日期后再比较
+            Date t = BaseLib.getDate("yyyy-MM-dd", BaseLib.formatDate("yyyy-MM-dd", BaseLib.getDate()));
             ExamCard u;
             u = examCardBean.findByFormIdAndCheckIn(getUserid());
-            if (u != null) {
+            if (u != null && (u.getExamnumber().getFormdate().compareTo(t) != -1)) {
                 currentUser = u;
                 status = true;
                 updateLoginTime();
             } else {
                 u = examCardBean.findByFormId(getUserid());
-                if (u != null && "Z".equals(u.getStatus())) {
+                if (u != null && ("Z".equals(u.getStatus()) || (u.getExamnumber().getFormdate().compareTo(t) < 0))) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "您的考试已结束"));
                 } else if (u != null && !"Z".equals(u.getStatus())) {
                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "未签到,请先签到"));

@@ -47,7 +47,7 @@ public class ScheduleManagedBean {
     public void construct() {
         HashMap<String, Object> filters = new HashMap<>();
         filters.put("formdateBegin", BaseLib.getDate());
-        setExamNumberList(examNumberBean.findAll(filters));
+        setExamNumberList(examNumberBean.findByFilters(filters));
         setEventModel(new DefaultScheduleModel());
         Calendar calendar = Calendar.getInstance();
         for (ExamNumber entity : examNumberList) {

@@ -70,28 +70,20 @@ public class SystemUserManagedBean extends SuperSingleBean<SystemUser> {
 
     @Override
     protected boolean doBeforePersist() throws Exception {
-        try {
-            newEntity.setUserid(mobile);
-            newEntity.setUsername(username);
-            newEntity.setEmail(mail);
-            newEntity.setPassword(BaseLib.securityMD5(pwd));
-            newEntity.setSuperuser(Boolean.FALSE);
-            newEntity.setFailure(0);
-            newEntity.setLocked(Boolean.FALSE);
-            return true;
-        } catch (UnsupportedEncodingException ex) {
-            throw ex;
-        }
+        newEntity.setUserid(mobile);
+        newEntity.setUsername(username);
+        newEntity.setEmail(mail);
+        newEntity.setPassword(BaseLib.securityMD5(pwd));
+        newEntity.setSuperuser(Boolean.FALSE);
+        newEntity.setFailure(0);
+        newEntity.setLocked(Boolean.FALSE);
+        return true;
     }
 
     @Override
     protected boolean doBeforeUpdate() throws Exception {
         if(currentEntity!=null &&  this.pwd!=null && !"".equals(this.pwd)){
-            try {
-                currentEntity.setPassword(BaseLib.securityMD5(pwd));
-            } catch (UnsupportedEncodingException ex) {
-                throw ex;
-            }
+            currentEntity.setPassword(BaseLib.securityMD5(pwd));
         }
         return super.doBeforeUpdate(); 
     }

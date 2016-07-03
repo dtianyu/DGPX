@@ -62,13 +62,31 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     @Override
     public void create() {
         super.create();
+        newEntity.setExamcategory(examCategoryBean.findByFormid("GYSZ"));
         newEntity.setExamcount(0);
         newEntity.setScore(BigDecimal.valueOf(100));
+        newEntity.setExamtime(60);
+        newEntity.setPapercount(4);
         newEntity.setRegnum(0);
         newEntity.setActnum(0);
         newEntity.setPassnum(0);
         newEntity.setFailnum(0);
-        newEntity.setPapercount(4);
+        FacesContext fc = FacesContext.getCurrentInstance();
+        int beginIndex = fc.getViewRoot().getViewId().lastIndexOf("/") + 1;
+        int endIndex = fc.getViewRoot().getViewId().lastIndexOf(".");
+        if ("examnumber".equals(fc.getViewRoot().getViewId().substring(beginIndex, endIndex))) {
+            this.addedDetailList.clear();
+            this.editedDetailList.clear();
+            this.deletedDetailList.clear();
+            this.createDetail();
+            this.newDetail.setItemcategory(itemCategoryBean.findById(1));
+            this.newDetail.setQty(55);
+            this.doConfirmDetail();
+            this.createDetail();
+            this.newDetail.setItemcategory(itemCategoryBean.findById(2));
+            this.newDetail.setQty(45);
+            this.doConfirmDetail();
+        }
     }
 
     @Override

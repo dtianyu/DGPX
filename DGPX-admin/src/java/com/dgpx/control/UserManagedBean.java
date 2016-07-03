@@ -55,11 +55,7 @@ public class UserManagedBean implements Serializable {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "请输入用户名和密码"));
             return "";
         }
-        try {
-            secpwd = BaseLib.securityMD5(getPwd());
-        } catch (UnsupportedEncodingException ex) {
-            Logger.getLogger(UserManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        secpwd = BaseLib.securityMD5(getPwd());
         try {
             SystemUser u = systemUserBean.findByUserIdAndPwd(getUserid(), getSecpwd());
             if (u != null) {
@@ -118,21 +114,17 @@ public class UserManagedBean implements Serializable {
     }
 
     public void updatePwd() {
-        try {
-            secpwd = BaseLib.securityMD5(getPwd());
-            SystemUser u = systemUserBean.findByUserIdAndPwd(getUserid(), getSecpwd());
-            if (u != null) {
-                secpwd = BaseLib.securityMD5(newpwd);
-                currentUser.setPassword(secpwd);
-                update();
-                pwd = "";
-                newpwd = "";
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新密码成功"));
-            } else {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "原密码错误"));
-            }
-        } catch (UnsupportedEncodingException e) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "Fatal", e.getMessage()));
+        secpwd = BaseLib.securityMD5(getPwd());
+        SystemUser u = systemUserBean.findByUserIdAndPwd(getUserid(), getSecpwd());
+        if (u != null) {
+            secpwd = BaseLib.securityMD5(newpwd);
+            currentUser.setPassword(secpwd);
+            update();
+            pwd = "";
+            newpwd = "";
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新密码成功"));
+        } else {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "原密码错误"));
         }
     }
 
