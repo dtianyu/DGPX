@@ -28,8 +28,8 @@ public class ExamMarkReport extends SuperMultiReportBean<ExamNumberBean, ExamNum
     }
 
     @Override
-    public List<ExamCard> getDetail(int value) throws Exception {
-        superEJB.setDetail((Object) value);
+    public List<ExamCard> getDetail(Object value) throws Exception {
+        superEJB.setDetail(value);
         return superEJB.getDetailList();
     }
 

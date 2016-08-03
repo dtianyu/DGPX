@@ -5,11 +5,11 @@
  */
 package com.dgpx.web;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import com.dgpx.control.UserManagedBean;
 import com.dgpx.ejb.SysprgBean;
 import com.dgpx.entity.Sysprg;
-import com.lightshell.comm.BaseDetailEntity;
+import com.lightshell.comm.SuperDetailEntity;
 import com.lightshell.comm.SuperMulti3ManagedBean;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -27,7 +27,7 @@ import javax.faces.context.FacesContext;
  * @param <X>
  * @param <Z>
  */
-public abstract class SuperMulti3Bean<T extends BaseEntityWithOperate, V extends BaseDetailEntity, X extends BaseDetailEntity, Z extends BaseDetailEntity> extends SuperMulti3ManagedBean<T, V, X, Z> {
+public abstract class SuperMulti3Bean<T extends SuperEntity, V extends SuperDetailEntity, X extends SuperDetailEntity, Z extends SuperDetailEntity> extends SuperMulti3ManagedBean<T, V, X, Z> {
 
     @EJB
     protected SysprgBean sysprgBean;

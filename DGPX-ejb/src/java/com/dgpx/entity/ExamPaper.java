@@ -5,7 +5,7 @@
  */
 package com.dgpx.entity;
 
-import com.lightshell.comm.BaseDetailEntity;
+import com.lightshell.comm.SuperDetailEntity;
 import java.math.BigDecimal;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ExamPaper.findByItemctgyId", query = "SELECT e FROM ExamPaper e WHERE e.itemcategory.id = :itemctgyid"),
     @NamedQuery(name = "ExamPaper.findByKnowledgeId", query = "SELECT e FROM ExamPaper e WHERE e.knowledgeid = :knowledgeid"),
     @NamedQuery(name = "ExamPaper.findByStatus", query = "SELECT e FROM ExamPaper e WHERE e.status = :status")})
-public class ExamPaper extends BaseDetailEntity {
+public class ExamPaper extends SuperDetailEntity {
 
     @JoinColumn(name = "itemctgyid", referencedColumnName = "id")
     @ManyToOne(optional = false)

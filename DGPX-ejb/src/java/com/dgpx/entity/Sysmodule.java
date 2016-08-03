@@ -5,7 +5,7 @@
  */
 package com.dgpx.entity;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Sysmodule.findById", query = "SELECT s FROM Sysmodule s WHERE s.id = :id"),
     @NamedQuery(name = "Sysmodule.findByName", query = "SELECT s FROM Sysmodule s WHERE s.name = :name"),
     @NamedQuery(name = "Sysmodule.findByStatus", query = "SELECT s FROM Sysmodule s WHERE s.status = :status")})
-public class Sysmodule extends BaseEntityWithOperate {
+public class Sysmodule extends SuperEntity {
 
     @Basic(optional = false)
     @NotNull

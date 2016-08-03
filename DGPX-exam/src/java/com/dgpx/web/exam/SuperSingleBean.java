@@ -5,7 +5,7 @@
  */
 package com.dgpx.web.exam;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import com.dgpx.control.exam.UserManagedBean;
 import com.dgpx.ejb.SysprgBean;
 import com.dgpx .entity.Sysprg;
@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
  * @author KevinDong
  * @param <T>
  */
-public abstract class SuperSingleBean<T extends BaseEntityWithOperate> extends SuperSingleManagedBean<T> {
+public abstract class SuperSingleBean<T extends SuperEntity> extends SuperSingleManagedBean<T> {
 
     @EJB
     protected SysprgBean sysprgBean;

@@ -6,12 +6,12 @@
             <name>DGPX-exam</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
+                <library dirs="200">
+                    <file>${libs.LightShell.classpath}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
                 <library dirs="100">
                     <file>${reference.DGPX-ejb.dist}</file>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.LightShell-1.0.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
                     <file>${file.reference.primefaces-5.3.jar}</file>

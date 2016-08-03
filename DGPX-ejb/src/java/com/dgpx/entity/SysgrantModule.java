@@ -5,7 +5,7 @@
  */
 package com.dgpx.entity;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "SysgrantModule.findByUserId", query = "SELECT s FROM SysgrantModule s WHERE s.systemuser.id = :userid ORDER BY s.sysmodule.sortid "),
     @NamedQuery(name = "SysgrantModule.findByModuleId", query = "SELECT s FROM SysgrantModule s WHERE s.sysmodule.id = :moduleid"),
     @NamedQuery(name = "SysgrantModule.findByStatus", query = "SELECT s FROM SysgrantModule s WHERE s.status = :status")})
-public class SysgrantModule extends BaseEntityWithOperate {
+public class SysgrantModule extends SuperEntity {
 
     @JoinColumn(name = "userid", referencedColumnName = "id")
     @ManyToOne(optional = false)

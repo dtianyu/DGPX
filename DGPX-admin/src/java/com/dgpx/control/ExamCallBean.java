@@ -29,9 +29,9 @@ public class ExamCallBean extends ExamCardManagedBean {
 
     protected String queryNumberId;
 
-    protected String audio;
+    private String audio;
     private boolean flag = true;
-    protected boolean stop = true;
+    private boolean stop = true;
 
     public ExamCallBean() {
     }
