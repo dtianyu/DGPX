@@ -23,7 +23,6 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.primefaces.event.SelectEvent;
 
@@ -97,7 +96,7 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
     @Override
     public void print() throws Exception {
         if (currentEntity == null) {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可打印数据!"));
+            showMsg(FacesMessage.SEVERITY_WARN, "Warn", "没有可打印数据!");
             return;
         }
         //设置报表参数

@@ -48,6 +48,13 @@
                     <h:outputText value="#{examPaperManagedBean.currentEntity.mark}" title="mark" rendered="#{examPaperManagedBean.currentEntity.status=='Z'}"/>
                 </p:panelGrid>
             </p:panel>
+             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+            <p:blockUI id="blockUI" block="formView" trigger="btnVerify,btnPrint">
+                <p:graphicImage name="images/ajaxloadingbar.gif" library="volt-layout"/>
+            </p:blockUI>
         </h:form>
     </ui:define>
 

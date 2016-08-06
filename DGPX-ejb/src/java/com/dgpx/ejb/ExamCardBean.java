@@ -80,7 +80,7 @@ public class ExamCardBean extends SuperEJB<ExamCard> {
 
     @Override
     public ExamCard verify(ExamCard entity) {
-        if ("Y".equals(entity.getStatus())) {
+        if ("V".equals(entity.getStatus())) {
             entity.setRemark("已签到");
             //随机派发试卷
             int suit;

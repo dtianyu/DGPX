@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -273,6 +274,7 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     protected void reportInitAndConfig() {
         super.reportInitAndConfig();
         reportEngineConfig.getAppContext().put(EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ExamPaperReport.class.getClassLoader());
+        reportEngineConfig.setLogConfig(null, Level.OFF);
     }
 
     /**

@@ -5,11 +5,13 @@
  */
 package com.dgpx.control;
 
+import com.dgpx.ejb.ExamSeatBean;
 import com.dgpx.entity.ExamCard;
 import com.dgpx.lazy.ExamCardModel;
 import com.dgpx.web.BaiduTTSBean;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -25,75 +27,88 @@ import javax.faces.bean.SessionScoped;
 public class ExamCallBean extends ExamCardManagedBean {
 
     @EJB
+    private ExamSeatBean examSeatBean;
+    @EJB
     private BaiduTTSBean baiduTTSBean;
 
     protected String queryNumberId;
+    protected List<String> status;
 
     private String audio;
-    private boolean flag = true;
+    private boolean flag = true;//控制两次呼叫
     private boolean stop = true;
+    private int idle = 0;
+    private int i = 0;
 
     public ExamCallBean() {
     }
 
     public void call() throws IOException, InterruptedException {
         if (!this.model.getDataList().isEmpty()) {
-            for (Object o : this.model.getDataList()) {
-                ExamCard e = (ExamCard) o;
+            ExamCard e;
+            if (i < this.model.getDataList().size() && i < getIdle()) {
+                stop = false;
+                e = (ExamCard) this.model.getDataList().get(i);
                 if (!entityList.contains(e)) {
-                    stop = false;
-                    if (flag) {
-                        entityList.add(e);
-                        if (e.getExamhall() == null) {
-                            audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到机房考试");
-                        } else {
-                            audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到" + e.getExamhall().getName() + "考试");
-                        }
+                    entityList.add(e);
+                    //更新状态,叫了号才能登陆考试
+                    e.setStatus("Y");
+                    e.setRemark("已叫号");
+                    superEJB.update(e);
+                    if (e.getExamhall() == null) {
+                        audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到机房考试");
+                    } else {
+                        audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到" + e.getExamhall().getName() + "考试");
                     }
-                    break;
                 }
+                if (!flag) {
+                    i++;
+                    if (i == this.model.getDataList().size() || i == idle) {
+                        stop = true;
+                    }
+                }
+                flag = !flag;
+            } else {
                 stop = true;
             }
         }
-        flag = !flag;
     }
 
-    public void doCall() {
-        if (!this.model.getDataList().isEmpty() && entityList.isEmpty()) {
-            this.stop = false;
-        } else if (!this.model.getDataList().isEmpty() && !entityList.isEmpty()) {
-            for (Object o : this.model.getDataList()) {
-                ExamCard e = (ExamCard) o;
-                if (!entityList.contains(e)) {
-                    this.stop = false;
-                    break;
-                }
-                this.stop = true;
-            }
-            for (ExamCard e : entityList) {
-                if (!this.model.getDataList().contains(e)) {
-                    entityList.remove(e);
-                }
+    public void call(ExamCard e) throws IOException {
+        if (e != null) {
+            e.setStatus("Y");
+            e.setRemark("已叫号");
+            superEJB.update(e);
+            if (e.getExamhall() == null) {
+                audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到机房考试");
+            } else {
+                audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到" + e.getExamhall().getName() + "考试");
             }
         }
     }
 
     @Override
     public void init() {
+        this.entityList = new ArrayList<>();
         setSuperEJB(examCardBean);
         setModel(new ExamCardModel(examCardBean));
-        this.model.getFilterFields().put("status", "Y");
+        status = new ArrayList<>();
+        status.add("V");
+        status.add("Y");
+        this.model.getFilterFields().put("status IN ", status);//已签到
         if (this.getModel().getDataList() != null && !this.model.getDataList().isEmpty()) {
             setCurrentEntity((ExamCard) this.getModel().getDataList().get(0));
             try {
                 call();
             } catch (IOException | InterruptedException ex) {
-                Logger.getLogger(ExamCallBean.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ExamCallBean.class
+                        .getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             setCurrentEntity(getNewEntity());
         }
-        this.entityList = new ArrayList<>();
+        i = 0;
+        idle = examSeatBean.getIdleCount();
     }
 
     @Override
@@ -109,14 +124,23 @@ public class ExamCallBean extends ExamCardManagedBean {
             if (this.queryName != null && !"".equals(this.queryName)) {
                 this.model.getFilterFields().put("name", this.queryName);
             }
-            this.model.getFilterFields().put("status", "Y");
+            this.model.getFilterFields().put("status IN", status);
         }
     }
 
     @Override
     public void reset() {
         super.reset();
-        this.model.getFilterFields().put("status", "Y");
+        this.model.getFilterFields().put("status IN ", status);
+        this.entityList.clear();
+        this.audio = "";
+        i = 0;
+        setIdle(examSeatBean.getIdleCount());
+        if (getIdle() == 0) {
+            this.stop = true;
+        } else {
+            this.stop = false;
+        }
     }
 
     /**
@@ -159,6 +183,20 @@ public class ExamCallBean extends ExamCardManagedBean {
      */
     public void setStop(boolean stop) {
         this.stop = stop;
+    }
+
+    /**
+     * @return the idle
+     */
+    public int getIdle() {
+        return idle;
+    }
+
+    /**
+     * @param idle the idle to set
+     */
+    public void setIdle(int idle) {
+        this.idle = idle;
     }
 
 }
