@@ -340,6 +340,7 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
             examSeat.setStyle("OrangeBack");
             examSeatBean.update(examSeat);
         }
+        this.superEJB.update(currentEntity);
     }
 
     public void running() {

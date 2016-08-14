@@ -63,7 +63,7 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     @Override
     public void create() {
         super.create();
-        newEntity.setExamcategory(examCategoryBean.findByFormid("GYSZ"));
+        newEntity.setExamcategory(examCategoryBean.findByFormid("GYSZ").get(0));
         newEntity.setExamcount(0);
         newEntity.setScore(BigDecimal.valueOf(100));
         newEntity.setExamtime(60);

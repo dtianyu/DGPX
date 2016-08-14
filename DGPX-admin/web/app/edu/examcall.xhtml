@@ -7,10 +7,10 @@
 
     <ui:define name="content">
         <h:form id="formView">
-            <p:poll id="poll" interval="180" listener="#{examCallBean.reset()}" autoStart="true"
+            <p:poll id="poll" interval="150" listener="#{examCallManagedBean.reset()}" autoStart="true"
                     process="@this" update="panelView,callState" oncomplete="call();"/>
             <p:panel id="panelView">
-                <p:dataGrid id="plgView" value="#{examCallBean.model}" var="item" layout="grid" paginator="false" rows="8"  columns="4" lazy="true">
+                <p:dataGrid id="plgView" value="#{examCallManagedBean.model}" var="item" layout="grid" paginator="false" rows="12"  columns="4" lazy="true">
                     <p:column>
                         <div class="Card GreenBack">
                             <div class="CardTopic White Fs22">
@@ -18,7 +18,7 @@
                             </div>
                             <div class="EmptyBox5"></div>
                             <div class="Container100 NoIndent White Fs40">
-                                <h:outputText value="#{item.name}"/><p:commandButton id="btnCall" value="呼叫" actionListener="#{examCallBean.call(item)}" styleClass="GreenButton" 
+                                <h:outputText value="#{item.name}"/><p:commandButton id="btnCall" value="呼叫" actionListener="#{examCallManagedBean.call(item)}" styleClass="GreenButton" 
                                                                                      process="@this" update="formView:panelCall"/>
                             </div>
                             <div class="EmptyBox5"></div>
@@ -32,12 +32,12 @@
             </p:panel>
             <p:panel id="panelCall" style="display: none;">
                 <video id="video" controls="" autoplay="true" name="media" style="display: none;">
-                    <source id="ttsAudio" src="#{examCallBean.audio}" type="audio/mp3"/>
+                    <source id="ttsAudio" src="#{examCallManagedBean.audio}" type="audio/mp3"/>
                 </video>              
             </p:panel>            
-            <p:poll id="call" interval="10" listener="#{examCallBean.call()}" autoStart="true" stop="#{examCallBean.stop}"
+            <p:poll id="call" interval="6" listener="#{examCallManagedBean.call()}" autoStart="true" stop="#{examCallManagedBean.stop}"
                     process="@this" update="@this,callState,panelCall" widgetVar="call" />
-            <p:inputText id="callState" type="hidden"  value="#{examCallBean.stop}"/> 
+            <p:inputText id="callState" type="hidden"  value="#{examCallManagedBean.stop}"/> 
         </h:form>
         <script>
             $(function () {

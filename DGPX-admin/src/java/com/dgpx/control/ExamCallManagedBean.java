@@ -24,7 +24,7 @@ import javax.faces.bean.SessionScoped;
  */
 @ManagedBean
 @SessionScoped
-public class ExamCallBean extends ExamCardManagedBean {
+public class ExamCallManagedBean extends ExamCardManagedBean {
 
     @EJB
     private ExamSeatBean examSeatBean;
@@ -34,13 +34,13 @@ public class ExamCallBean extends ExamCardManagedBean {
     protected String queryNumberId;
     protected List<String> status;
 
-    private String audio;
+    private String audio;//需要发音文字
     private boolean flag = true;//控制两次呼叫
     private boolean stop = true;
-    private int idle = 0;
+    private int idle = 0;//空闲座席数量
     private int i = 0;
 
-    public ExamCallBean() {
+    public ExamCallManagedBean() {
     }
 
     public void call() throws IOException, InterruptedException {
@@ -51,10 +51,12 @@ public class ExamCallBean extends ExamCardManagedBean {
                 e = (ExamCard) this.model.getDataList().get(i);
                 if (!entityList.contains(e)) {
                     entityList.add(e);
-                    //更新状态,叫了号才能登陆考试
-                    e.setStatus("Y");
-                    e.setRemark("已叫号");
-                    superEJB.update(e);
+                    if (e.getStatus().equals("V")) {
+                        //更新状态,叫了号才能登录考试
+                        e.setStatus("Y");
+                        e.setRemark("已叫号");
+                        superEJB.update(e);
+                    }
                     if (e.getExamhall() == null) {
                         audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到机房考试");
                     } else {
@@ -76,9 +78,11 @@ public class ExamCallBean extends ExamCardManagedBean {
 
     public void call(ExamCard e) throws IOException {
         if (e != null) {
-            e.setStatus("Y");
-            e.setRemark("已叫号");
-            superEJB.update(e);
+            if (e.getStatus().equals("V")) {
+                e.setStatus("Y");
+                e.setRemark("已叫号");
+                superEJB.update(e);
+            }
             if (e.getExamhall() == null) {
                 audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到机房考试");
             } else {
@@ -101,7 +105,7 @@ public class ExamCallBean extends ExamCardManagedBean {
             try {
                 call();
             } catch (IOException | InterruptedException ex) {
-                Logger.getLogger(ExamCallBean.class
+                Logger.getLogger(ExamCallManagedBean.class
                         .getName()).log(Level.SEVERE, null, ex);
             }
         } else {

@@ -33,6 +33,7 @@ public class BaiduTTSBean {
 
     private String access_token;
     private Integer expires_in;
+    Calendar c;
 
     public BaiduTTSBean() {
     }
@@ -52,6 +53,7 @@ public class BaiduTTSBean {
         CloseableHttpResponse response = httpclient.execute(httpGet);
         int statusCode = response.getStatusLine().getStatusCode();
         if (statusCode == HttpStatus.SC_OK) {
+            c = Calendar.getInstance();
             try {
                 HttpEntity entity = response.getEntity();
                 JSONObject resultJsonObject = null;
@@ -59,6 +61,7 @@ public class BaiduTTSBean {
                     resultJsonObject = new JSONObject(EntityUtils.toString(entity, "UTF-8"));
                     access_token = resultJsonObject.getString("access_token");
                     expires_in = Integer.parseInt(resultJsonObject.get("expires_in").toString());
+                    c.add(Calendar.SECOND, expires_in);
                 } catch (IOException | ParseException | JSONException ex) {
                     Logger.getLogger(BaiduTTSBean.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -70,12 +73,10 @@ public class BaiduTTSBean {
     }
 
     private boolean isTokenExpire() {
-        if (expires_in == 0) {
+        if ((expires_in == 0) || (c==null)) {
             return true;
         }
-        Calendar c = Calendar.getInstance();
         Calendar e = Calendar.getInstance();
-        e.add(Calendar.SECOND, expires_in);
         return e.before(c.getTime());
     }
 
