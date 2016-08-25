@@ -36,9 +36,10 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
 
     private String audio;//需要发音文字
     private boolean flag = true;//控制两次呼叫
-    private boolean stop = true;
-    private int idle = 0;//空闲座席数量
+    private boolean stop = true;//控制呼叫结束
     private int i = 0;
+    private int idle = 0;//空闲座席数量
+    private int interval = 194;//控制呼叫间隔
 
     public ExamCallManagedBean() {
     }
@@ -78,6 +79,7 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
 
     public void call(ExamCard e) throws IOException {
         if (e != null) {
+            ExamCard c = examCardBean.findById(e.getId());
             if (e.getStatus().equals("V")) {
                 e.setStatus("Y");
                 e.setRemark("已叫号");
@@ -96,29 +98,31 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
         this.entityList = new ArrayList<>();
         setSuperEJB(examCardBean);
         setModel(new ExamCardModel(examCardBean));
+        this.model.getSortFields().clear();
         status = new ArrayList<>();
         status.add("V");
         status.add("Y");
         this.model.getFilterFields().put("status IN ", status);//已签到
+        this.model.getSortFields().put("id", "ASC");
         if (this.getModel().getDataList() != null && !this.model.getDataList().isEmpty()) {
             setCurrentEntity((ExamCard) this.getModel().getDataList().get(0));
             try {
                 call();
             } catch (IOException | InterruptedException ex) {
-                Logger.getLogger(ExamCallManagedBean.class
-                        .getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(ExamCallManagedBean.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             setCurrentEntity(getNewEntity());
         }
         i = 0;
-        idle = examSeatBean.getIdleCount();
+        setIdle();
     }
 
     @Override
     public void query() {
         if (this.model != null && this.model.getFilterFields() != null) {
             this.model.getFilterFields().clear();
+            this.model.getSortFields().clear();
             if (this.queryNumberId != null && !"".equals(this.queryNumberId)) {
                 this.model.getFilterFields().put("examnumber.formid", this.queryNumberId);
             }
@@ -129,17 +133,21 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
                 this.model.getFilterFields().put("name", this.queryName);
             }
             this.model.getFilterFields().put("status IN", status);
+            this.model.getSortFields().put("id", "ASC");
         }
     }
 
     @Override
     public void reset() {
         super.reset();
+        this.model.getFilterFields().clear();
+        this.model.getSortFields().clear();
         this.model.getFilterFields().put("status IN ", status);
+        this.model.getSortFields().put("id", "ASC");
         this.entityList.clear();
         this.audio = "";
         i = 0;
-        setIdle(examSeatBean.getIdleCount());
+        setIdle();
         if (getIdle() == 0) {
             this.stop = true;
         } else {
@@ -196,11 +204,29 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
         return idle;
     }
 
+    public void setIdle() {
+        this.idle = examSeatBean.getIdleCount();
+        if (this.idle == 0) {
+            this.interval = 8;
+        } else if ((this.idle > 0) && (this.idle < 16)) {
+            this.interval = this.idle * 12 + 2;
+        } else {
+            this.interval = 194;
+        }
+    }
+
     /**
-     * @param idle the idle to set
+     * @return the interval
      */
-    public void setIdle(int idle) {
-        this.idle = idle;
+    public int getInterval() {
+        return interval;
+    }
+
+    /**
+     * @param interval the interval to set
+     */
+    public void setInterval(int interval) {
+        this.interval = interval;
     }
 
 }

@@ -20,12 +20,12 @@ public class ExamCardModel extends BaseLazyModel<ExamCard> {
 
     public ExamCardModel(SuperEJB superEJB) {
         this.superEJB = superEJB;
+        this.sortFields.put("status", "ASC");
+        this.sortFields.put("id", "ASC");        
     }
 
     @Override
     public List<ExamCard> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters) {
-        this.sortFields.put("status", "ASC");
-        this.sortFields.put("id", "ASC");
         return super.load(first, pageSize, sortField, sortOrder, filters);
     }
 

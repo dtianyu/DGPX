@@ -51,7 +51,6 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
         entityList = new ArrayList<>();
         status = new ArrayList<>();
         status.add("N");
-        status.add("V");
         this.model.getFilterFields().put("status IN ", status);
         this.model.getSortFields().put("status", "ASC");
         setToolBar();
