@@ -7,13 +7,13 @@
 
     <ui:define name="content">
         <h:form id="formView">
-            <p:poll id="reset" interval="#{examCallManagedBean.interval}" listener="#{examCallManagedBean.reset()}" autoStart="true"
-                    process="@this" update="@this,panelView,stopState" oncomplete="call();"/>
-             <div class="Card GreenBack">
+            <p:poll id="reset" interval="8" listener="#{examCallManagedBean.reset()}" autoStart="true" 
+                    process="@this" update="@this,panelView,stopState" widgetVar="reset" oncomplete="call();"/>
+            <div class="Card GreenBack">
                 <div class="Container100 NoIndent White Fs28 TexAlCenter">
                     <h:outputText value="复证考试候考与叫号名单"/>
                 </div>
-             </div>
+            </div>
             <p:panel id="panelView">
                 <p:dataGrid id="plgView" value="#{examCallManagedBean.model}" var="item" layout="grid" paginator="false" rows="16"  columns="4" lazy="true">
                     <p:column>
@@ -41,20 +41,32 @@
                 </video>              
             </p:panel>            
             <p:poll id="call" interval="6" listener="#{examCallManagedBean.call()}" autoStart="true" stop="#{examCallManagedBean.stop}"
-                    process="@this" update="@this,stopState,panelCall" widgetVar="call" />
+                    process="@this" update="@this,stopState,panelCall" widgetVar="call" oncomplete="poll();" />
             <p:inputText id="stopState" type="hidden"  value="#{examCallManagedBean.stop}"/>  
         </h:form>
         <script>
             $(function () {
                 $('body').addClass('PopupMenu');
+                $('#layout-topbar').remove();
+                $('#top-menu').remove();
             });
             var call = function () {
-                var s = $(document.getElementById('formView:stopState')).val();
-                if (s === 'false') {
-                    //恢复启动
+                var stop = $(document.getElementById('formView:stopState')).val();
+                if (stop === 'false') {
+                    //恢复叫号
                     PF('call').start();
                 }
             };
+            var poll = function () {
+                var stop = $(document.getElementById('formView:stopState')).val();
+                if (stop === 'true') {
+                    //停止叫号了就恢复轮询
+                    PF('reset').start();
+                } else {
+                    //叫号过程中禁止轮询
+                    PF('reset').stop();
+                }
+            }
         </script>
     </ui:define>
 
