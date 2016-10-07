@@ -39,7 +39,7 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
     private boolean stop = true;//控制呼叫结束
     private int i = 0;
     private int idle = 0;//空闲座席数量
-    private int interval = 194;//控制呼叫间隔
+    private int interval = 64;//控制呼叫间隔
 
     public ExamCallManagedBean() {
     }
@@ -48,9 +48,9 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
         if (!this.model.getDataList().isEmpty()) {
             ExamCard e;
             if (i < this.model.getDataList().size() && i < getIdle()) {
-                stop = false;
                 e = (ExamCard) this.model.getDataList().get(i);
                 if (!entityList.contains(e)) {
+                    stop = false;
                     entityList.add(e);
                     if (e.getStatus().equals("V")) {
                         //更新状态,叫了号才能登录考试
@@ -59,18 +59,23 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
                         superEJB.update(e);
                     }
                     if (e.getExamhall() == null) {
-                        audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到机房考试");
+                        audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + e.getName() + "到机房考试");
                     } else {
-                        audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到" + e.getExamhall().getName() + "考试");
+                        audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + e.getName() + "到" + e.getExamhall().getName() + "考试");
                     }
                 }
-                if (!flag) {
-                    i++;
-                    if (i == this.model.getDataList().size() || i == idle) {
-                        stop = true;
-                    }
+                //叫号2次改成叫号1次
+                //if (!flag) {
+                //    i++;
+                //    if (i == this.model.getDataList().size() || i == idle) {
+                //        stop = true;
+                //    }
+                //}
+                //flag = !flag;
+                i++;
+                if (i == this.model.getDataList().size() || i == idle) {
+                    stop = true;
                 }
-                flag = !flag;
             } else {
                 stop = true;
             }
@@ -86,9 +91,9 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
                 superEJB.update(e);
             }
             if (e.getExamhall() == null) {
-                audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到机房考试");
+                audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + e.getName() + "到机房考试");
             } else {
-                audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + "号" + e.getName() + "到" + e.getExamhall().getName() + "考试");
+                audio = baiduTTSBean.ttsURL("请" + e.getFormid().substring(e.getFormid().length() - 3) + e.getName() + "到" + e.getExamhall().getName() + "考试");
             }
         }
     }
@@ -106,11 +111,11 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
         this.model.getSortFields().put("id", "ASC");
         if (this.getModel().getDataList() != null && !this.model.getDataList().isEmpty()) {
             setCurrentEntity((ExamCard) this.getModel().getDataList().get(0));
-            try {
-                call();
-            } catch (IOException | InterruptedException ex) {
-                Logger.getLogger(ExamCallManagedBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            //try {
+            //    call();
+            //} catch (IOException | InterruptedException ex) {
+            //    Logger.getLogger(ExamCallManagedBean.class.getName()).log(Level.SEVERE, null, ex);
+            //}
         } else {
             setCurrentEntity(getNewEntity());
         }
@@ -148,11 +153,7 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
         this.audio = "";
         i = 0;
         setIdle();
-        if (getIdle() == 0) {
-            this.stop = true;
-        } else {
-            this.stop = false;
-        }
+        this.stop = getIdle() == 0;
     }
 
     /**
@@ -208,10 +209,13 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
         this.idle = examSeatBean.getIdleCount();
         if (this.idle == 0) {
             this.interval = 8;
-        } else if ((this.idle > 0) && (this.idle < 16)) {
-            this.interval = this.idle * 12 + 2;
-        } else {
-            this.interval = 194;
+        } else if ((this.idle > 0) && (this.idle < 3)) {
+            this.interval = 16;
+        } else if ((this.idle > 3) && (this.idle < 6)) {
+            this.interval = 24;
+        }         
+        else {
+            this.interval = 32;
         }
     }
 

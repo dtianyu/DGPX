@@ -201,6 +201,43 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     }
 
     @Override
+    public void persist() {
+        if (getNewEntity() != null) {
+            try {
+                if (doBeforePersist()) {
+                    this.superEJB.persist(newEntity);
+                    int pid = newEntity.getId();
+                    if (getEditedDetailList() != null && !getEditedDetailList().isEmpty()) {
+                        for (ExamSetting detail : this.editedDetailList) {
+                            detail.setPid(pid);
+                            this.detailEJB.update(detail);
+                        }
+                    }
+                    if (getDeletedDetailList() != null && !getDeletedDetailList().isEmpty()) {
+                        for (ExamSetting detail : this.deletedDetailList) {
+                            this.detailEJB.delete(detail);
+                        }
+                    }
+                    if (getAddedDetailList() != null && !getAddedDetailList().isEmpty()) {
+                        for (ExamSetting detail : this.addedDetailList) {
+                            detail.setPid(pid);
+                            this.detailEJB.persist(detail);
+                        }
+                    }
+                    doAfterPersist();
+                    showMsg(FacesMessage.SEVERITY_INFO, "Info", "更新成功");
+                } else {
+                    showMsg(FacesMessage.SEVERITY_ERROR, "Error", "更新前检核失败");
+                }
+            } catch (Exception e) {
+                showMsg(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+            }
+        } else {
+            showMsg(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据");
+        }
+    }
+
+    @Override
     public void print() throws Exception {
 
         if (currentEntity == null) {

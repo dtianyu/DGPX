@@ -7,12 +7,14 @@
 
     <ui:define name="content">
         <h:form id="formView">
-            <p:poll id="reset" interval="8" listener="#{examCallManagedBean.reset()}" autoStart="true" 
+            <p:poll id="reset" interval="#{examCallManagedBean.interval}" listener="#{examCallManagedBean.reset()}" autoStart="false" 
                     process="@this" update="@this,panelView,stopState" widgetVar="reset" oncomplete="call();"/>
             <div class="Card GreenBack">
-                <div class="Container100 NoIndent White Fs28 TexAlCenter">
-                    <h:outputText value="复证考试候考与叫号名单"/>
+                <div class="EmptyBox20"></div>
+                <div class="Container100 NoIndent FontBold Fs60 TexAlCenter">
+                    <h:outputText value="高压审证机考" style="padding-right: 40px"/><h:outputText value="备考人员名单"/>
                 </div>
+                <div class="EmptyBox20"></div>
             </div>
             <p:panel id="panelView">
                 <p:dataGrid id="plgView" value="#{examCallManagedBean.model}" var="item" layout="grid" paginator="false" rows="16"  columns="4" lazy="true">
@@ -49,12 +51,15 @@
                 $('body').addClass('PopupMenu');
                 $('#layout-topbar').remove();
                 $('#top-menu').remove();
+                PF('reset').start();
             });
             var call = function () {
                 var stop = $(document.getElementById('formView:stopState')).val();
                 if (stop === 'false') {
                     //恢复叫号
                     PF('call').start();
+                }else{
+                    PF('call').stop();
                 }
             };
             var poll = function () {
@@ -64,9 +69,9 @@
                     PF('reset').start();
                 } else {
                     //叫号过程中禁止轮询
-                    PF('reset').stop();
+                    PF('reset').stop();                   
                 }
-            }
+            };
         </script>
     </ui:define>
 
