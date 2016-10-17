@@ -13,10 +13,10 @@ import com.lightshell.comm.SuperEJB;
  *
  * @author kevindong
  */
-public class SysprgModel extends BaseLazyModel<Sysprg>{
-    
-    public SysprgModel(SuperEJB superEJB){
+public class SysprgModel extends BaseLazyModel<Sysprg> {
+
+    public SysprgModel(SuperEJB superEJB) {
         this.superEJB = superEJB;
     }
-    
+
 }

@@ -77,12 +77,12 @@
                     <p:column><p:outputLabel value="分值" for="score" /></p:column>
                     <p:column>
                         <p:spinner id="score" value="#{examNumberManagedBean.currentDetail.score}" title="score" 
-                                     placeholder="输入分值" required="true" requiredMessage="分值不能为空"/>
+                                   placeholder="输入分值" required="true" requiredMessage="分值不能为空"/>
                     </p:column>
                     <p:column><p:outputLabel value="题目数量" for="qty" /></p:column>
                     <p:column>
                         <p:spinner id="qty" value="#{examNumberManagedBean.currentDetail.qty}" title="qty" 
-                                     placeholder="输入题目数量" required="true" requiredMessage="题目数量不能为空"/>
+                                   placeholder="输入题目数量" required="true" requiredMessage="题目数量不能为空"/>
                     </p:column>                          
                 </p:panelGrid>
                 <p:dataTable id="tableList" value="#{examNumberManagedBean.detailList}" var="item" styleClass="tableList Wid100 Mtop10"

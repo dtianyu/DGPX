@@ -8,7 +8,7 @@ package com.dgpx.web.exam;
 import com.lightshell.comm.SuperEntity;
 import com.dgpx.control.exam.UserManagedBean;
 import com.dgpx.ejb.SysprgBean;
-import com.dgpx .entity.Sysprg;
+import com.dgpx.entity.Sysprg;
 import com.lightshell.comm.SuperSingleManagedBean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -125,7 +125,7 @@ public abstract class SuperSingleBean<T extends SuperEntity> extends SuperSingle
 
     @Override
     protected void setToolBar() {
-  if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
+        if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
             switch (currentEntity.getStatus()) {
                 case "N":
                     this.doEdit = currentSysprg.getDoedit() && true;

@@ -83,7 +83,7 @@ public class ExamCard extends SuperEntity {
     private String phone;
     @Size(max = 20)
     @Column(name = "certificate")
-    private String certificate; 
+    private String certificate;
     @Column(name = "lastlogin")
     @Temporal(TemporalType.TIMESTAMP)
     private Date lastlogin;
@@ -101,11 +101,14 @@ public class ExamCard extends SuperEntity {
     @NotNull
     @Column(name = "mark")
     private BigDecimal mark;
+    @Column(name = "callcount")
+    private Integer callcount;
     @Size(max = 100)
     @Column(name = "remark")
     private String remark;
 
     public ExamCard() {
+        this.callcount = 0;
     }
 
     public String getFormid() {
@@ -327,6 +330,20 @@ public class ExamCard extends SuperEntity {
      */
     public void setCertificate(String certificate) {
         this.certificate = certificate;
+    }
+
+    /**
+     * @return the callcount
+     */
+    public Integer getCallcount() {
+        return callcount;
+    }
+
+    /**
+     * @param callcount the callcount to set
+     */
+    public void setCallcount(Integer callcount) {
+        this.callcount = callcount;
     }
 
 }

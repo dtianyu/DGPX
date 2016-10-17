@@ -313,7 +313,7 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
         setDetailList(getDetailEJB().findByPId(currentEntity.getId()));
         if (!detailList.isEmpty()) {
             setCurrentDetail(detailList.get(0));
-        }else{
+        } else {
             showMsg(FacesMessage.SEVERITY_ERROR, "Error", "却少考卷,请联系教务人员");
         }
         currentEntity.setStatus("E");//设置为考试中

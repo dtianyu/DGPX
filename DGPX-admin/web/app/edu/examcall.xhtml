@@ -7,8 +7,8 @@
 
     <ui:define name="content">
         <h:form id="formView">
-            <p:poll id="reset" interval="#{examCallManagedBean.interval}" listener="#{examCallManagedBean.reset()}" autoStart="false" 
-                    process="@this" update="@this,panelView,stopState" widgetVar="reset" oncomplete="call();"/>
+            <p:poll id="reset" interval="8" listener="#{examCallManagedBean.reset()}" autoStart="true" 
+                    process="@this" update="panelView,stopState" widgetVar="reset"  oncomplete="call();"/>
             <div class="Card GreenBack">
                 <div class="EmptyBox20"></div>
                 <div class="Container100 NoIndent FontBold Fs60 TexAlCenter">
@@ -25,8 +25,9 @@
                             </div>
                             <div class="EmptyBox5"></div>
                             <div class="Container100 NoIndent White Fs50">
-                                <h:outputText value="#{item.name}"/><p:commandButton id="btnCall" value="呼叫" actionListener="#{examCallManagedBean.call(item)}" 
-                                                                                     styleClass="GreenButton" process="@this" update="formView:panelCall" widgetVar="btnCall"/>
+                                <h:outputText value="#{item.name}"/>
+                                <p:commandButton id="btnCall" value="呼叫" actionListener="#{examCallManagedBean.call(item)}" styleClass="GreenButton" 
+                                                 process="@this" update="formView:panelCall,formView:audioFile" widgetVar="btnCall" oncomplete="play();"/>
                             </div>
                             <div class="EmptyBox5"></div>
                             <div class="Container100 NoIndent Fs10">
@@ -37,39 +38,49 @@
                     </p:column>
                 </p:dataGrid>
             </p:panel>
-            <p:panel id="panelCall" style="display: none;">
-                <video id="video" controls="" autoplay="true" name="media" style="display: none;">
-                    <source id="ttsAudio" src="#{examCallManagedBean.audio}" type="audio/mp3"/>
-                </video>              
+            <p:panel id="panelCall" style="display: block;">
+                <audio id="audio" controls="controls" style="display: block;">
+                    <!--<source  id="ttsAudio" src="../../resources/data/" type="audio/mp3"/>-->
+                    <source  id="ttsAudio" src="#{examCallManagedBean.audioURL}" type="audio/mp3"/>
+                </audio>              
             </p:panel>            
-            <p:poll id="call" interval="6" listener="#{examCallManagedBean.call()}" autoStart="true" stop="#{examCallManagedBean.stop}"
-                    process="@this" update="@this,stopState,panelCall" widgetVar="call" oncomplete="poll();" />
-            <p:inputText id="stopState" type="hidden"  value="#{examCallManagedBean.stop}"/>  
+            <p:poll id="call" interval="6" listener="#{examCallManagedBean.call()}" autoStart="false" 
+                    process="@this" update="stopState,audioFile,panelCall" widgetVar="call" oncomplete="poll();" />
+            <p:inputText id="stopState" type="hidden"  value="#{examCallManagedBean.stop}"/>   
+            <p:inputText id="audioFile" type="hidden"  value="#{examCallManagedBean.audio}"/>   
         </h:form>
         <script>
-            $(function () {
+            $(document).ready(function () {
                 $('body').addClass('PopupMenu');
                 $('#layout-topbar').remove();
                 $('#top-menu').remove();
-                PF('reset').start();
             });
             var call = function () {
                 var stop = $(document.getElementById('formView:stopState')).val();
                 if (stop === 'false') {
-                    //恢复叫号
+                    //停止轮询恢复叫号
+                    PF('reset').stop();
                     PF('call').start();
-                }else{
-                    PF('call').stop();
                 }
             };
             var poll = function () {
+                var audio = document.getElementById('audio');
+                var f = document.getElementById("formView:audioFile");
+                if ((f.value !== '') === (f.value !== 'ready.mp3')) {
+                    audio.play();
+                }
                 var stop = $(document.getElementById('formView:stopState')).val();
                 if (stop === 'true') {
-                    //停止叫号了就恢复轮询
+                    //停止叫号恢复轮询
+                    PF('call').stop();
                     PF('reset').start();
-                } else {
-                    //叫号过程中禁止轮询
-                    PF('reset').stop();                   
+                }
+            };
+            var play = function () {
+                var audio = document.getElementById('audio');
+                var f = document.getElementById("formView:audioFile");
+                if (f.value !== 'ready.mp3') {
+                    audio.play();
                 }
             };
         </script>

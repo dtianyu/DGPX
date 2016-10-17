@@ -21,7 +21,7 @@ public class ExamCardModel extends BaseLazyModel<ExamCard> {
     public ExamCardModel(SuperEJB superEJB) {
         this.superEJB = superEJB;
         this.sortFields.put("status", "ASC");
-        this.sortFields.put("id", "ASC");        
+        this.sortFields.put("id", "ASC");
     }
 
     @Override

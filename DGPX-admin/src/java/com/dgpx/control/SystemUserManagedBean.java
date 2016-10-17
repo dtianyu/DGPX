@@ -82,13 +82,11 @@ public class SystemUserManagedBean extends SuperSingleBean<SystemUser> {
 
     @Override
     protected boolean doBeforeUpdate() throws Exception {
-        if(currentEntity!=null &&  this.pwd!=null && !"".equals(this.pwd)){
+        if (currentEntity != null && this.pwd != null && !"".equals(this.pwd)) {
             currentEntity.setPassword(BaseLib.securityMD5(pwd));
         }
-        return super.doBeforeUpdate(); 
+        return super.doBeforeUpdate();
     }
-    
-    
 
     @Override
     public String edit(String path) {

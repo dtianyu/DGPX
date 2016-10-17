@@ -33,7 +33,7 @@ import org.primefaces.event.SelectEvent;
 @ManagedBean(name = "examCardManagedBean")
 @SessionScoped
 public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
-    
+
     @EJB
     protected ExamNumberBean examNumberBean;
     @EJB
@@ -42,24 +42,24 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
     protected ExamDistrictBean examDistrictBean;
     @EJB
     protected ExamCardBean examCardBean;
-    
+
     protected List<ExamDistrict> examDistrictList;
     protected List<ExamHall> examHallList;
     protected List<ExamNumber> examNumberList;
-    
+
     protected String queryIdCard;
-    
+
     public ExamCardManagedBean() {
         super(ExamCard.class);
     }
-    
+
     @Override
     public void create() {
         super.create();
         newEntity.setFormdate(this.getDate());
         newEntity.setMark(BigDecimal.ZERO);
     }
-    
+
     @Override
     protected boolean doBeforePersist() throws Exception {
         if (this.newEntity != null && this.currentSysprg != null) {
@@ -72,7 +72,7 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
         }
         return false;
     }
-    
+
     @Override
     public void init() {
         setSuperEJB(examCardBean);
@@ -85,14 +85,14 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
         setExamNumberList(examNumberBean.findByFilters(f));
         super.init();
     }
-    
+
     @Override
     public void handleDialogReturnWhenEdit(SelectEvent event) {
         if (event.getObject() != null) {
             this.currentEntity.setExamnumber((ExamNumber) event.getObject());
         }
     }
-    
+
     @Override
     public void print() throws Exception {
         if (currentEntity == null) {
@@ -118,7 +118,7 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
             throw ex;
         }
     }
-    
+
     @Override
     public void query() {
         if (this.model != null && this.model.getFilterFields() != null) {
@@ -137,7 +137,7 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
             }
         }
     }
-    
+
     @Override
     protected void reportInitAndConfig() {
         super.reportInitAndConfig();
@@ -199,5 +199,5 @@ public class ExamCardManagedBean extends SuperSingleBean<ExamCard> {
     public void setExamNumberList(List<ExamNumber> examNumberList) {
         this.examNumberList = examNumberList;
     }
-    
+
 }

@@ -8,6 +8,7 @@ package com.dgpx.control;
 import com.dgpx.ejb.ExamPaperBean;
 import com.dgpx.entity.ExamCard;
 import com.dgpx.entity.ExamPaper;
+import com.dgpx.web.BaiduTTSBean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -23,10 +24,14 @@ import javax.faces.bean.SessionScoped;
 @SessionScoped
 public class BatchCheckInManagedBean extends ExamCardManagedBean {
 
+    //@EJB
+    //private BaiduTTSBean baiduTTSBean;
     @EJB
     private ExamPaperBean examPaperBean;
     protected String queryNumberId;
     protected List<String> status;
+
+    private String audioURL;
 
     public BatchCheckInManagedBean() {
     }
@@ -134,6 +139,16 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
                     c.setCfmuser(getUserManagedBean().getCurrentUser().getUserid());
                     c.setCfmdateToNow();
                     superEJB.verify(c);
+                    /*
+                    //保存语言文件
+                    if (c.getExamhall() == null) {
+                        audioURL = baiduTTSBean.ttsURL("请" + c.getFormid().substring(c.getFormid().length() - 3) + c.getName() + "到机房考试");
+                    } else {
+                        audioURL = baiduTTSBean.ttsURL("请" + c.getFormid().substring(c.getFormid().length() - 3) + c.getName() + "到" + c.getExamhall().getName() + "考试");
+                    }
+                    this.fileName = this.getAppDataPath() + "//" + c.getFormid() + ".mp3";
+                    baiduTTSBean.saveTTS(audioURL, fileName);
+                     */
                 }
                 showMsg(FacesMessage.SEVERITY_INFO, "Info", "更新成功!");
             } catch (Exception e) {
@@ -157,4 +172,5 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
     public void setQueryNumberId(String queryNumberId) {
         this.queryNumberId = queryNumberId;
     }
+
 }
