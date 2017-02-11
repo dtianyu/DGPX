@@ -10,7 +10,7 @@
     </context-param>
     <context-param>
         <param-name>com.dgpx.web.hascall</param-name>
-        <param-value>false</param-value>
+        <param-value>true</param-value>
     </context-param>
     <context-param>
         <param-name>com.dgpx.jpa.unitname</param-name>
