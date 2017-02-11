@@ -311,7 +311,11 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
         this.detailEJB = examPaperBean;
         setCurrentEntity(this.userManagedBean.getCurrentUser());
         setDetailList(getDetailEJB().findByPId(currentEntity.getId()));
-        setCurrentDetail(detailList.get(0));
+        if (!detailList.isEmpty()) {
+            setCurrentDetail(detailList.get(0));
+        } else {
+            showMsg(FacesMessage.SEVERITY_ERROR, "Error", "却少考卷,请联系教务人员");
+        }
         currentEntity.setStatus("E");//设置为考试中
         currentEntity.setRemark("考试中");
         hasPrev = false;
@@ -336,6 +340,7 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
             examSeat.setStyle("OrangeBack");
             examSeatBean.update(examSeat);
         }
+        this.superEJB.update(currentEntity);
     }
 
     public void running() {

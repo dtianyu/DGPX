@@ -50,6 +50,29 @@
                 </p:panelGrid>
             </p:panel>
             <p:panel id="panelDetail">
+<<<<<<< HEAD
+=======
+                <p:panelGrid id="plgEditDetail" columns="4" columnClasses="Wid20,Wid30,Wid20,Wid30" styleClass="plgNew Wid100">
+                    <p:column><p:outputLabel value="题型" for="itemctgyid" /></p:column>
+                    <p:column>
+                        <p:selectOneMenu id="itemctgyid" value="#{examNumberManagedBean.currentDetail.itemcategory}" title="itemctgyid" 
+                                         required="true" requiredMessage="题型不能为空" converter="itemCategoryConverter">
+                            <f:selectItem itemLabel="Select One" itemValue="" />  
+                            <f:selectItems value="#{examNumberManagedBean.itemCategoryList}" var="i" itemLabel="#{i.name}" itemValue="#{i}"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                    <p:column><p:outputLabel value="分值" for="score" /></p:column>
+                    <p:column>
+                        <p:spinner id="score" value="#{examNumberManagedBean.currentDetail.score}" title="score" 
+                                   placeholder="输入分值" required="true" requiredMessage="分值不能为空"/>
+                    </p:column>
+                    <p:column><p:outputLabel value="题目数量" for="qty" /></p:column>
+                    <p:column>
+                        <p:spinner id="qty" value="#{examNumberManagedBean.currentDetail.qty}" title="qty" 
+                                   placeholder="输入题目数量" required="true" requiredMessage="题目数量不能为空"/>
+                    </p:column>                          
+                </p:panelGrid>
+>>>>>>> master
                 <p:dataTable id="tableList" value="#{examNumberManagedBean.detailList}" var="item" styleClass="tableList Wid100 Mtop10"
                              selectionMode="single" selection="#{examNumberManagedBean.currentDetail}" rowKey="#{item.seq}" >
                     <p:column>

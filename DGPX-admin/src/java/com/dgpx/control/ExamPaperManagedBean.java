@@ -14,7 +14,7 @@ import javax.faces.bean.SessionScoped;
  *
  * @author kevindong
  */
-@ManagedBean(name="examPaperManagedBean")
+@ManagedBean(name = "examPaperManagedBean")
 @SessionScoped
 public class ExamPaperManagedBean extends ExamCardManagedBean {
 

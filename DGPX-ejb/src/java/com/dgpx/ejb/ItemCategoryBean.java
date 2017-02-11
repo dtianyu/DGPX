@@ -32,12 +32,12 @@ public class ItemCategoryBean extends SuperEJB<ItemCategory> {
     public EntityManager getEntityManager() {
         return em;
     }
-    
-    public long getRowCountHasExamSetting(ItemCategory entity){
+
+    public long getRowCountHasExamSetting(ItemCategory entity) {
         Query query = em.createQuery("SELECT COUNT(e) FROM ExamSetting e WHERE e.itemcategory.id = :itemcategory ");
         query.setParameter("itemcategory", entity.getId());
         try {
-            return (long)query.getSingleResult();
+            return (long) query.getSingleResult();
         } catch (Exception e) {
             return 0;
         }

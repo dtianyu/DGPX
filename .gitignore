@@ -2,3 +2,4 @@ build/
 dist/
 volt-layout/
 nbproject/
+.DS_Store

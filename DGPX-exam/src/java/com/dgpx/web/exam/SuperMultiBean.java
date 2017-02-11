@@ -5,11 +5,11 @@
  */
 package com.dgpx.web.exam;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import com.dgpx.control.exam.UserManagedBean;
 import com.dgpx.ejb.SysprgBean;
 import com.dgpx.entity.Sysprg;
-import com.lightshell.comm.BaseDetailEntity;
+import com.lightshell.comm.SuperDetailEntity;
 import com.lightshell.comm.SuperMultiManagedBean;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -25,7 +25,7 @@ import javax.faces.context.FacesContext;
  * @param <T>
  * @param <V>
  */
-public abstract class SuperMultiBean<T extends BaseEntityWithOperate, V extends BaseDetailEntity> extends SuperMultiManagedBean<T, V> {
+public abstract class SuperMultiBean<T extends SuperEntity, V extends SuperDetailEntity> extends SuperMultiManagedBean<T, V> {
 
     @EJB
     protected SysprgBean sysprgBean;
@@ -134,7 +134,7 @@ public abstract class SuperMultiBean<T extends BaseEntityWithOperate, V extends 
 
     @Override
     protected void setToolBar() {
-  if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
+        if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
             switch (currentEntity.getStatus()) {
                 case "N":
                     this.doEdit = currentSysprg.getDoedit() && true;

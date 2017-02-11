@@ -5,7 +5,7 @@
  */
 package com.dgpx.entity;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Sysprg.findByModuleId", query = "SELECT s FROM Sysprg s WHERE s.sysmodule.id = :moduleid ORDER BY s.sortid"),
     @NamedQuery(name = "Sysprg.findByAPI", query = "SELECT s FROM Sysprg s WHERE s.api = :api "),
     @NamedQuery(name = "Sysprg.findByStatus", query = "SELECT s FROM Sysprg s WHERE s.status = :status")})
-public class Sysprg extends BaseEntityWithOperate {
+public class Sysprg extends SuperEntity {
 
     @JoinColumn(name = "moduleid", referencedColumnName = "id")
     @ManyToOne(optional = false)

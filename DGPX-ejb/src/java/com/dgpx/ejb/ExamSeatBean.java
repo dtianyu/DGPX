@@ -7,6 +7,7 @@ package com.dgpx.ejb;
 
 import com.dgpx.entity.ExamSeat;
 import com.lightshell.comm.SuperEJB;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
@@ -40,6 +41,24 @@ public class ExamSeatBean extends SuperEJB<ExamSeat> {
             return (ExamSeat) query.getSingleResult();
         } catch (Exception e) {
             return null;
+        }
+    }
+
+    //判断是否满位
+    public boolean isFullSeats() {
+        Query query = em.createNamedQuery("ExamSeat.findIdle");
+        List<ExamSeat> seats = query.getResultList();
+        return seats.isEmpty();//没有空闲的座席就是满了
+    }
+
+    //获得空位数量
+    public int getIdleCount() {
+        Query query = em.createNamedQuery("ExamSeat.findIdle");
+        List<ExamSeat> seats = query.getResultList();
+        if (seats == null || seats.isEmpty()) {
+            return 0;
+        } else {
+            return seats.size();
         }
     }
 

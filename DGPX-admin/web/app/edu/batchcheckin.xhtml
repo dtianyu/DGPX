@@ -38,9 +38,13 @@
                         <p:confirm header="系统提示" message="删除吗?" icon="ui-icon-alert" />
                     </p:commandButton> 
                     <p:commandButton id="btnVerify" value="签到" actionListener="#{batchCheckInManagedBean.verify()}" icon="ui-icon-locked" 
-                                     rendered="#{batchCheckInManagedBean.doCfm}"  update=":formList"/>
+                                     rendered="#{batchCheckInManagedBean.doCfm}"  update=":formList">
+                        <p:confirm header="系统提示" message="确定签到吗?" icon="ui-icon-alert" />
+                    </p:commandButton>
                     <p:commandButton id="btnUnverify" value="取消" actionListener="#{batchCheckInManagedBean.unverify()}" icon="ui-icon-unlocked" 
-                                     rendered="#{batchCheckInManagedBean.doUnCfm}"  update=":formList"/>                   
+                                     rendered="#{batchCheckInManagedBean.doUnCfm}"  update=":formList">
+                        <p:confirm header="系统提示" message="取消签到吗?" icon="ui-icon-alert" />
+                    </p:commandButton>                   
                     <p:commandButton id="btnCreate" value="新增" action="#{batchCheckInManagedBean.create('examcheckinNew')}" icon="ui-icon-plus" 
                                      rendered="#{batchCheckInManagedBean.doAdd}"/>
                     <p:commandButton id="btnReset" value="重置" actionListener="#{batchCheckInManagedBean.reset()}"  icon="ui-icon-refresh"  
@@ -89,6 +93,13 @@
                     <h:outputText value="#{item.status}"/>
                 </p:column>
             </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+            <p:blockUI id="blockUI" block="formList" trigger="btnVerify,btnUnverify">
+                <p:graphicImage name="images/ajaxloadingbar.gif" library="volt-layout"/>
+            </p:blockUI>
         </h:form>
     </ui:define>
 

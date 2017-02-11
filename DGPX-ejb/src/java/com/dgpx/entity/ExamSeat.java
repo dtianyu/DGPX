@@ -5,7 +5,7 @@
  */
 package com.dgpx.entity;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -32,8 +32,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ExamSeat.findByIP", query = "SELECT e FROM ExamSeat e WHERE e.ip = :ip"),
     @NamedQuery(name = "ExamSeat.findByStyle", query = "SELECT e FROM ExamSeat e WHERE e.style = :style"),
     @NamedQuery(name = "ExamSeat.findByExamcardId", query = "SELECT e FROM ExamSeat e WHERE e.examcard.id = :examcardid"),
-    @NamedQuery(name = "ExamSeat.findByStatus", query = "SELECT e FROM ExamSeat e WHERE e.status = :status")})
-public class ExamSeat extends BaseEntityWithOperate {
+    @NamedQuery(name = "ExamSeat.findByStatus", query = "SELECT e FROM ExamSeat e WHERE e.status = :status"),
+    @NamedQuery(name = "ExamSeat.findIdle", query = "SELECT e FROM ExamSeat e WHERE e.status = 'V' and e.style='GreenBack'")})
+public class ExamSeat extends SuperEntity {
 
     @JoinColumn(name = "pid", referencedColumnName = "id")
     @ManyToOne(optional = false)

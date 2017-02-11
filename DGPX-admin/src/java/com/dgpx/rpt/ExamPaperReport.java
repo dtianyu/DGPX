@@ -28,8 +28,8 @@ public class ExamPaperReport extends SuperMultiReportBean<ExamCardBean, ExamCard
     }
 
     @Override
-    public List<ExamPaper> getDetail(int value) throws Exception {
-        superEJB.setDetail((Object) value);
+    public List<ExamPaper> getDetail(Object value) throws Exception {
+        superEJB.setDetail(value);
         return superEJB.getDetailList();
     }
 
