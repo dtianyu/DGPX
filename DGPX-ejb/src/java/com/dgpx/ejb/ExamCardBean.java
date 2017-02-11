@@ -70,6 +70,16 @@ public class ExamCardBean extends SuperEJB<ExamCard> {
         }
     }
 
+    public ExamCard findByFormIdAndHasCall(String formid) {
+        Query query = getEntityManager().createNamedQuery("ExamCard.findByFormIdAndHasCall");
+        query.setParameter("formid", formid);
+        try {
+            return (ExamCard) query.getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Override
     public void setDetail(Object value) {
         setDetailList(examPaperBean.findByPId(value));

@@ -81,11 +81,11 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
             this.deletedDetailList.clear();
             this.createDetail();
             this.newDetail.setItemcategory(itemCategoryBean.findById(1));
-            this.newDetail.setQty(55);
+            this.newDetail.setQty(60);
             this.doConfirmDetail();
             this.createDetail();
             this.newDetail.setItemcategory(itemCategoryBean.findById(2));
-            this.newDetail.setQty(45);
+            this.newDetail.setQty(40);
             this.doConfirmDetail();
         }
     }

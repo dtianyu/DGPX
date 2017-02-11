@@ -24,7 +24,8 @@
                     <h:outputLabel value="审核状态" for="state" />
                     <p:selectOneMenu id="state" value="#{examCardStatusBean.queryState}" title="状态" >
                         <f:selectItem itemLabel="全部" itemValue="ALL"/>
-                        <f:selectItem itemLabel="已签到" itemValue="Y"/>
+                        <f:selectItem itemLabel="已签到" itemValue="V"/>
+                        <f:selectItem itemLabel="已叫号" itemValue="Y"/>
                         <f:selectItem itemLabel="考试中" itemValue="E"/>
                         <f:selectItem itemLabel="已交卷" itemValue="Z"/>
                     </p:selectOneMenu>

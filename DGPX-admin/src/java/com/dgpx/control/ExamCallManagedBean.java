@@ -33,7 +33,6 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
     protected List<String> status;
     private String audio = "ready.mp3";
     private String audioURL;//需要发音文字
-    private boolean flag = true;//控制两次呼叫
     private boolean stop = true;//控制呼叫结束
     private int i = 0;
     private int idle = 0;//空闲座席数量
@@ -70,15 +69,7 @@ public class ExamCallManagedBean extends ExamCardManagedBean {
                     audio = e.getFormid() + ".mp3";
                 } else {
                     this.call();
-                }
-                //叫号2次改成叫号1次
-                //if (!flag) {
-                //    i++;
-                //    if (i == this.model.getDataList().size() || i == idle) {
-                //        stop = true;
-                //    }
-                //}
-                //flag = !flag;               
+                }               
             } else {
                 audio = "ready.mp3";
                 stop = true;

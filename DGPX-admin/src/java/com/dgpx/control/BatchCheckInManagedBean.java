@@ -8,7 +8,6 @@ package com.dgpx.control;
 import com.dgpx.ejb.ExamPaperBean;
 import com.dgpx.entity.ExamCard;
 import com.dgpx.entity.ExamPaper;
-import com.dgpx.web.BaiduTTSBean;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.EJB;
@@ -148,7 +147,7 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
                     }
                     this.fileName = this.getAppDataPath() + "//" + c.getFormid() + ".mp3";
                     baiduTTSBean.saveTTS(audioURL, fileName);
-                     */
+                    */
                 }
                 showMsg(FacesMessage.SEVERITY_INFO, "Info", "更新成功!");
             } catch (Exception e) {

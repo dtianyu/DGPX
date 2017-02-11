@@ -30,18 +30,32 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "examcard")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ExamCard.getRowCount", query = "SELECT COUNT(e) FROM ExamCard e"),
-    @NamedQuery(name = "ExamCard.findAll", query = "SELECT e FROM ExamCard e"),
-    @NamedQuery(name = "ExamCard.findById", query = "SELECT e FROM ExamCard e WHERE e.id = :id"),
-    @NamedQuery(name = "ExamCard.findByPId", query = "SELECT e FROM ExamCard e WHERE e.examnumber.id = :pid"),
-    @NamedQuery(name = "ExamCard.findByFormId", query = "SELECT e FROM ExamCard e WHERE e.formid = :formid"),
-    @NamedQuery(name = "ExamCard.findByFormIdAndCheckIn", query = "SELECT e FROM ExamCard e WHERE e.formid = :formid AND (e.status='Y' or e.status='E')"),
-    @NamedQuery(name = "ExamCard.findByFormdate", query = "SELECT e FROM ExamCard e WHERE e.formdate = :formdate"),
-    @NamedQuery(name = "ExamCard.findByName", query = "SELECT e FROM ExamCard e WHERE e.name = :name"),
-    @NamedQuery(name = "ExamCard.findByGender", query = "SELECT e FROM ExamCard e WHERE e.gender = :gender"),
-    @NamedQuery(name = "ExamCard.findByIdcard", query = "SELECT e FROM ExamCard e WHERE e.idcard = :idcard"),
-    @NamedQuery(name = "ExamCard.findByExamdistrictId", query = "SELECT e FROM ExamCard e WHERE e.examdistrict.id = :examdistrictid"),
-    @NamedQuery(name = "ExamCard.findByExamhallId", query = "SELECT e FROM ExamCard e WHERE e.examhall.id = :examhallid"),
+    @NamedQuery(name = "ExamCard.getRowCount", query = "SELECT COUNT(e) FROM ExamCard e")
+    ,
+    @NamedQuery(name = "ExamCard.findAll", query = "SELECT e FROM ExamCard e")
+    ,
+    @NamedQuery(name = "ExamCard.findById", query = "SELECT e FROM ExamCard e WHERE e.id = :id")
+    ,
+    @NamedQuery(name = "ExamCard.findByPId", query = "SELECT e FROM ExamCard e WHERE e.examnumber.id = :pid")
+    ,
+    @NamedQuery(name = "ExamCard.findByFormId", query = "SELECT e FROM ExamCard e WHERE e.formid = :formid")
+    ,
+    @NamedQuery(name = "ExamCard.findByFormIdAndCheckIn", query = "SELECT e FROM ExamCard e WHERE e.formid = :formid AND (e.status='V' or e.status='E')")
+    ,
+    @NamedQuery(name = "ExamCard.findByFormIdAndHasCall", query = "SELECT e FROM ExamCard e WHERE e.formid = :formid AND (e.status='Y' or e.status='E')")
+    ,
+    @NamedQuery(name = "ExamCard.findByFormdate", query = "SELECT e FROM ExamCard e WHERE e.formdate = :formdate")
+    ,
+    @NamedQuery(name = "ExamCard.findByName", query = "SELECT e FROM ExamCard e WHERE e.name = :name")
+    ,
+    @NamedQuery(name = "ExamCard.findByGender", query = "SELECT e FROM ExamCard e WHERE e.gender = :gender")
+    ,
+    @NamedQuery(name = "ExamCard.findByIdcard", query = "SELECT e FROM ExamCard e WHERE e.idcard = :idcard")
+    ,
+    @NamedQuery(name = "ExamCard.findByExamdistrictId", query = "SELECT e FROM ExamCard e WHERE e.examdistrict.id = :examdistrictid")
+    ,
+    @NamedQuery(name = "ExamCard.findByExamhallId", query = "SELECT e FROM ExamCard e WHERE e.examhall.id = :examhallid")
+    ,
     @NamedQuery(name = "ExamCard.findByStatus", query = "SELECT e FROM ExamCard e WHERE e.status = :status")})
 public class ExamCard extends SuperEntity {
 
