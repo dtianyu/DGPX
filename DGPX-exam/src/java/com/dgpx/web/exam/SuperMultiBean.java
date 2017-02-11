@@ -134,7 +134,7 @@ public abstract class SuperMultiBean<T extends SuperEntity, V extends SuperDetai
 
     @Override
     protected void setToolBar() {
-  if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
+        if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
             switch (currentEntity.getStatus()) {
                 case "N":
                     this.doEdit = currentSysprg.getDoedit() && true;

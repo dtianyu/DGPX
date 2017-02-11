@@ -36,7 +36,7 @@ public class SysgrantModuleBean extends SuperEJB<SysgrantModule> {
             return Integer.parseInt(query.getSingleResult().toString());
         } catch (Exception e) {
             return 0;
-        }       
+        }
     }
 
     public List<SysgrantModule> findByUserId(int id) {

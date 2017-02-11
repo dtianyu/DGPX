@@ -26,6 +26,7 @@ import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -62,7 +63,7 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     @Override
     public void create() {
         super.create();
-        newEntity.setExamcategory(examCategoryBean.findByFormid("GYSZ"));
+        newEntity.setExamcategory(examCategoryBean.findByFormid("GYSZ").get(0));
         newEntity.setExamcount(0);
         newEntity.setScore(BigDecimal.valueOf(100));
         newEntity.setExamtime(60);
@@ -80,11 +81,11 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
             this.deletedDetailList.clear();
             this.createDetail();
             this.newDetail.setItemcategory(itemCategoryBean.findById(1));
-            this.newDetail.setQty(55);
+            this.newDetail.setQty(60);
             this.doConfirmDetail();
             this.createDetail();
             this.newDetail.setItemcategory(itemCategoryBean.findById(2));
-            this.newDetail.setQty(45);
+            this.newDetail.setQty(40);
             this.doConfirmDetail();
         }
     }
@@ -200,6 +201,43 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     }
 
     @Override
+    public void persist() {
+        if (getNewEntity() != null) {
+            try {
+                if (doBeforePersist()) {
+                    this.superEJB.persist(newEntity);
+                    int pid = newEntity.getId();
+                    if (getEditedDetailList() != null && !getEditedDetailList().isEmpty()) {
+                        for (ExamSetting detail : this.editedDetailList) {
+                            detail.setPid(pid);
+                            this.detailEJB.update(detail);
+                        }
+                    }
+                    if (getDeletedDetailList() != null && !getDeletedDetailList().isEmpty()) {
+                        for (ExamSetting detail : this.deletedDetailList) {
+                            this.detailEJB.delete(detail);
+                        }
+                    }
+                    if (getAddedDetailList() != null && !getAddedDetailList().isEmpty()) {
+                        for (ExamSetting detail : this.addedDetailList) {
+                            detail.setPid(pid);
+                            this.detailEJB.persist(detail);
+                        }
+                    }
+                    doAfterPersist();
+                    showMsg(FacesMessage.SEVERITY_INFO, "Info", "更新成功");
+                } else {
+                    showMsg(FacesMessage.SEVERITY_ERROR, "Error", "更新前检核失败");
+                }
+            } catch (Exception e) {
+                showMsg(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+            }
+        } else {
+            showMsg(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据");
+        }
+    }
+
+    @Override
     public void print() throws Exception {
 
         if (currentEntity == null) {
@@ -273,6 +311,7 @@ public class ExamNumberManagedBean extends SuperMultiBean<ExamNumber, ExamSettin
     protected void reportInitAndConfig() {
         super.reportInitAndConfig();
         reportEngineConfig.getAppContext().put(EngineConstants.APPCONTEXT_CLASSLOADER_KEY, ExamPaperReport.class.getClassLoader());
+        reportEngineConfig.setLogConfig(null, Level.OFF);
     }
 
     /**

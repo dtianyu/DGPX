@@ -63,11 +63,11 @@ public abstract class SuperMulti2Bean<T extends SuperEntity, V extends SuperDeta
     @Override
     public void construct() {
         FacesContext fc = FacesContext.getCurrentInstance();
-        appDataPath = fc.getExternalContext().getInitParameter("com.dgpx.web.appdatapath");
-        appImgPath = fc.getExternalContext().getInitParameter("com.dgpx.web.appimgpath");
-        reportPath = fc.getExternalContext().getInitParameter("com.dgpx.web.reportpath");
+        appDataPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.appdatapath");
+        appImgPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.appimgpath");
+        reportPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.reportpath");
         reportOutputFormat = fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputformat");
-        reportOutputPath = fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputpath");
+        reportOutputPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputpath");
         reportViewContext = fc.getExternalContext().getInitParameter("com.dgpx.web.reportviewcontext");
         persistenceUnitName = fc.getExternalContext().getInitParameter("com.dgpx.jpa.unitname");
         int beginIndex = fc.getViewRoot().getViewId().lastIndexOf("/") + 1;

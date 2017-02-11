@@ -118,7 +118,6 @@ public class MenuManagedBean implements Serializable {
             //menuitem.setIcon("icon-doc-text");
             //menuitem.setOutcome("sysgrantprg");
             //submenu.addElement(menuitem);
-
             menuitem = new DefaultMenuItem("模块维护");
             menuitem.setIcon("fa fa-gear");
             menuitem.setOutcome("sysmodule");

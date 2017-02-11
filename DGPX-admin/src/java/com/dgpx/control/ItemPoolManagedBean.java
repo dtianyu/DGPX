@@ -26,7 +26,7 @@ import javax.faces.context.FacesContext;
  *
  * @author kevindong
  */
-@ManagedBean(name="itemPoolManagedBean")
+@ManagedBean(name = "itemPoolManagedBean")
 @SessionScoped
 public class ItemPoolManagedBean extends SuperSingleBean<ItemPool> {
 

@@ -14,7 +14,6 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -24,10 +23,14 @@ import javax.faces.context.FacesContext;
 @SessionScoped
 public class BatchCheckInManagedBean extends ExamCardManagedBean {
 
+    //@EJB
+    //private BaiduTTSBean baiduTTSBean;
     @EJB
     private ExamPaperBean examPaperBean;
     protected String queryNumberId;
     protected List<String> status;
+
+    private String audioURL;
 
     public BatchCheckInManagedBean() {
     }
@@ -52,7 +55,6 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
         entityList = new ArrayList<>();
         status = new ArrayList<>();
         status.add("N");
-        status.add("V");
         this.model.getFilterFields().put("status IN ", status);
         this.model.getSortFields().put("status", "ASC");
         setToolBar();
@@ -106,22 +108,22 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
         if (null != getCurrentEntity()) {
             try {
                 if (doBeforeUnverify()) {
-                    currentEntity.setStatus("V");//简化查询条件,此处不再提供修改状态(M)
+                    currentEntity.setStatus("N");//简化查询条件,此处不再提供修改状态(M)
                     currentEntity.setOptuser(getUserManagedBean().getCurrentUser().getUserid());
                     currentEntity.setOptdateToNow();
                     currentEntity.setCfmuser(null);
                     currentEntity.setCfmdate(null);
                     superEJB.unverify(currentEntity);
                     doAfterUnverify();
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新成功!"));
+                    showMsg(FacesMessage.SEVERITY_INFO, "Info", "更新成功!");
                 } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "取消前检查失败!"));
+                    showMsg(FacesMessage.SEVERITY_WARN, "Warn", "取消前检查失败!");
                 }
             } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(null, e.getMessage()));
+                showMsg(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!"));
+            showMsg(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!");
         }
     }
 
@@ -132,17 +134,27 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
                 for (ExamCard c : this.entityList) {
                     c.setCountleft(c.getExamnumber().getExamcount());
                     c.setTimeleft(c.getExamnumber().getExamtime());
-                    c.setStatus("Y");
+                    c.setStatus("V");
                     c.setCfmuser(getUserManagedBean().getCurrentUser().getUserid());
                     c.setCfmdateToNow();
                     superEJB.verify(c);
+                    /*
+                    //保存语言文件
+                    if (c.getExamhall() == null) {
+                        audioURL = baiduTTSBean.ttsURL("请" + c.getFormid().substring(c.getFormid().length() - 3) + c.getName() + "到机房考试");
+                    } else {
+                        audioURL = baiduTTSBean.ttsURL("请" + c.getFormid().substring(c.getFormid().length() - 3) + c.getName() + "到" + c.getExamhall().getName() + "考试");
+                    }
+                    this.fileName = this.getAppDataPath() + "//" + c.getFormid() + ".mp3";
+                    baiduTTSBean.saveTTS(audioURL, fileName);
+                    */
                 }
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新成功!"));
+                showMsg(FacesMessage.SEVERITY_INFO, "Info", "更新成功!");
             } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(null, e.getMessage()));
+                showMsg(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!"));
+            showMsg(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!");
         }
     }
 
@@ -159,4 +171,5 @@ public class BatchCheckInManagedBean extends ExamCardManagedBean {
     public void setQueryNumberId(String queryNumberId) {
         this.queryNumberId = queryNumberId;
     }
+
 }

@@ -53,11 +53,11 @@ public abstract class SuperQueryBean<T extends BaseEntity> extends SuperSingleMa
     public void construct() {
         //不需要进行操作权限设置
         FacesContext fc = FacesContext.getCurrentInstance();
-        appDataPath = fc.getExternalContext().getInitParameter("com.dgpx.web.appdatapath");
-        appImgPath = fc.getExternalContext().getInitParameter("com.dgpx.web.appimgpath");
-        reportPath = fc.getExternalContext().getInitParameter("com.dgpx.web.reportpath");
+        appDataPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.appdatapath");
+        appImgPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.appimgpath");
+        reportPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.reportpath");
         reportOutputFormat = fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputformat");
-        reportOutputPath = fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputpath");
+        reportOutputPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputpath");
         reportViewContext = fc.getExternalContext().getInitParameter("com.dgpx.web.reportviewcontext");
         persistenceUnitName = fc.getExternalContext().getInitParameter("com.dgpx.jpa.unitname");
         super.construct();

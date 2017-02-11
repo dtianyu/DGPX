@@ -21,8 +21,9 @@
                     <p:inputText id="queryIdCard" value="#{examCheckInManagedBean.queryIdCard}" title="身份证" />
                     <h:outputLabel value="审核状态" for="state" />
                     <p:selectOneMenu id="state" value="#{examCheckInManagedBean.queryState}" title="状态" >
-                        <f:selectItem itemLabel="未签到" itemValue="V"/>
-                        <f:selectItem itemLabel="已签到" itemValue="Y"/>
+                        <f:selectItem itemLabel="未签到" itemValue="N"/>
+                        <f:selectItem itemLabel="已签到" itemValue="V"/>
+                        <f:selectItem itemLabel="已叫号" itemValue="Y"/>
                     </p:selectOneMenu>
                 </p:panelGrid>
             </p:panel>
@@ -92,6 +93,13 @@
                     <h:outputText value="#{item.status}"/>
                 </p:column>
             </p:dataTable>
+            <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+            </p:confirmDialog>
+            <p:blockUI id="blockUI" block="formList" trigger="btnVerify,btnUnverify">
+                <p:graphicImage name="images/ajaxloadingbar.gif" library="volt-layout"/>
+            </p:blockUI>
         </h:form>
     </ui:define>
 

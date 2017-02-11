@@ -45,8 +45,8 @@ public class UserManagedBean implements Serializable {
     public boolean checkUser() {
         return true;
     }
-    
-    public SystemUser findById(int id){
+
+    public SystemUser findById(int id) {
         return systemUserBean.findById(id);
     }
 

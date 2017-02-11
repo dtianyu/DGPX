@@ -12,7 +12,6 @@ import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 
 /**
  *
@@ -48,27 +47,28 @@ public class ExamCheckInManagedBean extends ExamCardManagedBean {
     @Override
     public void init() {
         super.init();
-        this.model.getFilterFields().put("status", "V");
-        this.model.getSortFields().put("status","ASC");
-        this.model.getSortFields().put("cfmdate","ASC");
+        this.model.getFilterFields().put("status", "N");
+        this.model.getSortFields().put("status", "ASC");
+        this.model.getSortFields().put("cfmdate", "ASC");
     }
 
     @Override
     public void reset() {
         super.reset();
-        this.model.getFilterFields().put("status", "V");
+        this.model.getFilterFields().put("status", "N");
     }
 
     @Override
     protected void setToolBar() {
         if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
             switch (currentEntity.getStatus()) {
-                case "V":
+                case "N":
                     this.doEdit = currentSysprg.getDoedit() && true;
                     this.doDel = currentSysprg.getDodel() && true;
                     this.doCfm = currentSysprg.getDocfm() && true;
                     this.doUnCfm = false;
                     break;
+                case "V":
                 case "Y":
                     this.doEdit = currentSysprg.getDoedit() && false;
                     this.doDel = currentSysprg.getDodel() && false;
@@ -94,22 +94,22 @@ public class ExamCheckInManagedBean extends ExamCardManagedBean {
         if (null != getCurrentEntity()) {
             try {
                 if (doBeforeUnverify()) {
-                    currentEntity.setStatus("V");//简化查询条件,此处不再提供修改状态(M)
+                    currentEntity.setStatus("N");
                     currentEntity.setOptuser(getUserManagedBean().getCurrentUser().getUserid());
                     currentEntity.setOptdateToNow();
                     currentEntity.setCfmuser(null);
                     currentEntity.setCfmdate(null);
                     superEJB.unverify(currentEntity);
                     doAfterUnverify();
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新成功!"));
+                    showMsg(FacesMessage.SEVERITY_INFO, "Info", "更新成功!");
                 } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "取消前检查失败!"));
+                    showMsg(FacesMessage.SEVERITY_WARN, "Warn", "取消前检查失败!");
                 }
             } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(null, e.getMessage()));
+                showMsg(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!"));
+            showMsg(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!");
         }
     }
 
@@ -120,20 +120,20 @@ public class ExamCheckInManagedBean extends ExamCardManagedBean {
                 if (doBeforeVerify()) {
                     currentEntity.setCountleft(currentEntity.getExamnumber().getExamcount());
                     currentEntity.setTimeleft(currentEntity.getExamnumber().getExamtime());
-                    currentEntity.setStatus("Y");
+                    currentEntity.setStatus("V");
                     currentEntity.setCfmuser(getUserManagedBean().getCurrentUser().getUserid());
                     currentEntity.setCfmdateToNow();
                     superEJB.verify(currentEntity);
                     doAfterVerify();
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "更新成功!"));
+                    showMsg(FacesMessage.SEVERITY_INFO, "Info", "更新成功!");
                 } else {
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "审核前检查失败!"));
+                    showMsg(FacesMessage.SEVERITY_WARN, "Warn", "审核前检查失败!");
                 }
             } catch (Exception e) {
-                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(null, e.getMessage()));
+                showMsg(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
             }
         } else {
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!"));
+            showMsg(FacesMessage.SEVERITY_WARN, "Warn", "没有可更新数据!");
         }
     }
 }

@@ -17,7 +17,7 @@ import javax.faces.bean.ViewScoped;
  *
  * @author kevindong
  */
-@ManagedBean(name="examNumberQueryBean")
+@ManagedBean(name = "examNumberQueryBean")
 @ViewScoped
 public class ExamNumberQueryBean extends SuperQueryBean<ExamNumber> {
 
@@ -32,9 +32,7 @@ public class ExamNumberQueryBean extends SuperQueryBean<ExamNumber> {
     public void init() {
         setSuperEJB(examNumberBean);
         setModel(new ExamNumberModel(examNumberBean));
-        super.init(); 
+        super.init();
     }
-    
-    
 
 }

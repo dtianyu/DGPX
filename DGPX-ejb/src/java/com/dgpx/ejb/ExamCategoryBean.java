@@ -7,6 +7,7 @@ package com.dgpx.ejb;
 
 import com.dgpx.entity.ExamCategory;
 import com.lightshell.comm.SuperEJB;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.ejb.LocalBean;
 import javax.persistence.EntityManager;
@@ -43,13 +44,14 @@ public class ExamCategoryBean extends SuperEJB<ExamCategory> {
         }
     }
 
-    public ExamCategory findByFormid(String value) {
+    @Override
+    public List<ExamCategory> findByFormid(String value) {
         Query query = em.createNamedQuery("ExamCategory.findByFormId");
         query.setParameter("formid", value);
-        Object o = query.getSingleResult();
-        if (o != null) {
-            return (ExamCategory) o;
-        } else {
+        try {
+            return query.getResultList();
+
+        } catch (Exception ex) {
             return null;
         }
     }
