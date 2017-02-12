@@ -19,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author C0160
+ * @author kevindong
  */
 @ManagedBean(name = "userManagedBean")
 @SessionScoped
