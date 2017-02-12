@@ -34,7 +34,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author C0160
+ * @author kevindong
  */
 @Startup
 @Singleton
