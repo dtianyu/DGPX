@@ -21,27 +21,27 @@ import javax.faces.bean.SessionScoped;
 @ManagedBean
 @SessionScoped
 public class KnowledgeManagedBean extends SuperSingleBean<Knowledge> {
-    
+
     @EJB
     private KnowledgeBean knowledgeBean;
-    
+
     public KnowledgeManagedBean() {
         super(Knowledge.class);
     }
-    
+
     @Override
     public void create() {
-        super.create();        
+        super.create();
         newEntity.setRatio(BigDecimal.TEN);
     }
-    
+
     @Override
     public void init() {
         superEJB = knowledgeBean;
         setModel(new KnowledgeModel(knowledgeBean));
         super.init();
     }
-    
+
     @Override
     public void query() {
         if (this.model != null && this.model.getFilterFields() != null) {
@@ -54,5 +54,5 @@ public class KnowledgeManagedBean extends SuperSingleBean<Knowledge> {
             }
         }
     }
-    
+
 }

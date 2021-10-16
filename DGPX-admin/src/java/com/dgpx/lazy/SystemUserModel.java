@@ -11,7 +11,7 @@ import com.dgpx.entity.SystemUser;
 
 /**
  *
- * @author C0160
+ * @author kevindong
  */
 public class SystemUserModel extends BaseLazyModel<SystemUser> {
 

@@ -16,7 +16,7 @@ import javax.faces.validator.ValidatorException;
 
 /**
  *
- * @author C0160
+ * @author kevindong
  */
 @FacesValidator("com.dgpx.validator.UserId")
 public class UserIdValidator implements Validator {

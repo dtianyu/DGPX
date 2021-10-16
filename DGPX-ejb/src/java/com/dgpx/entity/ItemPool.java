@@ -5,7 +5,7 @@
  */
 package com.dgpx.entity;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +35,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ItemPool.findByKnowledgeId", query = "SELECT i FROM ItemPool i WHERE i.knowledge.id = :knowledgeid"),
     @NamedQuery(name = "ItemPool.findByQuestion", query = "SELECT i FROM ItemPool i WHERE i.question = :question"),
     @NamedQuery(name = "ItemPool.findByStatus", query = "SELECT i FROM ItemPool i WHERE i.status = :status")})
-public class ItemPool extends BaseEntityWithOperate {
+public class ItemPool extends SuperEntity {
 
     @JoinColumn(name = "examctgyid", referencedColumnName = "id")
     @ManyToOne(optional = false)

@@ -9,6 +9,7 @@ import com.dgpx.entity.ExamCard;
 import com.lightshell.comm.BaseLib;
 import java.io.Serializable;
 import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  *
- * @author C0160
+ * @author kevindong
  */
 @ManagedBean(name = "userManagedBean")
 @SessionScoped
@@ -30,9 +31,16 @@ public class UserManagedBean implements Serializable {
     private ExamCard currentUser;
     private String userid;
     private boolean status;
+    private boolean hasCall;
 
     public UserManagedBean() {
+
+    }
+
+    @PostConstruct
+    public void construct() {
         status = false;
+        hasCall = Boolean.parseBoolean(FacesContext.getCurrentInstance().getExternalContext().getInitParameter("com.dgpx.web.hascall"));
     }
 
     public String login() {
@@ -44,7 +52,11 @@ public class UserManagedBean implements Serializable {
             //用来判断考试是否过期,格式化日期后再比较
             Date t = BaseLib.getDate("yyyy-MM-dd", BaseLib.formatDate("yyyy-MM-dd", BaseLib.getDate()));
             ExamCard u;
-            u = examCardBean.findByFormIdAndCheckIn(getUserid());
+            if (hasCall) {
+                u = examCardBean.findByFormIdAndHasCall(getUserid());
+            } else {
+                u = examCardBean.findByFormIdAndCheckIn(getUserid());
+            }
             if (u != null && (u.getExamnumber().getFormdate().compareTo(t) != -1)) {
                 currentUser = u;
                 status = true;

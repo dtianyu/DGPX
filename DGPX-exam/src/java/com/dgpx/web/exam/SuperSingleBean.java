@@ -5,10 +5,10 @@
  */
 package com.dgpx.web.exam;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import com.dgpx.control.exam.UserManagedBean;
 import com.dgpx.ejb.SysprgBean;
-import com.dgpx .entity.Sysprg;
+import com.dgpx.entity.Sysprg;
 import com.lightshell.comm.SuperSingleManagedBean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
  * @author KevinDong
  * @param <T>
  */
-public abstract class SuperSingleBean<T extends BaseEntityWithOperate> extends SuperSingleManagedBean<T> {
+public abstract class SuperSingleBean<T extends SuperEntity> extends SuperSingleManagedBean<T> {
 
     @EJB
     protected SysprgBean sysprgBean;
@@ -55,11 +55,11 @@ public abstract class SuperSingleBean<T extends BaseEntityWithOperate> extends S
     @Override
     public void construct() {
         FacesContext fc = FacesContext.getCurrentInstance();
-        appDataPath = fc.getExternalContext().getInitParameter("com.hhsc.web.appdatapath");
-        appImgPath = fc.getExternalContext().getInitParameter("com.hhsc.web.appimgpath");
-        reportPath = fc.getExternalContext().getInitParameter("com.hhsc.web.reportpath");
+        appDataPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.hhsc.web.appdatapath");
+        appImgPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.hhsc.web.appimgpath");
+        reportPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.hhsc.web.reportpath");
         reportOutputFormat = fc.getExternalContext().getInitParameter("com.hhsc.web.reportoutputformat");
-        reportOutputPath = fc.getExternalContext().getInitParameter("com.hhsc.web.reportoutputpath");
+        reportOutputPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.hhsc.web.reportoutputpath");
         reportViewContext = fc.getExternalContext().getInitParameter("com.hhsc.web.reportviewcontext");
         persistenceUnitName = fc.getExternalContext().getInitParameter("com.hhsc.jpa.unitname");
         int beginIndex = fc.getViewRoot().getViewId().lastIndexOf("/") + 1;
@@ -125,7 +125,7 @@ public abstract class SuperSingleBean<T extends BaseEntityWithOperate> extends S
 
     @Override
     protected void setToolBar() {
-  if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
+        if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
             switch (currentEntity.getStatus()) {
                 case "N":
                     this.doEdit = currentSysprg.getDoedit() && true;

@@ -5,7 +5,7 @@
  */
 package com.dgpx.entity;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ItemCategory.findByFormId", query = "SELECT i FROM ItemCategory i WHERE i.formid = :formid"),
     @NamedQuery(name = "ItemCategory.findByName", query = "SELECT i FROM ItemCategory i WHERE i.name = :name"),
     @NamedQuery(name = "ItemCategory.findByStatus", query = "SELECT i FROM ItemCategory i WHERE i.status = :status")})
-public class ItemCategory extends BaseEntityWithOperate {
+public class ItemCategory extends SuperEntity {
 
     @Basic(optional = false)
     @NotNull

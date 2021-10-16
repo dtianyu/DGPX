@@ -5,7 +5,7 @@
  */
 package com.dgpx.entity;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ExamDistrict.findByAuthcode", query = "SELECT e FROM ExamDistrict e WHERE e.authcode = :authcode"),
     @NamedQuery(name = "ExamDistrict.findByRemark", query = "SELECT e FROM ExamDistrict e WHERE e.remark = :remark"),
     @NamedQuery(name = "ExamDistrict.findByStatus", query = "SELECT e FROM ExamDistrict e WHERE e.status = :status")})
-public class ExamDistrict extends BaseEntityWithOperate {
+public class ExamDistrict extends SuperEntity {
 
     @Basic(optional = false)
     @NotNull

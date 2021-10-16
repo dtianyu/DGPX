@@ -31,6 +31,7 @@ public class ExamCardStatusBean extends ExamCardManagedBean {
         setSuperEJB(examCardBean);
         setModel(new ExamCardModel(examCardBean));
         status = new ArrayList<>();
+        status.add("V");
         status.add("Y");
         status.add("E");
         status.add("Z");

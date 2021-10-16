@@ -108,9 +108,12 @@
                 </p:column>
             </p:dataTable>
             <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                <p:commandButton value="是" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                <p:commandButton value="否" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
             </p:confirmDialog>
+            <p:blockUI id="blockUI" block="formList" trigger="btnUnverify">
+                <p:graphicImage name="images/ajaxloadingbar.gif" library="volt-layout"/>
+            </p:blockUI>
         </h:form>
 
     </ui:define>

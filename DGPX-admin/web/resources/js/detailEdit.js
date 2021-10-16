@@ -31,7 +31,7 @@ $(document).ready(function () {
     if (btnDeleteDetail !== undefined && btnDeleteDetail !== null) {
         btnDeleteDetail.disabled = true;
         $(btnDeleteDetail).addClass('ui-state-disabled');
-    }    
+    }
     var btnDeleteDetail = document.getElementById("formEdit:tabView:btnDeleteDetail");
     if (btnDeleteDetail !== undefined && btnDeleteDetail !== null) {
         btnDeleteDetail.disabled = true;

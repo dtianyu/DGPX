@@ -2,11 +2,15 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>com.dgpx.web.appdatapath</param-name>
-        <param-value>//Users//kevindong//GitHub//HHSC//HHSC-war//web//resources//data</param-value>
+        <param-value>resources//data</param-value>
     </context-param>
     <context-param>
         <param-name>com.dgpx.web.appimgpath</param-name>
-        <param-value>//Users//kevindong//GitHub//HHSC//HHSC-war//web//resources//upload//img</param-value>
+        <param-value>resources//upload//img</param-value>
+    </context-param>
+    <context-param>
+        <param-name>com.dgpx.web.hascall</param-name>
+        <param-value>true</param-value>
     </context-param>
     <context-param>
         <param-name>com.dgpx.jpa.unitname</param-name>
@@ -22,7 +26,7 @@
     </context-param>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
+        <param-value>Production</param-value>
     </context-param>
     <context-param>
         <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
@@ -47,11 +51,11 @@
     <context-param>
         <param-name>PrimeFaces.FileUpload</param-name>
         <param-value>auto</param-value>
-    </context-param>   
+    </context-param>
     <context-param>
         <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
         <param-value>/WEB-INF/primefaces-volt.taglib.xml</param-value>
-    </context-param>   
+    </context-param>
     <listener>
         <listener-class>com.sun.faces.config.ConfigureListener</listener-class>
     </listener>
@@ -138,7 +142,7 @@
         <extension>svg#fontawesomeregular</extension>
         <mime-type>image/svg+xml</mime-type>
     </mime-mapping>
-    <!--    <error-page>
+    <error-page>
         <exception-type>javax.faces.application.ViewExpiredException</exception-type>
         <location>/login.xhtml</location>
     </error-page>
@@ -150,8 +154,8 @@
         <exception-type>javax.servlet.ServletException</exception-type>
         <location>/error.xhtml</location>
     </error-page>
-      <error-page>
+    <error-page>
         <exception-type>com.sun.faces.context.FacesFileNotFoundException</exception-type>
         <location>/404.xhtml</location>
-    </error-page>-->
+    </error-page>
 </web-app>

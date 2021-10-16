@@ -5,7 +5,7 @@
         <data xmlns="http://www.netbeans.org/ns/j2ee-ejbjarproject/3">
             <name>DGPX-ejb</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
-            <included-library dirs="200">file.reference.LightShell-1.0.jar</included-library>
+            <included-library dirs="200">libs.LightShell.classpath</included-library>
             <source-roots>
                 <root id="src.dir"/>
             </source-roots>

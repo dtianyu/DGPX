@@ -5,7 +5,7 @@
  */
 package com.dgpx.web;
 
-import com.lightshell.comm.BaseEntityWithOperate;
+import com.lightshell.comm.SuperEntity;
 import com.dgpx.control.UserManagedBean;
 import com.dgpx.ejb.SysprgBean;
 import com.dgpx.entity.Sysprg;
@@ -22,7 +22,7 @@ import javax.faces.context.FacesContext;
  * @author KevinDong
  * @param <T>
  */
-public abstract class SuperSingleBean<T extends BaseEntityWithOperate> extends SuperSingleManagedBean<T> {
+public abstract class SuperSingleBean<T extends SuperEntity> extends SuperSingleManagedBean<T> {
 
     @EJB
     protected SysprgBean sysprgBean;
@@ -55,11 +55,11 @@ public abstract class SuperSingleBean<T extends BaseEntityWithOperate> extends S
     @Override
     public void construct() {
         FacesContext fc = FacesContext.getCurrentInstance();
-        appDataPath = fc.getExternalContext().getInitParameter("com.dgpx.web.appdatapath");
-        appImgPath = fc.getExternalContext().getInitParameter("com.dgpx.web.appimgpath");
-        reportPath = fc.getExternalContext().getInitParameter("com.dgpx.web.reportpath");
+        appDataPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.appdatapath");
+        appImgPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.appimgpath");
+        reportPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.reportpath");
         reportOutputFormat = fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputformat");
-        reportOutputPath = fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputpath");
+        reportOutputPath = fc.getExternalContext().getRealPath("/") + fc.getExternalContext().getInitParameter("com.dgpx.web.reportoutputpath");
         reportViewContext = fc.getExternalContext().getInitParameter("com.dgpx.web.reportviewcontext");
         persistenceUnitName = fc.getExternalContext().getInitParameter("com.dgpx.jpa.unitname");
         int beginIndex = fc.getViewRoot().getViewId().lastIndexOf("/") + 1;

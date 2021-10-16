@@ -7,22 +7,31 @@
 
     <ui:define name="content">
         <h:form id="formView">
-            <p:poll id="poll" interval="180" listener="#{examCallBean.reset()}" autoStart="true"
-                    process="@this" update="panelView"/>
+            <p:poll id="reset" interval="8" listener="#{examCallManagedBean.reset()}" autoStart="true" 
+                    process="@this" update="panelView,stopState" widgetVar="reset"  oncomplete="call();"/>
+            <div class="Card GreenBack">
+                <div class="EmptyBox20"></div>
+                <div class="Container100 NoIndent FontBold Fs60 TexAlCenter">
+                    <h:outputText value="高压审证机考" style="padding-right: 40px"/><h:outputText value="备考人员名单"/>
+                </div>
+                <div class="EmptyBox20"></div>
+            </div>
             <p:panel id="panelView">
-                <p:dataGrid id="plgView" value="#{examCallBean.model}" var="item" layout="grid" paginator="false" rows="8"  columns="4" lazy="true">
+                <p:dataGrid id="plgView" value="#{examCallManagedBean.model}" var="item" layout="grid" paginator="false" rows="16"  columns="4" lazy="true">
                     <p:column>
                         <div class="Card GreenBack">
-                            <div class="CardTopic White Fs26">
+                            <div class="CardTopic White Fs22">
                                 <h:outputText value="#{item.formid}"/><i class="icon-pin-outline Fright White Opac50 Fs20"></i>
                             </div>
                             <div class="EmptyBox5"></div>
-                            <div class="Container100 NoIndent White Fs60">
+                            <div class="Container100 NoIndent White Fs50">
                                 <h:outputText value="#{item.name}"/>
+                                <p:commandButton id="btnCall" value="呼叫" actionListener="#{examCallManagedBean.call(item)}" styleClass="GreenButton" 
+                                                 process="@this" update="formView:panelCall,formView:audioFile" widgetVar="btnCall" oncomplete="play();"/>
                             </div>
                             <div class="EmptyBox5"></div>
-                            <div class="Container100 NoIndent Fs20">
-                                <h:outputText value="#{item.idcard}"/>
+                            <div class="Container100 NoIndent Fs10">
+                                <h:outputText value=""/>
                             </div>
                             <div class="EmptyBox5"></div>
                         </div>
@@ -30,25 +39,47 @@
                 </p:dataGrid>
             </p:panel>
             <p:panel id="panelCall" style="display: none;">
-                <video id="video" controls="" autoplay="true" name="media" style="display: none;">
-                    <source id="ttsAudio" src="#{examCallBean.audio}" type="audio/mp3"/>
-                </video>              
-            </p:panel>
-            <p:poll id="call" interval="10" listener="#{examCallBean.call()}" autoStart="true" stop="#{examCallBean.stop}"
-                    process="@this" update="panelCall" widgetVar="call" />
-            <p:poll id="doCall" interval="190" listener="#{examCallBean.doCall()}" autoStart="true"
-                    process="@this" update="call,callState" oncomplete="call();"/>
-            <p:inputText type="hidden" id="callState" value="#{examCallBean.stop}"/>
+                <audio id="audio" controls="controls" style="display: none;">
+                    <source  id="ttsAudio" src="#{examCallManagedBean.audioURL}" type="audio/mp3"/>
+                </audio>              
+            </p:panel>            
+            <p:poll id="call" interval="6" listener="#{examCallManagedBean.call()}" autoStart="false" 
+                    process="@this" update="stopState,audioFile,panelCall" widgetVar="call" oncomplete="poll();" />
+            <p:inputText id="stopState" type="hidden"  value="#{examCallManagedBean.stop}"/>   
+            <p:inputText id="audioFile" type="hidden"  value="#{examCallManagedBean.audio}"/>   
         </h:form>
         <script>
-            $(function () {
+            $(document).ready(function () {
                 $('body').addClass('PopupMenu');
+                $('#layout-topbar').remove();
+                $('#top-menu').remove();
             });
             var call = function () {
-                var s = $(document.getElementById('formView:callState')).val();
-                if (s === 'false') {
-                    //alert(s);
+                var stop = $(document.getElementById('formView:stopState')).val();
+                if (stop === 'false') {
+                    //停止轮询恢复叫号
+                    PF('reset').stop();
                     PF('call').start();
+                }
+            };
+            var poll = function () {
+                var audio = document.getElementById('audio');
+                var f = document.getElementById("formView:audioFile");
+                if ((f.value !== '') === (f.value !== 'ready.mp3')) {
+                    audio.play();
+                }
+                var stop = $(document.getElementById('formView:stopState')).val();
+                if (stop === 'true') {
+                    //停止叫号恢复轮询
+                    PF('call').stop();
+                    PF('reset').start();
+                }
+            };
+            var play = function () {
+                var audio = document.getElementById('audio');
+                var f = document.getElementById("formView:audioFile");
+                if (f.value !== 'ready.mp3') {
+                    audio.play();
                 }
             };
         </script>
