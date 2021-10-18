@@ -118,8 +118,12 @@ public abstract class SuperMulti3Bean<T extends SuperEntity, V extends SuperDeta
         return this.appDataPath;
     }
 
-    @Override
     public String getAppImgPath() {
+        return this.appImgPath;
+    }
+
+    @Override
+    public String getAppResPath() {
         return this.appImgPath;
     }
 

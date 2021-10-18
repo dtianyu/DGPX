@@ -102,8 +102,12 @@ public abstract class SuperMultiBean<T extends SuperEntity, V extends SuperDetai
         return this.appDataPath;
     }
 
-    @Override
     public String getAppImgPath() {
+        return this.appImgPath;
+    }
+
+    @Override
+    public String getAppResPath() {
         return this.appImgPath;
     }
 
@@ -134,7 +138,7 @@ public abstract class SuperMultiBean<T extends SuperEntity, V extends SuperDetai
 
     @Override
     protected void setToolBar() {
-  if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
+        if (currentEntity != null && currentSysprg != null && currentEntity.getStatus() != null) {
             switch (currentEntity.getStatus()) {
                 case "N":
                     this.doEdit = currentSysprg.getDoedit() && true;
