@@ -472,4 +472,5 @@ public class ExamManagedBean extends SuperMultiBean<ExamCard, ExamPaper> {
         return timerBean.isTimeout(FacesContext.getCurrentInstance().getExternalContext().getSessionId(false));
     }
 
+
 }

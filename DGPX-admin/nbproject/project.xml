@@ -6,24 +6,16 @@
             <name>DGPX-admin</name>
             <minimum-ant-version>1.6.5</minimum-ant-version>
             <web-module-libraries>
-                <library dirs="100">
-                    <file>${reference.DGPX-ejb.dist}</file>
+                <library dirs="200">
+                    <file>${libs.JSF_2.2.8.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.javax.faces-2.2.8.jar}</file>
+                    <file>${file.reference.primefaces-6.2.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${file.reference.primefaces-5.3.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.volt-theme-2.1.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library dirs="200">
-                    <file>${file.reference.atmosphere-runtime-2.4.0.jar}</file>
+                    <file>${libs.PrimeVolt.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
@@ -35,8 +27,11 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
-                    <file>${libs.LightShell.classpath}</file>
+                    <file>${libs.LightShell_1.0.classpath}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="100">
+                    <file>${reference.DGPX-ejb.dist}</file>
                 </library>
             </web-module-libraries>
             <web-module-additional-libraries/>
